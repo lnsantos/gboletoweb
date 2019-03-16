@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="resources/css" name="style.css" />
+</h:head>
+<h:body>
+<h:panelGrid columns="2" cellpadding="10" cellspacing="1" >
+		<p:commandButton value="Cadastrar" action="#{navigation.cadastro()}" />
+		<p:commandButton value="Ajuda" action="index?facesredirect=true"/>
+</h:panelGrid>
+	 <p:growl >
+		<p:autoUpdate />		
+	 </p:growl>
+		<h3>Digite seu nome de usuário e senha</h3>
+		
+		<h:form>		
+			<h:panelGrid columns="2" cellpadding="10" cellspacing="1" styleClass="panelGrid" >
+				Usuário:
+				<p:inputText id="usuario" required="true"
+					requiredMessage="Campo usuário obrigatório" value="#{loginMBean.usuario}" />
+			 	
+				Senha:
+				<p:password id="senha" required="true"
+					requiredMessage="Campo senha obrigatório" value="#{loginMBean.senha}"/>
+				
+				<p:commandButton value="Login" action="#{loginMBean.login()}"/>
+			</h:panelGrid>
+		</h:form>		
+</h:body>
+</html>
