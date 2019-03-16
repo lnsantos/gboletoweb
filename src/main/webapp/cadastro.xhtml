@@ -14,12 +14,21 @@
 		<h:form>
 			<p:messages />
 			<h:panelGrid columns="3" cellpadding="10" cellspacing="1" styleClass="panelGrid" >
+				
+				Nome:
+				<p:inputText id="nome" required="true" value="#{cadastroMB.usuario.nome}"
+					requiredMessage="Campo nome obrigatório"/>
+				<p:message  for="nome" />
+				Sobrenome:
+				<p:inputText id="Sobrenome" required="true" value="#{cadastroMB.usuario.sobrenome}"
+					requiredMessage="Campo Sobrenome obrigatório"/>
+				<p:message  for="Sobrenome" />
 				Usuário:
-				<p:inputText id="usuario" required="true"
+				<p:inputText id="usuario" required="true" value="#{cadastroMB.usuario.usuario}"
 					requiredMessage="Campo usuário obrigatório"/>
 			 	<p:message  for="usuario" />
 				Senha:
-				<p:password id="senha" required="true" 
+				<p:password id="senha" required="true" value="#{cadastroMB.usuario.senha}"
 					requiredMessage="Campo senha obrigatório"/>
 				<p:message  for="senha" />
 				Verifica Senha:
@@ -27,11 +36,11 @@
 					requiredMessage="Campo senha obrigatório"/>
 				<p:message  for="senha_verifica" />
 				Email:
-				<p:inputText id="email" required="true" 
+				<p:inputText id="email" required="true" value="#{cadastroMB.usuario.email}"
 					requiredMessage="Campo email obrigatório" />
 				<p:message  for="email" />
 				
-				<p:commandButton value="Cadastrar"/>
+				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}"/>
 			</h:panelGrid>
 		</h:form>
 </h:body>
