@@ -8,6 +8,7 @@ public class Usuario {
 	private String sobrenome;
 	private String email;
 	private String senha;
+	
 	public Integer getCodigo() {
 		return codigo;
 	}
