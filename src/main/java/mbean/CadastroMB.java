@@ -19,18 +19,12 @@ public class CadastroMB {
 	}
 	
 	public String cadastrarUsuario() {
-		try {
-			if(uDAO.cadastrarUsuario(usuario)) {
+			if(uDAO.cadastrarUsuario(usuario).getRetorno()) {
 				return "index?facesredirect=true";
 			}else {
 				System.out.println("Usuario já existe no sistema");
+				return "";
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Algum problema que não sei qual é");
-		}
-		return "";
 	}
 	
 	public Usuario getUsuario() {

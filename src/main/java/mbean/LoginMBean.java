@@ -5,6 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import DAO.UsuarioDAO;
+import entidade.Retorno;
+import entidade.Usuario;
+
 @ManagedBean
 @SessionScoped
 public class LoginMBean {
@@ -12,6 +16,11 @@ public class LoginMBean {
 	private String usuario;
 	private String senha;
 	private String mensagem;
+	
+	Usuario usuarioLogado = new Usuario(); 
+	UsuarioDAO uDao = new UsuarioDAO();
+	Retorno resultado = new Retorno();
+	
 	private boolean logado = false;
 	
 	public void errorLogin(){
@@ -21,9 +30,12 @@ public class LoginMBean {
 	}
 	
 	public String login(){
-		if(usuario.equals("lnsatos") && senha.equals("polis2019")){
+		resultado = uDao.loginUsuario(usuario, senha);
+		usuarioLogado = resultado.getUser();
+		
+		if(resultado.getRetorno()){
 			logado = true;
-			System.out.println();
+			System.out.println(usuarioLogado.getNome() + "Logado no sistema!");
 			return "home?faces-redirect=true";
 		}else {
 			FacesContext context = FacesContext.getCurrentInstance();
