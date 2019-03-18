@@ -2,6 +2,12 @@ package entidade;
 
 public class Retorno {
 	
+	public Retorno(Permissao per,Boolean retorno,String mensagem) {
+		this.per = per;
+		this.retorno = retorno;
+		this.mensagem = mensagem;
+	}
+	
 	public Retorno(String mensagem,Boolean retorno) {
 		this.mensagem = mensagem;
 		this.retorno = retorno;
@@ -19,6 +25,16 @@ public class Retorno {
 	private Usuario user;
 	private String mensagem;
 	private Boolean retorno;
+	private Permissao per;
+	
+	public Permissao getPer() {
+		return per;
+	}
+	
+	public Permissao setPer(Permissao per) {
+		this.per = per;
+		return per;
+	}
 	
 	public Usuario getUser() {
 		return user;

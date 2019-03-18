@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import database.ConDB;
+import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
 
@@ -123,7 +124,52 @@ public class UsuarioDAO {
 						return resul;
 					}	
 			} // Fecha metodo
-	
+		
+		public Retorno buscaUsuarioLiberado(String codigo) {
+			String SQL_BUSCA_PERMISSAO = "SELECT * FROM permissao WHERE codigo ="+codigo;
+			Retorno resultado = new Retorno();
+			
+			// Retorno PADRÃO
+			resultado.setRetorno(false);
+			resultado.setPer(null);
+			resultado.setMensagem("Problema com a conexão");
+			
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL_BUSCA_PERMISSAO);
+				ResultSet rs = ps.executeQuery();
+				
+				if(rs.next()) {
+					Permissao per = new Permissao();
+					
+					per.setCria_boleto(rs.getInt("cria_boleto"));
+					per.setCria_usuario(rs.getInt("cria_usuario"));
+					per.setDeleta_boleto(rs.getInt("deleta_boleto"));
+					per.setDeleta_usuario(rs.getInt("deleta_usuario"));
+					per.setEdita_boleto(rs.getInt("edita_boleto"));
+					per.setEdita_usuario(rs.getInt("edita_usuario"));
+					per.setStatu(rs.getInt("statu"));
+					
+					resultado.setPer(per);
+					
+					if(resultado.getPer().getStatu() != 0) {
+						resultado.setRetorno(true);
+						return resultado;
+					}else {
+						 resultado.setRetorno(false);
+						return resultado;
+					}
+				}else {
+					resultado.setMensagem("Nem um resultado encontrado!");
+					return resultado;
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return resultado;
+			}
+		}
+		
 		// ******************************************************************************
 		// ******************************************************************************
 		// *********** cadastrarUsuario *************************************************
@@ -154,12 +200,23 @@ public class UsuarioDAO {
 					u.setUsuario(rs.getString("usuario"));
 					u.setEmail(rs.getString("email"));
 					
-					// Retorno final
-					resultado.setUser(u);
-					resultado.setRetorno(true);
-					resultado.setMensagem("Bem vindo " + u.getNome() + " " + u.getSobrenome());
+					resultado = buscaUsuarioLiberado(u.getCodigo().toString());
 					
-					return resultado;
+					if(resultado.getRetorno()) {
+						// Retorno final
+						resultado.setUser(u);
+						resultado.setRetorno(true);
+						resultado.setMensagem("Bem vindo " + u.getNome() + " " + u.getSobrenome());
+						
+						return resultado;
+					}else {
+						// Retorno final
+						resultado.setUser(null);
+						resultado.setRetorno(false);
+						resultado.setMensagem("Usuario pentende no sistema");
+						
+						return resultado;
+					}
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

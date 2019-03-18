@@ -5,7 +5,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import com.mysql.cj.PerConnectionLRUFactory;
+
 import DAO.UsuarioDAO;
+import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
 
@@ -20,6 +23,7 @@ public class LoginMBean {
 	Usuario usuarioLogado = new Usuario(); 
 	UsuarioDAO uDao = new UsuarioDAO();
 	Retorno resultado = new Retorno();
+	Permissao per = new Permissao();
 	
 	private boolean logado = false;
 	
@@ -32,6 +36,7 @@ public class LoginMBean {
 	public String login(){
 		resultado = uDao.loginUsuario(usuario, senha);
 		usuarioLogado = resultado.getUser();
+		per = resultado.getPer();
 		
 		if(resultado.getRetorno()){
 			logado = true;
@@ -40,7 +45,7 @@ public class LoginMBean {
 		}else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new 
-					FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuário e/ou senha inválidos",""));
+					FacesMessage(FacesMessage.SEVERITY_ERROR,resultado.getMensagem(),""));
 			return null;
 		}
 	}
