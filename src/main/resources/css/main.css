@@ -1,0 +1,17 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+h3{
+	color: white; 
+	font-size: 62.5%;
+}
+div{
+	width: 100vw; 
+	height:5%;  
+	background-color: black;
+}
+body{
+	background-color: black;
+}
+  

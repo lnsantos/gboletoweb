@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/templates/basic-template.xhtml">
+	<ui:define name="title">Produtos</ui:define>
+	<ui:define name="content">
+	
+	<h:form id="form-nfe" enctype="multipart/form-data">
+				<f:metadata>
+
+				</f:metadata>
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton value="Voltar" immediate="true"
+							icon="ui-icon-arrowthick-1-w"
+							action="nf_entrada?faces-redirect=true">
+						</p:commandButton>
+
+						<span class="ui-separator"> <span
+							class="ui-icon ui-icon-grip-dotted-vertical" />
+						</span>
+						<p:commandButton value="Salvar" icon="ui-icon-disk"
+							action="#{nfentradaMBean.salvar}" />
+						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
+							disabled="true" update="form-nfe">
+						</p:commandButton>
+
+
+					</f:facet>
+				</p:toolbar>
+				<p:panelGrid id="grid-produto" styleClass="grid-produto"
+					style="width:100%">
+					<f:facet name="header">
+						<p:outputLabel value="Informações do boleto"></p:outputLabel>
+					</f:facet>
+					<p:row>
+						<p:column style="width:49%">
+							<p:inputText id="nomeBoleto" style="width:100%" placeholder="Nome Boleto" />
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputText id="codigoBarra" style="width:100%" placeholder="Número CB" />
+						</p:column>
+						<p:column colspan="3" style="width:49%">
+							<p:fileUpload	
+								mode="simple" sizeLimit="1000000" 
+								skinSimple="true"
+								label="Escolha o pdf"
+								invalidSizeMessage="Arquivo muito grande" update="@all"
+								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
+								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column style="width:49%">
+							<p:calendar id="data_nasc"
+								required="true"
+								requiredMessage="Campo data obrigarório" styleClass="input-data"
+								placeholder="Data de Emissão" pattern="dd/MM/yyyy" mask="true" />
+						</p:column>
+						<p:column style="width:49%">
+							<p:calendar id="data_vencimento"
+								 required="true"
+								requiredMessage="Campo data obrigarório" styleClass="input-data"
+								placeholder="Data de Vencimento"
+								 pattern="dd/MM/yyyy"
+								mask="true" />
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputNumber id="valor_itens" symbol="R$" style="width:100%"
+								requiredMessage="Campo valor dos itens obritatório."
+								required="true" 
+								placeholder="Valor total dos itens">
+							</p:inputNumber>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</h:form>
+	
+	</ui:define>
+</ui:composition>
+</html>

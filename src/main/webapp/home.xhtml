@@ -5,11 +5,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<meta charset="UTF-8" />
-	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputStylesheet library="css" name="main.css" id="main"  />
+	<Style>
+	</Style>
 </h:head>
 <h:body>
-<h:panelGrid rendered="#{loginMBean.logado}">
-	<h3>Seja bem vindo #{loginMBean.usuario}</h3>
+	<h:panelGrid rendered="#{loginMBean.logado}">
+		<ui:composition template="novoBoleto.xhtml">
+			   <ui:define name="content">
+			       <h:outputLabel value="Você esta logado como, #{loginMBean.usuario}"></h:outputLabel>
+			   </ui:define>
+			   <ui:insert name="content"/>
+		</ui:composition>
 
 </h:panelGrid>
 

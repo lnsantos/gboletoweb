@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+
+	<title><ui:insert name="title">Facelets Tutorial</ui:insert></title>
+	<link rel="stylesheet" href="/mahalosis/css/bootstrap.min.css" />
+	<link href="/mahalosis/css/style.css" rel="stylesheet" />
+</h:head>
+
+<body>
+	
+	<p:growl showDetail="true">
+		<p:autoUpdate/>
+	</p:growl>
+	<ui:insert name="header">
+		<ui:include src="/WEB-INF/templates/administrador-header.xhtml" />
+	</ui:insert>
+
+	<div class="container-fluid content">
+		<ui:insert name="content">
+
+		</ui:insert>	
+	</div>
+	<ui:insert name="footer">
+		<ui:include src="/WEB-INF/templates/footer.xhtml" />
+	</ui:insert>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="form">
+    <h:panelGrid columns="2" cellpadding="5">
+        <p:outputLabel for="orientation" value="Orientation:" />
+        <p:selectOneButton id="orientation" value="#{megaMenuView.orientation}" onchange="$('#form').submit()">
+            <f:selectItem itemLabel="horizontal" itemValue="horizontal" />
+            <f:selectItem itemLabel="vertical" itemValue="vertical" />
+        </p:selectOneButton>
+    </h:panelGrid>
+</h:form>
+ 
+<p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:5px">
+    <p:submenu label="Gerencia" icon="pi pi-check">
+        <p:column>
+            <p:submenu label="Usuarios">
+                <p:menuitem value="Pendentes" url="#" />
+                <p:menuitem value="Ativos" url="#" />
+                <p:menuitem value="Inativos" url="#" />
+            </p:submenu>
+            <p:submenu label="Boleto">
+                <p:menuitem value="Pendente" url="#" />
+                <p:menuitem value="Atrasados" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:submenu label="Perfil" icon="pi pi-file">
+        <p:column>
+            <p:submenu label="#{loginMBean.usuario}">
+                <p:menuitem value="Informações" url="#" />
+                <p:menuitem value="Permissões" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:menuitem value="Quit" url="http://www.primefaces.org" icon="pi pi-times" />
+</p:megaMenu>
+	
+	
+</html>
