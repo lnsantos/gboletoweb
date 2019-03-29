@@ -15,33 +15,4 @@
         </p:selectOneButton>
     </h:panelGrid>
 </h:form>
- 
-<p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:5px">
-    <p:submenu label="Gerencia" icon="pi pi-check">
-        <p:column>
-            <p:submenu label="Usuarios">
-                <p:menuitem value="Pendentes" url="#" />
-                <p:menuitem value="Ativos" url="#" />
-                <p:menuitem value="Inativos" url="#" />
-            </p:submenu>
-            <p:submenu label="Boleto">
-                <p:menuitem value="Pendente" url="#" />
-                <p:menuitem value="Atrasados" url="#" />
-            </p:submenu>
-        </p:column>
-    </p:submenu>
- 
-    <p:submenu label="Perfil" icon="pi pi-file">
-        <p:column>
-            <p:submenu label="#{loginMBean.usuario}">
-                <p:menuitem value="Informações" url="#" />
-                <p:menuitem value="Permissões" url="#" />
-            </p:submenu>
-        </p:column>
-    </p:submenu>
- 
-    <p:menuitem value="Quit" url="http://www.primefaces.org" icon="pi pi-times" />
-</p:megaMenu>
-	
-	
 </html>

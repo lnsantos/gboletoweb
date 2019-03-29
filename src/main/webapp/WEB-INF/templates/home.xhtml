@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="css" name="main.css" id="main"  />
+	<Style>
+	</Style>
+</h:head>
+<h:body>
+<h:panelGrid rendered="#{loginMBean.logado}">
+
+	<p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:5px">
+    <p:submenu label="Gerencia" icon="pi pi-check">
+        <p:column>
+            <p:submenu label="Usuarios">
+                <p:menuitem value="Pendentes" url="#" />
+                <p:menuitem value="Ativos" url="#" />
+                <p:menuitem value="Inativos" url="#" />
+            </p:submenu>
+            <p:submenu label="Boleto">
+                <p:menuitem value="Pendente" url="#" />
+                <p:menuitem value="Atrasados" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:submenu label="Perfil" icon="pi pi-file">
+        <p:column>
+            <p:submenu label="#{loginMBean.usuario}">
+                <p:menuitem value="Informações" url="#" />
+                <p:menuitem value="Permissões" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:menuitem value="Quit" url="http://www.primefaces.org" icon="pi pi-times" />
+</p:megaMenu>
+	
+	
+</h:panelGrid>
+
+<h:panelGroup rendered="#{!loginMBean.logado}">
+	Você não está logado, será redirecionado em 2s!
+	#{loginMBean.errorLogin()}
+	<meta http-equiv="refresh" content="2; url=index.xhtml"/>
+</h:panelGroup>
+</h:body>
+</html>

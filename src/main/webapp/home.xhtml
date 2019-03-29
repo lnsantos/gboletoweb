@@ -10,14 +10,89 @@
 	</Style>
 </h:head>
 <h:body>
-	<h:panelGrid rendered="#{loginMBean.logado}">
-		<ui:composition template="novoBoleto.xhtml">
-			   <ui:define name="content">
-			       <h:outputLabel value="Você esta logado como, #{loginMBean.usuario}"></h:outputLabel>
-			   </ui:define>
-			   <ui:insert name="content"/>
-		</ui:composition>
+<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
 
+	<p:megaMenu orientation="#{megaMenuView.orientation}" style="margin-top:5px;" >
+    <p:submenu label="Gerencia" icon="pi pi-check">
+        <p:column>
+            <p:submenu label="Usuarios">
+                <p:menuitem value="Pendentes" url="#" />
+                <p:menuitem value="Ativos" url="#" />
+                <p:menuitem value="Inativos" url="#" />
+            </p:submenu>
+            <p:submenu label="Boleto">
+                <p:menuitem value="Pendente" url="#" />
+                <p:menuitem value="Atrasados" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:submenu label="Perfil" icon="pi pi-file">
+        <p:column>
+            <p:submenu label="#{loginMBean.usuario}">
+                <p:menuitem value="Informações" url="#" />
+                <p:menuitem value="Permissões" url="#" />
+            </p:submenu>
+        </p:column>
+    </p:submenu>
+ 
+    <p:menuitem value="Quit" url="http://www.primefaces.org" icon="pi pi-times" />
+</p:megaMenu>
+
+<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
+	
+<h:form id="form">
+    <p:dataGrid var="boleto" value="x" columns="3" layout="grid"
+        rows="12" paginator="true" id="boletos"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+         
+        <f:facet name="header">
+            Boletos Pendente
+        </f:facet>
+ 
+        <p:panel header="15 Metro cabo de rede" style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+
+                <h:outputText value="Vencimento" />
+                <h:outputText value="30/09//2019" />
+             
+                <h:outputText value="Valor:" />
+                <h:outputText value="R$6500,00" />
+ 
+                <p:commandLink update=":form:boletoDetale" oncomplete="PF('boletoDialog').show()" title="Mostra Informações">
+                    <h:outputText styleClass="pi pi-search" style="margin:0 auto;"/>
+                    <f:setPropertyActionListener value="Urgente" target="" />
+                </p:commandLink>
+            </h:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
+ 
+    <p:dialog header="Boleto Info" widgetVar="boletoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="boletoDetale" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="true" columnClasses="label,value">
+                <f:facet name="header">
+                   
+                </f:facet>
+                 
+                <h:outputText value="Id:" />
+                <h:outputText value="10" />
+ 
+                <h:outputText value="Vencimento" />
+                <h:outputText value="30/09//2019" />
+ 
+                <h:outputText value="Produto:" />
+                <h:outputText value="15 Metro cabo de rede"/>
+             
+                <h:outputText value="Valor:" />
+                <h:outputText value="R$6500,00" />
+            </p:panelGrid>
+        </p:outputPanel>
+    </p:dialog>
+</h:form>
+
+	
 </h:panelGrid>
 
 <h:panelGroup rendered="#{!loginMBean.logado}">
