@@ -20,12 +20,19 @@ public class LoginMBean {
 	private String senha;
 	private String mensagem;
 	
-	Usuario usuarioLogado = new Usuario(); 
-	UsuarioDAO uDao = new UsuarioDAO();
-	Retorno resultado = new Retorno();
-	Permissao per = new Permissao();
+	Usuario usuarioLogado; 
+	UsuarioDAO uDao;
+	Retorno resultado; // Usuario esta aqui dentro
+	Permissao per;
 	
 	private boolean logado = false;
+	
+	public LoginMBean() {
+		usuarioLogado = new Usuario();
+		uDao = new UsuarioDAO();
+		resultado = new Retorno(); // Usuario esta aqui dentro
+		per = new Permissao();
+	}
 	
 	public void errorLogin(){
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -40,7 +47,7 @@ public class LoginMBean {
 		
 		if(resultado.getRetorno()){
 			logado = true;
-			System.out.println(usuarioLogado.getNome() + "Logado no sistema!");
+			System.out.println( "[ "+usuarioLogado.getCodigo() + " ] " + usuarioLogado.getNome() + "Logado no sistema!");
 			return "home?faces-redirect=true";
 		}else {
 			FacesContext context = FacesContext.getCurrentInstance();
@@ -77,6 +84,22 @@ public class LoginMBean {
 
 	public void setLogado(boolean logado) {
 		this.logado = logado;
+	}
+
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
+	}
+
+	public void setUsuarioLogado(Usuario usuarioLogado) {
+		this.usuarioLogado = usuarioLogado;
+	}
+
+	public Retorno getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(Retorno resultado) {
+		this.resultado = resultado;
 	}
 	
 }
