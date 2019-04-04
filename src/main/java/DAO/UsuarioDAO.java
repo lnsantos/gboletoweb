@@ -20,6 +20,30 @@ public class UsuarioDAO {
 		con = ConDB.getConnection();
 	}
 	
+	public Usuario buscaUsuarioID(int codigo) {
+		Usuario u = new Usuario();
+		String SQL = "SELECT * FROM usuario WHERE codigo = " + codigo;
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(SQL);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				u.setCodigo(rs.getInt("codigo"));
+				u.setEmail(rs.getString("email"));
+				u.setNome(rs.getString("nome"));
+				u.setSobrenome(rs.getString("sobrenome"));
+				u.setUsuario(rs.getString("usuario"));
+				
+				return u;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	// *********** buscaUsuarioRetornaID ********************************************
 	// *********** Esse método é o tipo retorno, onde retorna o ID do usuario, ******
 	// *********** e um true, para simboliza que deu tudo certo *********************

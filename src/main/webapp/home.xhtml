@@ -15,6 +15,7 @@
 		<p:autoUpdate />		
 	 </p:growl>
 	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
+		#{homeAdmMB.setUsuarioLogado(loginMBean.resultado.getUser)}
 		<p:megaMenu orientation="#{megaMenuView.orientation}"
 			style="margin-top:5px;">
 			<p:submenu label="Gerencia" icon="pi pi-check">
@@ -101,7 +102,7 @@
 			</p:dialog>
 		</h:form>
 
-		<h:form id="form-boleto" >
+		<h:form id="form-boleto" enctype="multipart/form-data">
 			<p:dialog id="id_novo-boleto" widgetVar="novo-boleto" width="50%" height="50%">
 				<p:toolbar>
 					<f:facet name="left">
@@ -113,10 +114,9 @@
 						<span class="ui-separator"> <span
 							class="ui-icon ui-icon-grip-dotted-vertical" />
 						</span>
-						<p:commandButton value="Salvar" icon="ui-icon-disk" 
-							action="#{home.x}">
-							<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
-								  target="#{home.codigoUsuarioFRONT}"></f:setPropertyActionListener>	
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}">
+								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
+								  target="#{home.codigoUsuarioFRONT}"></f:setPropertyActionListener>
 						</p:commandButton>
 						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
 							disabled="false" update="id_novo-boleto">
@@ -156,13 +156,12 @@
 						
 					</p:row>
 					<p:row>
-						<p:column colspan="1" style="width:49%">
+						<p:column colspan="2" style="width:49%">
 							<p:fileUpload mode="simple" sizeLimit="1000000" skinSimple="true"
 								label="Escolha o pdf" invalidSizeMessage="Arquivo muito grande"
-								update="@all"
 								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
 								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
-								value="#{home.boleto_inserir.pdf_caminho}"/>
+								value="#{home.arquivoFileUpload}"/>
 						</p:column>
 						<p:column style="width:49%">
 							<p:inputNumber id="valor_itens" symbol="R$" style="width:100%"
