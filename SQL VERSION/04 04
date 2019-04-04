@@ -20,6 +20,7 @@ AND vencimento = 1555383600000 AND emissao = 1555642800000 AND id_usuario = 0;
 -- SELECT usuario as u, email as e FROM usuario;
 SELECT * FROM usuario;
 SELECT * FROM boleto;
+SELECT * FROM upload_boleto;
 
 -- select * from permissao;
 -- drop table boleto;
@@ -52,6 +53,8 @@ create table upload_boleto(
     foreign key (id_usuario) references usuario(codigo),
     foreign key (id_boleto) references boleto(codigo)
 );
+
+INSERT INTO upload_boleto VALUE(0,0,3,"c:/teste")
 
 insert into permissao(codigo) values (1);
 -- delete from permissao where codigo = 1;
