@@ -11,10 +11,15 @@ import entidade.Retorno;
 public class ArquivoUtil {
 	
 	public static Retorno escrever(String nome, byte[] contents, String nomeUsuario) throws IOException {
-		File file = new File(diretorioArquivo(nomeUsuario), nome);
+		
+		String nomePDF = nomeUsuario.substring(nomeUsuario.lastIndexOf("-"));
+		String nomePasta = nomeUsuario.substring(0, nomeUsuario.lastIndexOf("-")) ;
+		
+		File file = new File(diretorioArquivo(nomePasta), nome);
 		OutputStream saida = new FileOutputStream(file);
 		
 		Retorno result = new Retorno(file,file.getPath(),true);
+		System.out.println("ESCREVER CAMINHO : " + file.getPath());
 		// Grava od bytes
 		saida.write(contents);
 		saida.close();
@@ -22,8 +27,8 @@ public class ArquivoUtil {
 		return result;
 	}
 	
-	public static File diretorioArquivo(String usuarioNome){
-		File dir = new File(diretorioRaiz(), usuarioNome);
+	public static File diretorioArquivo(String nomePastaUsuario){
+		File dir = new File(diretorioRaiz(), nomePastaUsuario);
 		
 		// Se o diretorio não existir
 				if(!dir.exists()){

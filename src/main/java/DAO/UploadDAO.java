@@ -19,13 +19,13 @@ public class UploadDAO {
 		con = ConDB.getConnection();
 	}
 	
-	public Retorno uploadArquivo(Upload u) {
+	public Retorno uploadArquivo(Upload u, String caminho) {
 		String SQL = "INSERT INTO upload_boleto VALUE(0,?,?,?)";
 		
-		String SQL_BUSCA_ID_UPLOAD = "SELECT codigo FROM upload_boleto WHERE caminho = " + u.getCaminho() +
+		/* String SQL_BUSCA_ID_UPLOAD = "SELECT codigo FROM upload_boleto WHERE caminho = " + "'" + u.getCaminho()+"'" +
 				" AND id_boleto = " + u.getId_boleto() +
 				" AND id_usuario = " + u.getId_usuario();
-		
+		*/
 		// String SQL_
 		
 		Retorno resultado = new Retorno();
@@ -35,7 +35,7 @@ public class UploadDAO {
 			
 			ps.setInt(1, u.getId_usuario());
 			ps.setInt(2, u.getId_boleto());
-			ps.setString(3, u.getCaminho());
+			ps.setString(3, caminho);
 			
 			if(ps.executeUpdate() > 0) {
 				resultado.setRetorno(true);

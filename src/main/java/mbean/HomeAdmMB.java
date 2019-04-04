@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
@@ -17,12 +19,13 @@ import DAO.BoletoDAO;
 import DAO.UploadDAO;
 import DAO.UsuarioDAO;
 import entidade.Boleto;
+import entidade.Retorno;
 import entidade.Upload;
 import entidade.Usuario;
 import service.UploadService;
 
 @ManagedBean(name = "home")
-@RequestScoped
+@ViewScoped
 public class HomeAdmMB extends UploadService {
 	private static final long serialVersionUID = 1L;
 	BoletoDAO bDao;
@@ -34,13 +37,15 @@ public class HomeAdmMB extends UploadService {
 	Usuario usuarioLogado;
 	FacesContext context;
 	LoginMBean informa;
-
+	
+	Upload resultadoBoletoSolicitado;
+	
 	UploadedFile arquivoFileUpload;
 
 	Upload arquivo;
 	Integer codigoUsuarioFRONT;
 
-	public HomeAdmMB() {
+	public HomeAdmMB(){
 		bDao = new BoletoDAO();
 		boleto_inserir = new Boleto();
 		context = FacesContext.getCurrentInstance();
@@ -50,12 +55,17 @@ public class HomeAdmMB extends UploadService {
 		uDAO = new UsuarioDAO();
 		uPDAO = new UploadDAO();
 		temporario = new Usuario();
+		resultadoBoletoSolicitado = new Upload();
 	}
 
 	public void novoBoleto() {
 		if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
 			System.out.println("Boleto inserido com sucesso!");
-			if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), bDao.busca_Id_Boleto(boleto_inserir))) {
+			resultadoBoletoSolicitado = bDao.busca_Id_Boleto(boleto_inserir);
+			if(resultadoBoletoSolicitado != null) {
+				
+			} 
+			if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT),resultadoBoletoSolicitado )) {
 				System.out.println("PDF Inserido com sucesso!");
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));

@@ -47,7 +47,7 @@ public class BoletoDAO {
 	} 
 	
 	public Upload busca_Id_Boleto(Boleto b) {
-		String SQL = "SELECT codigo FROM boleto WHERE nome_item = " + "'"+ b.getItem() + "'" +
+		String SQL = "SELECT * FROM boleto WHERE nome_item = " + "'"+ b.getItem() + "'" +
 				" AND valor = " + b.getValor() + " AND vencimento = " + b.getVencimento().getTime() +
 				" AND emissao = " + b.getEmissao().getTime() + " AND id_usuario = " + b.getId_usuario();
 		

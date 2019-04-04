@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.util.Calendar;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -33,22 +34,33 @@ public class UploadService extends UploadDAO implements Serializable {
 	private StreamedContent streamedContent;
 
 	public boolean upload(UploadedFile uploadedFile, String nomeUsuario, Upload u) {
+		
 		System.out.println("********************************************");
 		System.out.println(" ");
 		System.out.println(" ");
 		System.out.println("Método : upload [UploadService]");
 		if (uploadedFile != null) {
 			try {
+				Calendar c = Calendar.getInstance();
+				
 				// Pega informação do retorno de tudo
-				Retorno escreverResultado = ArquivoUtil.escrever(nomeUsuario, uploadedFile.getContents(), nomeUsuario);
-				// Pega as informações do arquivo
-				File arquivo = escreverResultado.getFile();
+				String nomeArquivo = uploadedFile.getFileName();
+				String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
+				// nome do Arquivo / Bytes a serem copiados / nome da pasta
+				Retorno escreverResultado = ArquivoUtil.escrever(c.getTimeInMillis() + ext, uploadedFile.getContents(),nomeUsuario + "-" + c.getTimeInMillis());
+				System.out.println("Milles de agora! : " + c.getTimeInMillis());
+				System.out.println("NOME DO ARQUIVO : " + nomeUsuario + ext);
+				
 				// Pega caminho do arquivo
-				u.setCaminho(escreverResultado.getCaminho());
-
-				System.out.println("TRY : " + u.getCaminho());
+				// u.setCaminho(escreverResultado.getCaminho());
+				
+				
 				// Verifica se a inserção deu certo
-				if (uploadArquivo(u).getRetorno()) {
+				if (uploadArquivo(u, u.getCaminho()).getRetorno()) {
+					System.out.println( u + "Adiciou no DB as tabela upload_boleto ");
+					System.out.println("TRY : " + u.getCaminho());
+					// Pega as informações do arquivo
+					File arquivo = escreverResultado.getFile();
 					OutputStream saida = new FileOutputStream(arquivo);
 
 					// Salva o PDF no servidor
@@ -65,6 +77,9 @@ public class UploadService extends UploadDAO implements Serializable {
 					System.out.println("********************************************");
 
 					return true;
+				}else {
+					System.out.println( u + "Não ADD no DB");
+					return false;
 				}
 
 			} catch (IOException e) {

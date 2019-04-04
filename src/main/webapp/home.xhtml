@@ -15,7 +15,7 @@
 		<p:autoUpdate />		
 	 </p:growl>
 	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
-		#{homeAdmMB.setUsuarioLogado(loginMBean.resultado.getUser)}
+		Você está logado como : #{loginMBean.usuarioLogado.codigo} | #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)} | #{home.codigoUsuarioFRONT}
 		<p:megaMenu orientation="#{megaMenuView.orientation}"
 			style="margin-top:5px;">
 			<p:submenu label="Gerencia" icon="pi pi-check">
@@ -110,13 +110,12 @@
 							icon="ui-icon-arrowthick-1-w"
 							oncomplete="novo-boleto.hide()">
 						</p:commandButton>
-
 						<span class="ui-separator"> <span
 							class="ui-icon ui-icon-grip-dotted-vertical" />
 						</span>
-						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}">
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}" ajax="false">
 								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
-								  target="#{home.codigoUsuarioFRONT}"></f:setPropertyActionListener>
+								  target="#{home.codigoUsuarioFRONT}"/>
 						</p:commandButton>
 						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
 							disabled="false" update="id_novo-boleto">
