@@ -37,15 +37,15 @@ public class HomeAdmMB extends UploadService {
 	Usuario usuarioLogado;
 	FacesContext context;
 	LoginMBean informa;
-	
+
 	Upload resultadoBoletoSolicitado;
-	
+
 	UploadedFile arquivoFileUpload;
 
 	Upload arquivo;
 	Integer codigoUsuarioFRONT;
 
-	public HomeAdmMB(){
+	public HomeAdmMB() {
 		bDao = new BoletoDAO();
 		boleto_inserir = new Boleto();
 		context = FacesContext.getCurrentInstance();
@@ -58,27 +58,37 @@ public class HomeAdmMB extends UploadService {
 		resultadoBoletoSolicitado = new Upload();
 	}
 
+	public void limpa() {
+		boleto_inserir = null;
+	}
+
 	public void novoBoleto() {
+		
 		if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
 			System.out.println("Boleto inserido com sucesso!");
+			boleto_inserir.setId_usuario(codigoUsuarioFRONT);
 			resultadoBoletoSolicitado = bDao.busca_Id_Boleto(boleto_inserir);
-			if(resultadoBoletoSolicitado != null) {
-				
-			} 
-			if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT),resultadoBoletoSolicitado )) {
-				System.out.println("PDF Inserido com sucesso!");
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
+			
+			// Encapsulou ID_BOLETO + ID_USUARIO
+			if (resultadoBoletoSolicitado != null) {
 
+				if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
+					System.out.println("PDF Inserido com sucesso!");
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
+
+				} else {
+					System.out.println("PDF Não inserido");
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+				}
 			} else {
-				System.out.println("PDF Não inserido");
+				System.out.println("Boleto não encontrado + PDF Não inserido");
 				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Boleto não encontrado + PDF Não inserido", ""));
 			}
-		} else {
-			System.out.println("Boleto + PDF Não inserido");
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Boleto + PDF Não inserido", ""));
+		}else {
+			System.out.println("Boleto inserido não encontrado!");
 		}
 		/*
 		 * if (boleto_inserir != null) { System.out.println("LOGADO NO SISTEMA : " +
@@ -183,5 +193,5 @@ public class HomeAdmMB extends UploadService {
 	public void setUsuarioLogado(Usuario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
 	}
-	
+
 }

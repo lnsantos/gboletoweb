@@ -52,11 +52,10 @@ public class UploadService extends UploadDAO implements Serializable {
 				System.out.println("NOME DO ARQUIVO : " + nomeUsuario + ext);
 				
 				// Pega caminho do arquivo
-				// u.setCaminho(escreverResultado.getCaminho());
-				
+				u.setCaminho(escreverResultado.getCaminho());
 				
 				// Verifica se a inserção deu certo
-				if (uploadArquivo(u, u.getCaminho()).getRetorno()) {
+				if (uploadArquivo(u, u.getCaminho()).getRetorno() && u.getCaminho() != "") {
 					System.out.println( u + "Adiciou no DB as tabela upload_boleto ");
 					System.out.println("TRY : " + u.getCaminho());
 					// Pega as informações do arquivo

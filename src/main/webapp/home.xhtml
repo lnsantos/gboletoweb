@@ -106,10 +106,6 @@
 			<p:dialog id="id_novo-boleto" widgetVar="novo-boleto" width="50%" height="50%">
 				<p:toolbar>
 					<f:facet name="left">
-						<p:commandButton value="Fecha" immediate="true"
-							icon="ui-icon-arrowthick-1-w"
-							oncomplete="novo-boleto.hide()">
-						</p:commandButton>
 						<span class="ui-separator"> <span
 							class="ui-icon ui-icon-grip-dotted-vertical" />
 						</span>
@@ -118,7 +114,7 @@
 								  target="#{home.codigoUsuarioFRONT}"/>
 						</p:commandButton>
 						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
-							disabled="false" update="id_novo-boleto">
+							disabled="false" update="id_novo-boleto" >
 						</p:commandButton>
 					</f:facet>
 				</p:toolbar>
@@ -155,9 +151,9 @@
 						
 					</p:row>
 					<p:row>
-						<p:column colspan="2" style="width:49%">
+						<p:column colspan="1" style="width:49%">
 							<p:fileUpload mode="simple" sizeLimit="1000000" skinSimple="true"
-								label="Escolha o pdf" invalidSizeMessage="Arquivo muito grande"
+								label="Anexar Boleto" invalidSizeMessage="Arquivo muito grande"
 								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
 								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
 								value="#{home.arquivoFileUpload}"/>
