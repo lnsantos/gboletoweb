@@ -50,8 +50,8 @@
 			<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
 		</h:form>
 		<h:form id="form">
-			<p:dataGrid var="boleto" value="x" columns="3" layout="grid"
-				rows="12" paginator="true" id="boletos"
+			<p:dataGrid var="boleto" value="#{home.boletos}" columns="3" layout="grid"
+				rows="12" paginator="true"  id="boletos"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,12,16">
 
@@ -59,14 +59,14 @@
             Boletos Pendente
         </f:facet>
 
-				<p:panel header="15 Metro cabo de rede" style="text-align:center">
+				<p:panel header="#{boleto.item}" style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
 
 						<h:outputText value="Vencimento" />
-						<h:outputText value="30/09//2019" />
+						<h:outputText value="#{boleto.vencimento}" />
 
 						<h:outputText value="Valor:" />
-						<h:outputText value="R$6500,00" />
+						<h:outputText value="#{boleto.valor}" />
 
 						<p:commandLink update=":form:boletoDetale"
 							oncomplete="PF('boletoDialog').show()" title="Mostra Informações">
@@ -82,21 +82,25 @@
 				<p:outputPanel id="boletoDetale" style="text-align:center;">
 					<p:panelGrid columns="2" rendered="true"
 						columnClasses="label,value">
-						<f:facet name="header">
+						<f:facet name="#{boleto.item}">
 
 						</f:facet>
 
 						<h:outputText value="Id:" />
-						<h:outputText value="10" />
+						<h:outputText value="#{boleto.codigo}" />
 
 						<h:outputText value="Vencimento" />
-						<h:outputText value="30/09//2019" />
-
-						<h:outputText value="Produto:" />
-						<h:outputText value="15 Metro cabo de rede" />
+						<h:outputText value="#{boleto.vencimento}" />
 
 						<h:outputText value="Valor:" />
-						<h:outputText value="R$6500,00" />
+						<h:outputText value="#{boleto.valor}"/>
+						
+						<h:outputText value="Emissão:" />
+						<h:outputText value="#{boleto.emissao}" />
+						
+						<h:outputText value="Adicionado Por:" />
+						<h:outputText value="#{loginMbean.resultado.user.nome}"/>
+						
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
@@ -176,7 +180,7 @@
 	<h:panelGroup rendered="#{!loginMBean.logado}">
 		Você não está logado, será redirecionado em 2s!
 		#{loginMBean.errorLogin()}
-		<meta http-equiv="refresh" content="2; url=index.xhtml" />
+		<meta http-equiv="refresh" content="2; url=/gboletoweb/index.xhtml" />
 	</h:panelGroup>
 </h:body>
 </html>

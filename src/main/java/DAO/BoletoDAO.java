@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import database.ConDB;
@@ -68,9 +70,36 @@ public class BoletoDAO {
 		return null;
 	}
 	
-	public List<Boleto> listaBoletos (){
-		String SQL = "SELECT * FROM boleto WHERE statu = 0 OR statu = 1 OR statu = 2";
-		
+	public List<Boleto> listaBoletosUsuarioLogado (String codigoUsuarioLogado){
+		String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 
+				"	join upload_boleto as ub ON ub.id_boleto = b.codigo and ub.id_usuario = "+"'"+codigoUsuarioLogado+"'" + 
+				"   WHERE b.statu = 0 OR b.statu = 1 OR b.statu = 2";
+		List<Boleto> boletos = new ArrayList<Boleto>();
+		try {
+			PreparedStatement ps = con.prepareStatement(SQL);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Boleto b = new Boleto();
+				
+				b.setCodigo(rs.getInt("b.codigo"));
+				b.setEmissao(new Date(rs.getLong("b.emissao")));
+				b.setId_usuario(rs.getInt("b.id_usuario"));
+				b.setItem(rs.getString("nome_item"));
+				b.setPdf_caminho(rs.getString("ub.caminho"));
+				b.setStatus(rs.getInt("b.statu"));
+				b.setValor(rs.getDouble("b.valor"));
+				b.setVencimento(new Date(rs.getLong("b.vencimento")));
+				
+				boletos.add(b);
+				System.out.println("BOLETO : " + b.getItem() + "Encontrado no sistema" + " Localizado em : " + b.getPdf_caminho() + " Para o usuario : " + b.getId_usuario());
+			}
+			return boletos;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("listaBoletosUsuarioLogado :: Problema ao buscar boletos!");
+		}	
 		return null;
 	}
 	

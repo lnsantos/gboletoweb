@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -38,57 +40,71 @@ public class HomeAdmMB extends UploadService {
 	FacesContext context;
 	LoginMBean informa;
 
+	List<Boleto> boletos = new ArrayList<Boleto>();
+
 	Upload resultadoBoletoSolicitado;
 
 	UploadedFile arquivoFileUpload;
 
 	Upload arquivo;
-	Integer codigoUsuarioFRONT;
-
+	Integer codigoUsuarioFRONT = 0;
+	// String idUsuario = informa.getUsuarioLogado().getCodigo().toString();
 	public HomeAdmMB() {
 		bDao = new BoletoDAO();
 		boleto_inserir = new Boleto();
 		context = FacesContext.getCurrentInstance();
-		System.out.println("Construtor : " + boleto_inserir.getId_usuario());
-		codigoUsuarioFRONT = 0;
+		// System.out.println("Construtor : " + informa.getUsuarioLogado().getCodigo());
 		arquivo = new Upload();
 		uDAO = new UsuarioDAO();
 		uPDAO = new UploadDAO();
 		temporario = new Usuario();
 		resultadoBoletoSolicitado = new Upload();
+		
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
 	}
 
 	public void limpa() {
 		boleto_inserir = null;
 	}
 
+	public void atualizarListaBoleto() {
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+	}
+
 	public void novoBoleto() {
-		
-		if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
-			System.out.println("Boleto inserido com sucesso!");
-			boleto_inserir.setId_usuario(codigoUsuarioFRONT);
-			resultadoBoletoSolicitado = bDao.busca_Id_Boleto(boleto_inserir);
-			
-			// Encapsulou ID_BOLETO + ID_USUARIO
-			if (resultadoBoletoSolicitado != null) {
+		if (boleto_inserir != null) {
+			if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
+				System.out.println("Boleto inserido com sucesso!");
+				boleto_inserir.setId_usuario(codigoUsuarioFRONT);
+				resultadoBoletoSolicitado = bDao.busca_Id_Boleto(boleto_inserir);
 
-				if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
-					System.out.println("PDF Inserido com sucesso!");
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
+				// Encapsulou ID_BOLETO + ID_USUARIO
+				if (resultadoBoletoSolicitado != null) {
 
+					if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
+						System.out.println("PDF Inserido com sucesso!");
+						FacesContext.getCurrentInstance().addMessage(null,
+								new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
+						boleto_inserir = null;
+						boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+					} else {
+						System.out.println("PDF Não inserido");
+						FacesContext.getCurrentInstance().addMessage(null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+					}
 				} else {
-					System.out.println("PDF Não inserido");
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+					System.out.println("Boleto não encontrado + PDF Não inserido");
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Boleto não encontrado + PDF Não inserido", ""));
 				}
 			} else {
-				System.out.println("Boleto não encontrado + PDF Não inserido");
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Boleto não encontrado + PDF Não inserido", ""));
+				System.out.println("Boleto inserido não encontrado!");
 			}
 		}else {
-			System.out.println("Boleto inserido não encontrado!");
+			boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+			System.out.println("Preencha as informações");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Preencha as informações", ""));
 		}
 		/*
 		 * if (boleto_inserir != null) { System.out.println("LOGADO NO SISTEMA : " +
@@ -192,6 +208,14 @@ public class HomeAdmMB extends UploadService {
 
 	public void setUsuarioLogado(Usuario usuarioLogado) {
 		this.usuarioLogado = usuarioLogado;
+	}
+
+	public List<Boleto> getBoletos() {
+		return boletos;
+	}
+
+	public void setBoletos(List<Boleto> boletos) {
+		this.boletos = boletos;
 	}
 
 }
