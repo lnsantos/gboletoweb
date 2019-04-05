@@ -7,8 +7,8 @@ import java.util.TimerTask;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(eager=true)
-@ApplicationScoped
+// @ManagedBean(eager=true)
+// @ApplicationScoped
 public class BoletoService {
 	
 	// A verificacao sera executada a cada 24 horas

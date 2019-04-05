@@ -1,0 +1,182 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="css" name="main.css" id="main" />
+	<Style>
+</Style>
+</h:head>
+<h:body>
+	
+ <p:growl >
+		<p:autoUpdate />		
+	 </p:growl>
+	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
+		Você está logado como : #{loginMBean.usuarioLogado.codigo} | #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)} | #{home.codigoUsuarioFRONT}
+		<p:megaMenu orientation="#{megaMenuView.orientation}"
+			style="margin-top:5px;">
+			<p:submenu label="Gerencia" icon="pi pi-check">
+				<p:column>
+					<p:submenu label="Usuarios">
+						<p:menuitem value="Pendentes" url="#" />
+						<p:menuitem value="Ativos" url="#" />
+						<p:menuitem value="Inativos" url="#" />
+					</p:submenu>
+					<p:submenu label="Boleto">
+						<p:menuitem value="Pendente" url="#" />
+						<p:menuitem value="Atrasados" url="#" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:submenu label="Perfil" icon="pi pi-file">
+				<p:column>
+					<p:submenu label="#{loginMBean.usuario}">
+						<p:menuitem value="Informações" url="#" />
+						<p:menuitem value="Permissões" url="#" />
+					</p:submenu>
+				</p:column>
+			</p:submenu>
+
+			<p:menuitem value="Quit" url="http://www.primefaces.org"
+				icon="pi pi-times" />
+		</p:megaMenu>
+	
+		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
+		<h:form>
+			<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
+		</h:form>
+		<h:form id="form">
+			<p:dataGrid var="boleto" value="x" columns="3" layout="grid"
+				rows="12" paginator="true" id="boletos"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
+
+				<f:facet name="header">
+            Boletos Pendente
+        </f:facet>
+
+				<p:panel header="15 Metro cabo de rede" style="text-align:center">
+					<h:panelGrid columns="1" style="width:100%">
+
+						<h:outputText value="Vencimento" />
+						<h:outputText value="30/09//2019" />
+
+						<h:outputText value="Valor:" />
+						<h:outputText value="R$6500,00" />
+
+						<p:commandLink update=":form:boletoDetale"
+							oncomplete="PF('boletoDialog').show()" title="Mostra Informações">
+							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
+							<f:setPropertyActionListener value="Urgente" target="" />
+						</p:commandLink>
+					</h:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+
+			<p:dialog header="Boleto Info" widgetVar="boletoDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="boletoDetale" style="text-align:center;">
+					<p:panelGrid columns="2" rendered="true"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="Id:" />
+						<h:outputText value="10" />
+
+						<h:outputText value="Vencimento" />
+						<h:outputText value="30/09//2019" />
+
+						<h:outputText value="Produto:" />
+						<h:outputText value="15 Metro cabo de rede" />
+
+						<h:outputText value="Valor:" />
+						<h:outputText value="R$6500,00" />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="form-boleto" enctype="multipart/form-data">
+			<p:dialog id="id_novo-boleto" widgetVar="novo-boleto" width="50%" height="50%">
+				<p:toolbar>
+					<f:facet name="left">
+						<span class="ui-separator"> <span
+							class="ui-icon ui-icon-grip-dotted-vertical" />
+						</span>
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}" ajax="false">
+								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
+								  target="#{home.codigoUsuarioFRONT}"/>
+						</p:commandButton>
+						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
+							disabled="false" update="id_novo-boleto" >
+						</p:commandButton>
+					</f:facet>
+				</p:toolbar>
+				<p:panelGrid id="grid-produto" styleClass="grid-produto"
+					style="width:100%">
+					<f:facet name="header">
+						<p:outputLabel value="Informações do boleto"></p:outputLabel>
+					</f:facet>
+					<p:row>
+						<p:column style="width:49%">
+							<p:inputText id="nomeBoleto" style="width:100%"
+								placeholder="Nome Boleto" value="#{home.boleto_inserir.item}" />
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputText id="codigoBarra" style="width:100%"
+								placeholder="Número CB" />
+						</p:column>
+						
+					</p:row>
+
+					<p:row>
+						<p:column style="width:49%">
+							<p:calendar id="data_nasc" required="true"
+								requiredMessage="Campo data obrigarório"
+								placeholder="Data de Emissão" pattern="dd/MM/yyyy" mask="true" 
+								value="#{home.boleto_inserir.emissao}"/>
+						</p:column>
+						<p:column stylfre="width:49%">
+							<p:calendar id="data_vencimento" required="true"
+								requiredMessage="Campo data obrigarório" styleClass="input-data"
+								placeholder="Data de Vencimento" pattern="dd/MM/yyyy"
+								mask="true" value="#{home.boleto_inserir.vencimento}" />
+						</p:column>
+						
+					</p:row>
+					<p:row>
+						<p:column colspan="1" style="width:49%">
+							<p:fileUpload mode="simple" sizeLimit="1000000" skinSimple="true"
+								label="Anexar Boleto" invalidSizeMessage="Arquivo muito grande"
+								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
+								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
+								value="#{home.arquivoFileUpload}"/>
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputNumber id="valor_itens" symbol="R$" style="width:100%"
+								requiredMessage="Campo valor dos itens obritatório."
+								required="true" placeholder="Valor total dos itens"
+								value="#{home.boleto_inserir.valor}">
+							</p:inputNumber>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</p:dialog>
+		</h:form>
+					
+	</h:panelGrid>
+
+	<h:panelGroup rendered="#{!loginMBean.logado}">
+		Você não está logado, será redirecionado em 2s!
+		#{loginMBean.errorLogin()}
+		<meta http-equiv="refresh" content="2; url=index.xhtml" />
+	</h:panelGroup>
+</h:body>
+</html>

@@ -48,7 +48,7 @@ public class LoginMBean {
 		if(resultado.getRetorno()){
 			logado = true;
 			System.out.println( "[ "+usuarioLogado.getCodigo() + " ] " + usuarioLogado.getNome() + "Logado no sistema!");
-			return "home?faces-redirect=true";
+			return "/restrito/administrador/index?faces-redirect=true";
 		}else {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new 
