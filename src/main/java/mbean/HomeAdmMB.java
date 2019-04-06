@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -39,15 +40,17 @@ public class HomeAdmMB extends UploadService {
 	Usuario usuarioLogado;
 	FacesContext context;
 	LoginMBean informa;
-
-	List<Boleto> boletos = new ArrayList<Boleto>();
-
+	LoginMBean teste;
+	List<Boleto> boletos;
+	
 	Upload resultadoBoletoSolicitado;
 
-	UploadedFile arquivoFileUpload;
-
+	UploadedFile arquivoFileUpload = null;
 	Upload arquivo;
-	Integer codigoUsuarioFRONT = 0;
+	
+	@ManagedProperty(value = "#{loginMBean.usuarioLogado.codigo}")
+	Integer codigoUsuarioFRONT;
+
 	// String idUsuario = informa.getUsuarioLogado().getCodigo().toString();
 	public HomeAdmMB() {
 		bDao = new BoletoDAO();
@@ -59,8 +62,8 @@ public class HomeAdmMB extends UploadService {
 		uPDAO = new UploadDAO();
 		temporario = new Usuario();
 		resultadoBoletoSolicitado = new Upload();
-		
-		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+		boletos = new ArrayList<Boleto>();
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
 
 	public void limpa() {
@@ -68,7 +71,7 @@ public class HomeAdmMB extends UploadService {
 	}
 
 	public void atualizarListaBoleto() {
-		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
 
 	public void novoBoleto() {
@@ -78,47 +81,65 @@ public class HomeAdmMB extends UploadService {
 				boleto_inserir.setId_usuario(codigoUsuarioFRONT);
 				resultadoBoletoSolicitado = bDao.busca_Id_Boleto(boleto_inserir);
 
+				// Verifica se existe um PDF
 				// Encapsulou ID_BOLETO + ID_USUARIO
-				if (resultadoBoletoSolicitado != null) {
-
-					if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
-						System.out.println("PDF Inserido com sucesso!");
-						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage(FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
-						boleto_inserir = null;
-						boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+				// byte x = 0;
+				if (resultadoBoletoSolicitado != null && arquivoFileUpload.getSize() > 0) {
+					// Pega informação do retorno de tudo
+					String nomeArquivo = arquivoFileUpload.getFileName();
+					String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
+					// Verifica se o Arquivo é o que pode ser inserido
+					if (ext == ".pdf" || ext == ".png" || ext == ".jpg") {
+						if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
+							System.out.println("PDF Inserido com sucesso!");
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+									FacesMessage.SEVERITY_INFO, "PDF + Boleto inserido com sucesso!", ""));
+							boleto_inserir = null;
+							boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+						} else {
+							System.out.println("PDF Não inserido");
+							FacesContext.getCurrentInstance().addMessage(null,
+									new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+						}
 					} else {
-						System.out.println("PDF Não inserido");
 						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
+								new FacesMessage(FacesMessage.SEVERITY_INFO, "Arquivo Inválido!", ""));
 					}
-				} else {
-					System.out.println("Boleto não encontrado + PDF Não inserido");
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Boleto não encontrado + PDF Não inserido", ""));
 				}
 			} else {
-				System.out.println("Boleto inserido não encontrado!");
+				System.out.println("Boleto não encontrado + PDF Não inserido");
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Boleto não encontrado + PDF Não inserido", ""));
 			}
-		}else {
-			boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
-			System.out.println("Preencha as informações");
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Preencha as informações", ""));
+		} else {
+			System.out.println("Boleto inserido não encontrado!");
 		}
-		/*
-		 * if (boleto_inserir != null) { System.out.println("LOGADO NO SISTEMA : " +
-		 * codigoUsuarioFRONT); if (bDao.inserirBoleto(boleto_inserir,
-		 * codigoUsuarioFRONT)) { context.addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", boleto_inserir.getItem()
-		 * + " Inserido!")); } else { context.addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", boleto_inserir.getItem() +
-		 * " Não foi inserido!")); } } else { context.addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR,
-		 * "Informações do boleto estão nulas", boleto_inserir.getItem() +
-		 * " Não foi inserido!")); }
-		 */
+		boletos = bDao.listaBoletosUsuarioLogado(resultadoBoletoSolicitado.getId_usuario());
+		boleto_inserir = null;
 	}
+	
+	/*
+	 * else{
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
+		System.out.println("Preencha as informações");
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Preencha as informações", ""));
+	}
+
+	 * */
+	
+	/*
+	 * if (boleto_inserir != null) { System.out.println("LOGADO NO SISTEMA : " +
+	 * codigoUsuarioFRONT); if (bDao.inserirBoleto(boleto_inserir,
+	 * codigoUsuarioFRONT)) { context.addMessage(null, new
+	 * FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso!", boleto_inserir.getItem()
+	 * + " Inserido!")); } else { context.addMessage(null, new
+	 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro!", boleto_inserir.getItem() +
+	 * " Não foi inserido!")); } } else { context.addMessage(null, new
+	 * FacesMessage(FacesMessage.SEVERITY_ERROR,
+	 * "Informações do boleto estão nulas", boleto_inserir.getItem() +
+	 * " Não foi inserido!")); }
+	 */
 
 	/*
 	 * public void upload(UploadedFile arquivoFileUpload) {

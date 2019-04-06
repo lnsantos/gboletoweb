@@ -113,7 +113,8 @@
 						<span class="ui-separator"> <span
 							class="ui-icon ui-icon-grip-dotted-vertical" />
 						</span>
-						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}" ajax="false">
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}" ajax="false"
+						oncomplete="novo-boleto.hide()">
 								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
 								  target="#{home.codigoUsuarioFRONT}"/>
 						</p:commandButton>
@@ -160,10 +161,14 @@
 								label="Anexar Boleto" invalidSizeMessage="Arquivo muito grande"
 								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
 								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
-								value="#{home.arquivoFileUpload}"/>
+								value="#{home.arquivoFileUpload}"
+								onstart="console.log('Iniciando envio de arquivo')"
+    							onerror="console.log('Erro na requisição de envio')"
+    							oncomplete="console.log('Envio concluído')"/>
 						</p:column>
 						<p:column style="width:49%">
 							<p:inputNumber id="valor_itens" symbol="R$" style="width:100%"
+								decimalSeparator="," thousandSeparator="."
 								requiredMessage="Campo valor dos itens obritatório."
 								required="true" placeholder="Valor total dos itens"
 								value="#{home.boleto_inserir.valor}">
