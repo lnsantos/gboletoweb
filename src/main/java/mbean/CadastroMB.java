@@ -1,7 +1,5 @@
 package mbean;
 
-import java.sql.SQLException;
-
 import javax.faces.bean.ManagedBean;
 
 import DAO.UsuarioDAO;

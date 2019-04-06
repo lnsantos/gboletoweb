@@ -5,8 +5,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import com.mysql.cj.PerConnectionLRUFactory;
-
 import DAO.UsuarioDAO;
 import entidade.Permissao;
 import entidade.Retorno;

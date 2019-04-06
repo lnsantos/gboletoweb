@@ -11,19 +11,15 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 import DAO.BoletoDAO;
 import DAO.UploadDAO;
 import DAO.UsuarioDAO;
 import entidade.Boleto;
-import entidade.Retorno;
 import entidade.Upload;
 import entidade.Usuario;
 import service.UploadService;

@@ -4,9 +4,6 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-
 // @ManagedBean(eager=true)
 // @ApplicationScoped
 public class BoletoService {
