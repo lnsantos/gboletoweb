@@ -4,8 +4,14 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-// @ManagedBean(eager=true)
-// @ApplicationScoped
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+
+import entidade.Log;
+import util.ArquivoUtil;
+
+@ManagedBean(eager=true)
+@ApplicationScoped
 public class BoletoService {
 	
 	// A verificacao sera executada a cada 24 horas
@@ -49,6 +55,10 @@ public class BoletoService {
 		public void run() {
 			// TODO Implementar metodo que verifica a validade
 			System.out.println("Verificando boletos proximos da data de validade...");
+			
+			Log log = new Log("Verificacao de boletos");
+			ArquivoUtil.gravarLog(log);
+			
 		} 
 	}
 }

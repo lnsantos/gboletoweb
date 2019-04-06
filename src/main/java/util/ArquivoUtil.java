@@ -1,11 +1,17 @@
 package util;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
+import entidade.Log;
 import entidade.Retorno;
 
 public class ArquivoUtil {
@@ -51,4 +57,45 @@ public class ArquivoUtil {
 		return dir;
 	}
 	
+	public static Path abrirArquivo(String diretorio) throws IOException {
+		Path path = Paths.get(diretorio);
+		if (Files.notExists(path)) {
+			Files.createDirectories(path.getParent());
+			Files.createFile(path);
+		}
+		
+		return path;
+	}
+	
+	public static boolean escreverNoArquivo(Path path, String s) throws IOException, AccessDeniedException {
+		if (Files.isWritable(path)) {
+			BufferedWriter writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND);
+			
+			writer.write(s);
+			writer.close();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean gravarLog(Log log) {
+		try {
+			Path path = abrirArquivo("gboletoweb/logs/logs.txt");
+			StringBuilder logString = new StringBuilder(log.getData());
+			logString.append(log.getLog());
+			
+			escreverNoArquivo(path, logString.toString());
+			
+			System.out.println("Log gravado em " + path.toAbsolutePath());
+			
+			return true;
+		} catch (AccessDeniedException e) {
+			e.printStackTrace();
+		} catch ( IOException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 }
