@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -49,7 +50,7 @@ public class HomeAdmMB extends UploadService {
 	Upload arquivo;
 	
 	@ManagedProperty(value = "#{loginMBean.usuarioLogado.codigo}")
-	Integer codigoUsuarioFRONT;
+	private Integer codigoUsuarioFRONT;
 
 	// String idUsuario = informa.getUsuarioLogado().getCodigo().toString();
 	public HomeAdmMB() {
@@ -63,9 +64,13 @@ public class HomeAdmMB extends UploadService {
 		temporario = new Usuario();
 		resultadoBoletoSolicitado = new Upload();
 		boletos = new ArrayList<Boleto>();
-		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
 
+	@PostConstruct
+	public void init() {
+		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+	}
+	
 	public void limpa() {
 		boleto_inserir = null;
 	}
