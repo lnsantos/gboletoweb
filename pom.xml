@@ -32,6 +32,15 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.12</version>
 		</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-coyote -->
+<dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-coyote</artifactId>
+    <version>9.0.17</version>
+</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
