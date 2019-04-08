@@ -1,10 +1,12 @@
 package DAO;
 
+import java.awt.Event;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -76,8 +78,12 @@ public class BoletoDAO {
 		if (con != null) {
 			String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 
 					"	LEFT join upload_boleto as ub ON ub.id_boleto = b.codigo and ub.id_usuario = "+"'"+codigoUsuarioLogado+"'" + 
-					"   WHERE b.statu = 0 OR b.statu = 1 OR b.statu = 2" ;
+					"   WHERE b.statu = 0 OR b.statu = 1 OR b.statu = 2"
+					+ " ORDER BY b.vencimento" ;
 			List<Boleto> boletos = new ArrayList<Boleto>();
+			
+			
+			
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				ResultSet rs = ps.executeQuery();
@@ -97,6 +103,7 @@ public class BoletoDAO {
 					boletos.add(b);
 					System.out.println("BOLETO : " + b.getItem() + "Encontrado no sistema" + " Localizado em : " + b.getPdf_caminho() + " Para o usuario : " + b.getId_usuario());
 				}
+			
 				return boletos;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
