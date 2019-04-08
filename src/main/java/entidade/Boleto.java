@@ -1,6 +1,7 @@
 package entidade;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Boleto {
@@ -13,7 +14,9 @@ public class Boleto {
 	private String pdf_caminho = "";
 	private int id_usuario;
 	private int status = 0;
-
+	private String vencimentoString;
+	private String emissaoString;
+	
 	public Integer getCodigo() {
 		return codigo;
 	}
@@ -32,16 +35,20 @@ public class Boleto {
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
+	
 	public Date getVencimento() {
 		return vencimento;
 	}
+	
 	public void setVencimento(Date vencimento) {
+		setVencimentoString(vencimento);
 		this.vencimento = vencimento;
 	}
 	public Date getEmissao() {
 		return emissao;
 	}
 	public void setEmissao(Date emissao) {
+		setEmissaoString(emissao);
 		this.emissao = emissao;
 	}
 	public String getPdf_caminho() {
@@ -72,6 +79,22 @@ public class Boleto {
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
+	}
+	
+	public void setVencimentoString(Date v) {
+		SimpleDateFormat formato = new SimpleDateFormat("dd / MMM / yyyy");
+		this.vencimentoString = formato.format(v);
+	}
+	public String getVencimentoString() {
+		return vencimentoString;
+	}
+	
+	public String getEmissaoString() {
+		return emissaoString;
+	}
+	public void setEmissaoString(Date emissaoString) {
+		SimpleDateFormat formato = new SimpleDateFormat("dd / MMM / yyyy");
+		this.emissaoString = formato.format(emissaoString);
 	}
 	@Override
 	public boolean equals(Object obj) {
