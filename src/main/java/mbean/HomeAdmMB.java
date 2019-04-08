@@ -31,7 +31,9 @@ public class HomeAdmMB extends UploadService {
 	BoletoDAO bDao;
 	UsuarioDAO uDAO;
 	UploadDAO uPDAO;
-
+	
+	Boleto boletoSelecionado;
+	
 	Boleto boleto_inserir;
 	Usuario temporario;
 	Usuario usuarioLogado;
@@ -60,6 +62,7 @@ public class HomeAdmMB extends UploadService {
 		temporario = new Usuario();
 		resultadoBoletoSolicitado = new Upload();
 		boletos = new ArrayList<Boleto>();
+		boletoSelecionado = new Boleto();
 	}
 
 	@PostConstruct
@@ -91,6 +94,7 @@ public class HomeAdmMB extends UploadService {
 					String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
 					// Verifica se o Arquivo é o que pode ser inserido
 					if (ext == ".pdf" || ext == ".png" || ext == ".jpg") {
+						// Upa o arquivo para o servidor
 						if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
 							System.out.println("PDF Inserido com sucesso!");
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
@@ -238,6 +242,14 @@ public class HomeAdmMB extends UploadService {
 
 	public void setBoletos(List<Boleto> boletos) {
 		this.boletos = boletos;
+	}
+
+	public Boleto getBoletoSelecionado() {
+		return boletoSelecionado;
+	}
+
+	public void setBoletoSelecionado(Boleto boletoSelecionado) {
+		this.boletoSelecionado = boletoSelecionado;
 	}
 
 }

@@ -75,7 +75,7 @@ public class BoletoDAO {
 	public List<Boleto> listaBoletosUsuarioLogado (int codigoUsuarioLogado){
 		if (con != null) {
 			String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 
-					"	join upload_boleto as ub ON ub.id_boleto = b.codigo and ub.id_usuario = "+"'"+codigoUsuarioLogado+"'" + 
+					"	LEFT join upload_boleto as ub ON ub.id_boleto = b.codigo and ub.id_usuario = "+"'"+codigoUsuarioLogado+"'" + 
 					"   WHERE b.statu = 0 OR b.statu = 1 OR b.statu = 2";
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			try {

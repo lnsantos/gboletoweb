@@ -46,7 +46,7 @@ public class ArquivoUtil {
 	}
 	
 	public static File diretorioRaiz() {
-		File dir = new File(System.getProperty("java.io.tmpdir"), "ArquivoBoletoUsuarios");
+		File dir = new File(System.getProperty("java.io.tmpdir"), "/gboletosweb/ArquivoBoletoUsuarios");
 		
 		// Se o diretorio não existir
 		if(!dir.exists()){
@@ -81,7 +81,7 @@ public class ArquivoUtil {
 	
 	public static boolean gravarLog(Log log) {
 		try {
-			Path path = abrirArquivo("gboletoweb/logs/logs.txt");
+			Path path = abrirArquivo("/gboletosweb/logs/logs.txt");
 			StringBuilder logString = new StringBuilder(log.getData());
 			logString.append(log.getLog());
 			
