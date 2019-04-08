@@ -6,31 +6,108 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="resources/css" name="style.css" />
+	<style>
+body {
+	background-color: #1E90FF;
+}
+
+#corpo {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: FFFF00;
+}
+
+#area_usuario {
+	width: 40%;
+	padding: 1.5%;
+	margin: 0 auto;
+	background-color: #fff;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+#menu_sistema {
+	width: 100%;
+	background-color: #1E90FF;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+footer{
+	width: 100%;
+	background-color: #1E90FF;
+	color: #fff;
+	top:94%;
+	position: fixed;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+</style>
 </h:head>
 <h:body>
-<h:form>
-<h:panelGrid columns="2" cellpadding="10" cellspacing="1" >
-		<p:commandButton value="Cadastrar" action="#{navigation.cadastro()}" />
-		<p:commandButton value="Ajuda" action="index?facesredirect=true"/>
-</h:panelGrid>
-</h:form>
-	 <p:growl >
-		<p:autoUpdate />		
-	 </p:growl>
-		<h3>Digite seu nome de usuário e senha</h3>
-		
-		<h:form>		
-			<h:panelGrid columns="2" cellpadding="10" cellspacing="1" styleClass="panelGrid" >
+
+	<div id="corpo">
+		<div id="menu_sistema">
+			<table>
+				<tr>
+					<td><h:form>
+							<h:panelGrid columns="2" cellpadding="10" cellspacing="1">
+								<p:commandButton value="Cadastrar"
+									action="#{navigation.cadastro()}" />
+								<p:commandButton value="Ajuda" action="index?facesredirect=true" />
+							</h:panelGrid>
+						</h:form></td>
+					<td>
+						<h1>GBOLETOS WEB</h1>	
+					</td>
+					<td>
+						<p:graphicImage name="/src/main/resources/img/Logo-FAJ.png" />
+						<img src="/src/main/resources/img/Logo-FAJ.png" height="60px" width="60px"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<div id="area_usuario">
+			<h3>Digite seu nome de usuário e senha</h3>
+			<h:form>
+				<h:panelGrid id="panel_usuario" columns="2" cellpadding="10"
+					cellspacing="1" styleClass="panelGrid">
 				Usuário:
 				<p:inputText id="usuario" required="true"
-					requiredMessage="Campo usuário obrigatório" value="#{loginMBean.usuario}" />
+						requiredMessage="Campo usuário obrigatório"
+						value="#{loginMBean.usuario}" />
 			 	
 				Senha:
 				<p:password id="senha" required="true"
-					requiredMessage="Campo senha obrigatório" value="#{loginMBean.senha}"/>
-				
-				<p:commandButton value="Login" action="#{loginMBean.login()}"/>
-			</h:panelGrid>
-		</h:form>		
+						requiredMessage="Campo senha obrigatório"
+						value="#{loginMBean.senha}" />
+
+					<p:commandButton value="Login" action="#{loginMBean.login()}" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+		<footer>
+			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+		</footer>
+	</div>
 </h:body>
 </html>
