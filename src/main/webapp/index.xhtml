@@ -8,10 +8,12 @@
 	<h:outputStylesheet library="resources/css" name="style.css" />
 </h:head>
 <h:body>
+<h:form>
 <h:panelGrid columns="2" cellpadding="10" cellspacing="1" >
 		<p:commandButton value="Cadastrar" action="#{navigation.cadastro()}" />
 		<p:commandButton value="Ajuda" action="index?facesredirect=true"/>
 </h:panelGrid>
+</h:form>
 	 <p:growl >
 		<p:autoUpdate />		
 	 </p:growl>
