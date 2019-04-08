@@ -1,5 +1,11 @@
 package service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,21 +28,20 @@ public class BoletoService {
 	private final int HORARIO_DE_VERIFICACAO = 12;
 	
 	private Timer timer = new Timer();
-	
-	public BoletoService() {
+		
+	public BoletoService() throws IOException, ParseException {
+				
 		VerificadorValidade vv = new VerificadorValidade();
-		
-		//TODO buscar a data da ultima verificacao no banco
-		Calendar ultimaVerificacao = Calendar.getInstance();
-		ultimaVerificacao.set(Calendar.DAY_OF_MONTH, 3);
-		ultimaVerificacao.set(Calendar.HOUR_OF_DAY, 17);
-		ultimaVerificacao.set(Calendar.MINUTE, 0);
-		
-		// Diferenca de tempo entre a data atual e a data da ultima verificacao
-		long diferencaTempo = Calendar.getInstance().getTimeInMillis() - ultimaVerificacao.getTimeInMillis();
-		
-		// Executa a verificacao uma vez caso tenha passado mais de 24h desde a ultima verificacao
-		if (diferencaTempo > PERIODO) {
+		Calendar ultimaVerificacao = getDataUltimaVerificacao();
+		if (ultimaVerificacao != null) {	
+			// Diferenca de tempo entre a data atual e a data da ultima verificacao
+			long diferencaTempo = Calendar.getInstance().getTimeInMillis() - ultimaVerificacao.getTimeInMillis();
+			
+			// Executa a verificacao uma vez caso tenha passado mais de 24h desde a ultima verificacao
+			if (diferencaTempo > PERIODO) {
+				timer.schedule(vv, 0);
+			}
+		} else {
 			timer.schedule(vv, 0);
 		}
 		
@@ -57,8 +62,29 @@ public class BoletoService {
 			System.out.println("Verificando boletos proximos da data de validade...");
 			
 			Log log = new Log("Verificacao de boletos");
+						
 			ArquivoUtil.gravarLog(log);
 			
 		} 
+	}
+	
+	public Calendar getDataUltimaVerificacao() throws IOException, ParseException {
+		Path arquivoLog = ArquivoUtil.abrirArquivo("gboletoweb/logs/logs.txt");
+		BufferedReader reader = Files.newBufferedReader(arquivoLog);
+		
+		String linha;
+		String ultimaVerificacaoLog = null;
+		while ((linha = reader.readLine()) != null) {
+			if (linha.contains("Verificacao de boletos")) ultimaVerificacaoLog = linha;
+		}
+		
+		if (ultimaVerificacaoLog != null) {
+			Calendar ultimaVerificacao = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			ultimaVerificacao.setTime(sdf.parse(ultimaVerificacaoLog.substring(0, 19)));
+			return ultimaVerificacao;
+		}
+		
+		return null;
 	}
 }
