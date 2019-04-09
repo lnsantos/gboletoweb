@@ -11,11 +11,13 @@
     border: 0;
     padding: 0 !important;
 	}
+	.ui-datagrid-content ui-widget-content ui-grid ui-grid-responsive{
+	}
 </Style>
 </h:head>
-<h:body>
+<h:body >
 	
- <p:growl >
+ <p:growl id="growl">
 		<p:autoUpdate />		
 	 </p:growl>
 	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
@@ -53,20 +55,19 @@
 		<h:form>
 			<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
 		</h:form>
-		<h:form id="form">
+		<h:form id="form" >
+		
 			<p:dataGrid var="boleto" value="#{home.boletos}" columns="3" layout="grid"
 				rows="12" paginator="true"  id="boleto_"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="6,12,16">
+				rowsPerPageTemplate="6,12,16" >
 
-				<f:facet name="header">
-            Boletos Pendente
-        </f:facet>
+		        <f:facet name="left">
+		        	Boletos pendentes
+		        </f:facet>
 			<div style="background-color:blue !important;">
 				<p:panel header="#{boleto.item}" style="text-align:center;">
-				
 					<h:panelGrid columns="1" style="width:100%;">
-
 						<h:outputText value="Vencimento" style="font-weight:bold" />
 						<h:outputText value="#{boleto.vencimentoString}" />
 
@@ -78,15 +79,24 @@
 							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
 							<f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
 						</p:commandLink>
-						
-						<div style="width:100%; height:32px;background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; border-radius: 4px !important;">
-							<p align="center" style="font-weight:bold"> Status Atual</p>
+						<p:commandLink value="Confirmar Pagamento" onclick="PF('confirmaPagamento').show();" style="font-weight:bold" update="growl">
+							 <f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
+							</p:commandLink>
+						<hr/>
+						<div style="width:100%; background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; border-radius: 4px !important;">
+								<p align="center" style="font-weight:bold"> Status Atual </p>
 						</div>
+						
 					</h:panelGrid>
 				</p:panel>
 			</div>
 			</p:dataGrid>
-
+			
+			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="11%" showEffect="fade" hideEffect="fade" modal="true" >
+					<p:commandButton value="Confirma Pagamento" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+        			<p:commandButton value="Não quero confirmar, ouve um engano!" onclick="PF('confirmaPagamento').hide();" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:dialog>
+			
 			<p:dialog header="#{home.boletoSelecionado.item}" id="boletoDetale" widgetVar="boletoDialog" modal="true"
 			style="margin-top:25%;margin-bottom:50%; width: 50%; border: 3px solid green; padding: 10px;"
 				showEffect="fade" hideEffect="fade" resizable="false">
@@ -184,8 +194,7 @@
 				</p:panelGrid>
 
 			</p:dialog>
-		</h:form>
-					
+		</h:form>			
 	</h:panelGrid>
 
 	<h:panelGroup rendered="#{!loginMBean.logado}">

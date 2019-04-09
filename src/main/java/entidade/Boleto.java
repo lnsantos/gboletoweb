@@ -13,7 +13,7 @@ public class Boleto {
 	private Date emissao;
 	private String pdf_caminho = "";
 	private int id_usuario;
-	private int status = 0;
+	private int status = 1;
 	private String vencimentoString;
 	private String emissaoString;
 	
