@@ -123,6 +123,15 @@ public class HomeAdmMB extends UploadService {
 		boleto_inserir = null;
 	}
 	
+	public String veririficaStatusBoleto(int statu) {
+		if(statu == 1) {
+			return "#00FF7F";
+		}else if(statu == 2) {
+			return "#FFFF00";
+		}else {
+			return "#FF0000";
+		}
+	}
 	/*
 	 * else{
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());

@@ -7,6 +7,10 @@
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="css" name="main.css" id="main" />
 	<Style>
+	.ui-panel .ui-panel-content {
+    border: 0;
+    padding: 0 !important;
+	}
 </Style>
 </h:head>
 <h:body>
@@ -15,7 +19,7 @@
 		<p:autoUpdate />		
 	 </p:growl>
 	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
-		Você está logado como : #{loginMBean.usuarioLogado.codigo} | #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)} | #{home.codigoUsuarioFRONT}
+		Você está logado como : #{loginMBean.usuarioLogado.nome} #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)}  #{loginMBean.usuarioLogado.sobrenome}
 		<p:megaMenu orientation="#{megaMenuView.orientation}"
 			style="margin-top:5px;">
 			<p:submenu label="Gerencia" icon="pi pi-check">
@@ -58,23 +62,29 @@
 				<f:facet name="header">
             Boletos Pendente
         </f:facet>
+			<div style="background-color:blue !important;">
+				<p:panel header="#{boleto.item}" style="text-align:center;">
+				
+					<h:panelGrid columns="1" style="width:100%;">
 
-				<p:panel header="#{boleto.item}" style="text-align:center">
-					<h:panelGrid columns="1" style="width:100%">
-
-						<h:outputText value="Vencimento" />
+						<h:outputText value="Vencimento" style="font-weight:bold" />
 						<h:outputText value="#{boleto.vencimentoString}" />
 
-						<h:outputText value="Valor:" />
+						<h:outputText value="Valor:" style="font-weight:bold" />
 						<h:outputText value="#{boleto.valor}" />
-
-						<p:commandLink update=":form:" value="Mostra Informações"
+						
+						<p:commandLink update=":form:" value="Mostra Informações" style="font-weight:bold"
 							oncomplete="PF('boletoDialog').show()" title="Mostra Informações">
 							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
 							<f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
 						</p:commandLink>
+						
+						<div style="width:100%; height:32px;background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; border-radius: 4px !important;">
+							<p align="center" style="font-weight:bold"> Status Atual</p>
+						</div>
 					</h:panelGrid>
 				</p:panel>
+			</div>
 			</p:dataGrid>
 
 			<p:dialog header="#{home.boletoSelecionado.item}" id="boletoDetale" widgetVar="boletoDialog" modal="true"
@@ -82,7 +92,7 @@
 				showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel  style="text-align:center;">
 					<p:panelGrid columns="2" rendered="true"
-						columnClasses="label,value">
+						columnClasses="label,value" >
 						<h:outputText value="Id:" />
 						<h:outputText value="#{home.boletoSelecionado.codigo}" />
 

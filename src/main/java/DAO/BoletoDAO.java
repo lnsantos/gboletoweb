@@ -74,6 +74,51 @@ public class BoletoDAO {
 		return null;
 	}
 	
+	public List<Boleto> verificaVencimentoAntes(List<Boleto> boletos, int diasAntes){
+		int diaAntes = 86400000 * diasAntes;
+		List<Boleto> boletosAntes = new ArrayList<Boleto>();
+		for(Boleto b: boletos) {
+			Calendar diaAtual = Calendar.getInstance();
+			long total = b.getVencimento().getTime() - diaAtual.getTimeInMillis();
+			if(total < diaAntes) {
+				boletosAntes.add(b);
+			}
+		}
+		return boletosAntes;
+	}
+	
+	public List<Boleto> todosBoletos(){
+		if(con != null) {
+			String SQL = "SELECT boleto*, ub.* FROM boleto LEFT JOIN upload_boleto as ub on ub.id_boleto = boleto.codigo ORDER BY boleto.vencimento";
+			List<Boleto> boletos = new ArrayList<Boleto>();
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					Boleto b = new Boleto();
+					
+					b.setCodigo(rs.getInt("codigo"));
+					b.setEmissao(new Date(rs.getLong("emissao")));
+					b.setId_usuario(rs.getInt("id_usuario"));
+					b.setItem(rs.getString("nome_item"));
+					b.setPdf_caminho(rs.getString("ub.caminho"));
+					b.setStatus(rs.getInt("statu"));
+					b.setValor(rs.getDouble("valor"));
+					b.setVencimento(new Date(rs.getLong("vencimento")));
+					
+					boletos.add(b);
+				}
+				return boletos;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println("NEM UM BOLETO FALTA 1 DIA " );
+		return null;
+		
+	}
+	
 	public List<Boleto> listaBoletosUsuarioLogado (int codigoUsuarioLogado){
 		if (con != null) {
 			String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 
