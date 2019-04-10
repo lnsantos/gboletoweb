@@ -38,7 +38,7 @@ public class Administrador implements Filter{
 			throws IOException, ServletException {
 		// Processamento { Thregger }
 		
-		loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("LoginMBean");
+		loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("loginMBean");
 		if(loginMbean == null) {
 			String diretorio = ((HttpServletRequest)request).getContextPath();
 			System.out.println(diretorio);
