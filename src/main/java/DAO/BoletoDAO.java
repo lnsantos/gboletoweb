@@ -119,6 +119,25 @@ public class BoletoDAO {
 		
 	}
 	
+	public boolean confirmaPagamento(int codigo) {
+		if(con != null) {
+			String SQL = "UPDATE boleto SET statu = 4 WHERE codigo = " + codigo;
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				if(ps.executeUpdate() > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}else {
+			return false;
+		}
+		return false;
+	}
+	
 	public List<Boleto> listaBoletosUsuarioLogado (int codigoUsuarioLogado){
 		if (con != null) {
 			String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 

@@ -57,8 +57,8 @@
 		</h:form>
 		<h:form id="form" >
 		
-			<p:dataGrid var="boleto" value="#{home.boletos}" columns="3" layout="grid"
-				rows="12" paginator="true"  id="boleto_"
+			<p:dataGrid id="boleto_" var="boleto" value="#{home.boletos}" columns="3" layout="grid"
+				rows="12" paginator="true" 
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,12,16" >
 
@@ -66,7 +66,7 @@
 		        	Boletos pendentes
 		        </f:facet>
 			<div style="background-color:blue !important;">
-				<p:panel header="#{boleto.item}" style="text-align:center;">
+				<p:panel id="panel-card" header="#{boleto.item}" style="text-align:center;">
 					<h:panelGrid columns="1" style="width:100%;">
 						<h:outputText value="Vencimento" style="font-weight:bold" />
 						<h:outputText value="#{boleto.vencimentoString}" />
@@ -92,11 +92,6 @@
 			</div>
 			</p:dataGrid>
 			
-			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="11%" showEffect="fade" hideEffect="fade" modal="true" >
-					<p:commandButton value="Confirma Pagamento" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-        			<p:commandButton value="Não quero confirmar, ouve um engano!" onclick="PF('confirmaPagamento').hide();" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-			</p:dialog>
-			
 			<p:dialog header="#{home.boletoSelecionado.item}" id="boletoDetale" widgetVar="boletoDialog" modal="true"
 			style="margin-top:25%;margin-bottom:50%; width: 50%; border: 3px solid green; padding: 10px;"
 				showEffect="fade" hideEffect="fade" resizable="false">
@@ -121,8 +116,15 @@
 					</p:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
+			
+			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="15%" showEffect="fade" hideEffect="fade" modal="true" >
+					<p:commandButton value="Confirma Pagamento" actionListener="#{home.confirmaPagamento}" >
+						<p:ajax update="boleto_"/>
+					</p:commandButton>
+        			<p:commandButton value="Não quero confirmar, ouve um engano!" onclick="PF('confirmaPagamento').hide();" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:dialog>
 		</h:form>
-
+		
 		<h:form id="form-boleto" enctype="multipart/form-data">
 			<p:dialog id="id_novo-boleto" widgetVar="novo-boleto" width="50%" height="50%">
 				<p:toolbar>

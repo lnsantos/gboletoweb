@@ -77,7 +77,7 @@ public class HomeAdmMB extends UploadService {
 	public void atualizarListaBoleto() {
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
-
+	
 	public void novoBoleto() {
 		if (boleto_inserir != null) {
 			if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
@@ -132,6 +132,17 @@ public class HomeAdmMB extends UploadService {
 			return "#FF0000";
 		}
 	}
+	
+	public void confirmaPagamento() {
+		if(bDao.confirmaPagamento(boletoSelecionado.getCodigo())) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Você confirmou o pagamento", ""));
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problema ao confirmar pagamento", ""));
+		}
+	}
+	
 	/*
 	 * else{
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT.toString());
