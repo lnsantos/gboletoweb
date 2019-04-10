@@ -46,7 +46,7 @@ public class UsuarioDAO {
 					p.setDeleta_usuario(rs.getInt("p.deleta_usuario"));
 					p.setEdita_boleto(rs.getInt("p.edita_boleto"));
 					p.setEdita_usuario(rs.getInt("p.edita_usuario"));
-					p.setStatu(rs.getInt(rs.getInt("p.statu")));
+					p.setStatu(rs.getInt("p.statu"));
 					
 					u.setPermissao(p);
 					

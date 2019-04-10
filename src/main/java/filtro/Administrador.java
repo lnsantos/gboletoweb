@@ -36,16 +36,15 @@ public class Administrador implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		// Processamento { Thregger }
-		
+		// Processamento { Thregger }	
 		loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("loginMBean");
-		if(loginMbean == null) {
+		if(loginMbean == null || loginMbean.getUsuarioLogado() == null) {
 			String diretorio = ((HttpServletRequest)request).getContextPath();
 			System.out.println(diretorio);
 			((HttpServletRequest)request).getSession().setAttribute("msg", "Acesso Negado");
 			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
 		}else {
-			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + "Esta logado no sistema");
+			System.out.println(loginMbean.getResultado().getUser().getNome() + "Esta logado no sistema");
 			chain.doFilter(request, response);
 		}
 	}
