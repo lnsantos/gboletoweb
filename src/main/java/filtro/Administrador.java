@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import javax.faces.bean.ManagedProperty;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -19,7 +20,7 @@ import org.apache.coyote.Request;
 
 import mbean.LoginMBean;
 
-@WebFilter("/restrito/adm/*")
+@WebFilter("/restrito/administrador/*")
 public class Administrador implements Filter{
 	
 	LoginMBean loginMbean; 
@@ -36,13 +37,15 @@ public class Administrador implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// Processamento { Thregger }
-		System.out.println(loginMbean.getUsuarioLogado().getUsuario() + "Encontrado no sistema");
+		
 		loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("LoginMBean");
-		if(loginMbean == null || loginMbean.getResultado().getUser().getNome().equals("")) {
+		if(loginMbean == null) {
 			String diretorio = ((HttpServletRequest)request).getContextPath();
+			System.out.println(diretorio);
 			((HttpServletRequest)request).getSession().setAttribute("msg", "Acesso Negado");
-			((HttpServletResponse)response).sendRedirect(diretorio + "");
+			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
 		}else {
+			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + "Esta logado no sistema");
 			chain.doFilter(request, response);
 		}
 	}

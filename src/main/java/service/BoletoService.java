@@ -16,8 +16,8 @@ import javax.faces.bean.ManagedBean;
 import entidade.Log;
 import util.ArquivoUtil;
 
-@ManagedBean(eager=true)
-@ApplicationScoped
+@ManagedBean(eager=false)
+// @ApplicationScoped
 public class BoletoService {
 	
 	// A verificacao sera executada a cada 24 horas

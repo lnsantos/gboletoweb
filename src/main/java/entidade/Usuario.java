@@ -9,6 +9,14 @@ public class Usuario {
 	private String email;
 	private String senha;
 	
+	private Permissao permissao;
+	
+	public Permissao getPermissao() {
+		return permissao;
+	}
+	public void setPermissao(Permissao permissao) {
+		this.permissao = permissao;
+	}
 	public Integer getCodigo() {
 		return codigo;
 	}

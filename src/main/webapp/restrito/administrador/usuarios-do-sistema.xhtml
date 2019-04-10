@@ -1,0 +1,194 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="resources/css" name="style.css" />
+	<h:outputStylesheet
+		name="webjars/font-awesome/4.4.0/css/font-awesome.css" />
+	<style>
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	display: none;
+}
+
+.ui-widget-header {
+	border: 0px !important;
+	background: #f9f9f9
+		url(/gboletoweb/javax.faces.resource/images/ui-bg_highlight-soft_100_f9f9f9_1x100.png.xhtml?ln=primefaces-excite-bike)
+		50% 50% repeat-x;
+	color: #e69700;
+	font-weight: bold;
+}
+
+.
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	border: 1px solid #ffffff;
+	background-color: #1484e6 50% 50% repeat !important;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+body {
+	background-color: #1E90FF;
+}
+
+#corpo {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: FFFF00;
+}
+
+#area_usuario {
+	width: 40%;
+	padding: 1.5%;
+	margin: 0 auto;
+	background-color: #fff;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+#menu_sistema {
+	width: 100%;
+	background-color: #1E90FF;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+footer {
+	width: 100%;
+	background-color: #1E90FF;
+	color: #fff;
+	top: 94%;
+	position: fixed;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+</style>
+</h:head>
+<h:body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+
+	<div id="corpo">
+		<div id="menu_sistema"></div>
+
+		<h:form id="form">
+
+			<p:dataTable id="usuariosSistema" var="usuario"
+				value="#{usuarioSistemaMB.usuariosLista}" widgetVar="usuariosTabela"
+				multiViewState="true" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{usuarioSistemaMB.usuarioSelecionado}"
+				rowKey="#{usuario}"
+				emptyMessage="Nem um usuario encontrado, verifique sua permissão"
+				filteredValue="#{usuarioSistemaMB.filtroUsuarios}">
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Busca tudo:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('usuariosTabela').filter()" style="width:150px"
+							placeholder="Escreva aqui" />
+					</p:outputPanel>
+				</f:facet>
+
+				<p:ajax event="rowSelect" update=":form:userDetail"
+					oncomplete="PF('usuarioDetalhe').show()" />
+
+				<p:column headerText="Usuario" filterBy="#{usuario.usuario}"
+					sortBy="#{usuario.usuario}" filterMatchMode="contains">
+					<h:outputText value="#{usuario.usuario}" />
+				</p:column>
+
+				<p:column headerText="Email" filterBy="#{usuario.email}"
+					sortBy="#{usuario.usuario}" filterMatchMode="startsWith">
+					<h:outputText value="#{usuario.email}" />
+				</p:column>
+
+				<p:column headerText="Status" filterBy="#{usuario.permissao.statu}"
+					sortBy="#{usuario.usuario}" filterMatchMode="exact">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('usuariosTabela').filter()"
+							style="width:100%; box-sizing: border-box;">
+							<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItem itemLabel="Desativado" itemValue="0" />
+							<f:selectItem itemLabel="Ativado" itemValue="1" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{usuario.permissao.statu eq 1 ? 'Ativado' : 'Desativado'}" />
+				</p:column>
+
+				<p:column headerText="Ação" sortBy="" filterMatchMode="in">
+					<p:button icon="fa fa-exclamation" />
+					<p:button icon="fa fa-edit" />
+					<p:button icon="fa fa-trash" />
+					<p:button
+						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
+						rendered="#{usuario.permissao.statu eq 1 ? true : false}"
+						icon="fa fa-unlock" />
+					<p:button
+						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
+						rendered="#{usuario.permissao.statu eq 1 ? false : true}"
+						icon="fa fa-unlock" />
+
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Informações do usuario" widgetVar="usuarioDetalhe"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="userDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value">
+						<f:facet name="header">
+							<p:graphicImage name="user-male-icon.png" library="img" />
+						</f:facet>
+
+						<h:outputText value="Codigo :" />
+						<h:outputText />
+
+						<h:outputText value="Usuario" />
+						<h:outputText />
+
+						<h:outputText value="Brand" />
+						<h:outputText />
+
+						<h:outputText value="Color:" />
+						<h:outputText />
+					</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</h:form>
+
+		<footer>
+			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+		</footer>
+	</div>
+</h:body>
+</html>

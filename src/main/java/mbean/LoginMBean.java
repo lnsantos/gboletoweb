@@ -10,7 +10,7 @@ import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
 
-@ManagedBean(eager=true)
+@ManagedBean(eager=false)
 @SessionScoped
 public class LoginMBean {
 	

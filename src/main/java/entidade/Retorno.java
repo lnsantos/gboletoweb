@@ -1,6 +1,7 @@
 package entidade;
 
 import java.io.File;
+import java.util.List;
 
 public class Retorno {
 	
@@ -34,6 +35,12 @@ public class Retorno {
 		this.retorno = retorno;
 	}
 	
+	public Retorno(List<Usuario> usuarios, List<Permissao> permissoes) {
+		super();
+		this.usuarios = usuarios;
+		this.permissoes = permissoes;
+	}
+
 	public Retorno() {
 		
 	}
@@ -46,6 +53,27 @@ public class Retorno {
 	private File file;
 	private Boleto boleto;
 	
+	private List<Usuario> usuarios;
+	private List<Permissao> permissoes;
+	
+	
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public List<Permissao> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<Permissao> permissoes) {
+		this.permissoes = permissoes;
+	}
+
 	public File getFile() {
 		return file;
 	}
