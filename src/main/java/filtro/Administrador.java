@@ -44,7 +44,7 @@ public class Administrador implements Filter{
 			((HttpServletRequest)request).getSession().setAttribute("msg", "Acesso Negado");
 			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
 		}else {
-			System.out.println(loginMbean.getResultado().getUser().getNome() + "Esta logado no sistema");
+
 			chain.doFilter(request, response);
 		}
 	}

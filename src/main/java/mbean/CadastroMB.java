@@ -17,7 +17,7 @@ public class CadastroMB {
 	}
 	
 	public String cadastrarUsuario() {
-			if(uDAO.cadastrarUsuario(usuario).getRetorno()) {
+			if(uDAO.cadastrarUsuario(usuario).getRetorno() || uDAO.cadastrarUsuario(usuario) != null ) {
 				return "index?facesredirect=true";
 			}else {
 				System.out.println("Usuario já existe no sistema");

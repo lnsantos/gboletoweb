@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,7 +161,8 @@ public class UsuarioDAO {
 			try {
 				// executa o sql de criação de usuario
 				ps = con.prepareStatement(SQL);
-
+				
+				try {
 				// verifica se a inserção foi bem Sucedida
 				if (ps.executeUpdate() > 0) {
 					System.out.println("usuario cadastrado com sucesso!");
@@ -189,6 +191,9 @@ public class UsuarioDAO {
 					System.out.println("Email/usuario já existe no sistema!");
 					resul.setMensagem("Email/usuario já existe no sistema!");
 					return resul;
+				}
+				}catch (SQLIntegrityConstraintViolationException e) {
+					System.out.println("Email já existe!");
 				}
 				// Não conseguiu executar SQL, problema com a conexão ou dados inserido
 				// incorretamente!
