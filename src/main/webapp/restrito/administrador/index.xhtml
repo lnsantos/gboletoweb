@@ -58,7 +58,7 @@
 		<h:form id="form" >
 		
 			<p:dataGrid id="boleto_" var="boleto" value="#{home.boletos}" columns="3" layout="grid"
-				rows="12" paginator="true" 
+				rows="12" paginator="true" widgetVar="listaBoletosPendentes"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="6,12,16" >
 
@@ -79,7 +79,7 @@
 							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
 							<f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
 						</p:commandLink>
-						<p:commandLink value="Confirmar Pagamento" onclick="PF('confirmaPagamento').show();" style="font-weight:bold" update="growl">
+						<p:commandLink value="Confirmar Pagamento" onclick="PF('confirmaPagamento').show();" style="font-weight:bold" update="growl" >
 							 <f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
 							</p:commandLink>
 						<hr/>
@@ -118,9 +118,8 @@
 			</p:dialog>
 			
 			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="15%" showEffect="fade" hideEffect="fade" modal="true" >
-					<p:commandButton value="Confirma Pagamento" actionListener="#{home.confirmaPagamento}" >
-						<p:ajax update="boleto_"/>
-					</p:commandButton>
+					<p:commandButton value="Confirma Pagamento" actionListener="#{home.confirmaPagamento}" 
+					onclick="PF('listaBoletosPendentes').filter()"/>
         			<p:commandButton value="Não quero confirmar, ouve um engano!" onclick="PF('confirmaPagamento').hide();" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 			</p:dialog>
 		</h:form>

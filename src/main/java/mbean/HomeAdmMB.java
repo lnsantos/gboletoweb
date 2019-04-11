@@ -135,6 +135,7 @@ public class HomeAdmMB extends UploadService {
 	
 	public void confirmaPagamento() {
 		if(bDao.confirmaPagamento(boletoSelecionado.getCodigo())) {
+			boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Você confirmou o pagamento", ""));
 		}else {
