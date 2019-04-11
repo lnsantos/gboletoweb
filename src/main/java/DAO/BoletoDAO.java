@@ -139,17 +139,25 @@ public class BoletoDAO {
 	}
 	
 	public List<Boleto> listaBoletosUsuarioLogado (int codigoUsuarioLogado){
+		/*
+		 SELECT * FROM boleto as B
+		INNER JOIN upload_boleto as ub ON ub.id_boleto = b.codigo
+    	WHERE b.statu = 1 OR b.statu = 2 OR b.statu = 3 AND b.id_usuario = 1;
+		  */
 		if (con != null) {
-			String SQL = "SELECT  b.* , ub.caminho FROM boleto as b" + 
-					"	LEFT join upload_boleto as ub ON ub.id_boleto = b.codigo and ub.id_usuario = "+"'"+codigoUsuarioLogado+"'" + 
-					"   WHERE b.statu = 0 OR b.statu = 1 OR b.statu = 2"
+			String SQL = "SELECT  * FROM boleto as b" +
+					"	LEFT JOIN upload_boleto as ub ON b.codigo = ub.id_boleto " +
+					"   INNER JOIN usuario as u ON b.id_usuario = u.codigo "+	
+					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" +"AND b.statu = 0 OR b.statu = 1 OR b.statu = 2"
 					+ " ORDER BY b.vencimento" ;
+			
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			
 			
 			
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
+				System.out.println(ps.toString());
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()) {

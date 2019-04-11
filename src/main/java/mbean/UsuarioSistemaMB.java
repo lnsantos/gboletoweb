@@ -3,9 +3,12 @@ package mbean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import DAO.UsuarioDAO;
 import entidade.Permissao;
@@ -13,37 +16,45 @@ import entidade.Permissao;
 import entidade.Usuario;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UsuarioSistemaMB {
 	UsuarioDAO uDao;
-	
+
 	List<Usuario> usuariosLista;
 	List<Usuario> filtroUsuarios;
-	
+
 	Usuario usuarioSelecionado;
-	
-	@ManagedProperty(value="#{LoginMBean.usuarioLogado}")
+
+	@ManagedProperty(value = "#{LoginMBean.usuarioLogado}")
 	Usuario usuarioLogadoSistema;
-	
-	@ManagedProperty(value="#{LoginMBean.per}")
+
+	@ManagedProperty(value = "#{LoginMBean.per}")
 	Permissao usuarioLogadoPermissao;
-	
+
 	@PostConstruct
 	private void init() {
 		uDao = new UsuarioDAO();
 		usuariosLista = uDao.listaUsuarios();
 
 	}
-	
+
 	public UsuarioSistemaMB() {
 		usuarioSelecionado = new Usuario();
-		usuarioLogadoSistema = new Usuario();
-		usuarioLogadoPermissao = new Permissao();
 	}
-	
-	
-	
-	
+
+	public void mudaStatuUsuario() {
+			if (uDao.mudaStatus(usuarioSelecionado)) {
+				usuariosLista = uDao.listaUsuarios();
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage("Alteração realizada com sucesso!"));
+				if(usuarioLogadoSistema != null) {
+					System.out.println(usuarioLogadoSistema.getUsuario());
+				}else {
+					System.out.println("Usuário null");
+				}
+			}
+	}
+
 // GET and SET
 	public List<Usuario> getUsuariosLista() {
 		return usuariosLista;

@@ -93,7 +93,7 @@ public class HomeAdmMB extends UploadService {
 					String nomeArquivo = arquivoFileUpload.getFileName();
 					String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
 					// Verifica se o Arquivo é o que pode ser inserido
-					if (ext == ".pdf" || ext == ".png" || ext == ".jpg") {
+					//if (ext == ".pdf" || ext == ".png" || ext == ".jpg") {
 						// Upa o arquivo para o servidor
 						if (upload(arquivoFileUpload, String.valueOf(codigoUsuarioFRONT), resultadoBoletoSolicitado)) {
 							System.out.println("PDF Inserido com sucesso!");
@@ -106,10 +106,10 @@ public class HomeAdmMB extends UploadService {
 							FacesContext.getCurrentInstance().addMessage(null,
 									new FacesMessage(FacesMessage.SEVERITY_ERROR, "PDF Não inserido", ""));
 						}
-					} else {
-						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage(FacesMessage.SEVERITY_INFO, "Arquivo Inválido!", ""));
-					}
+					//} else {
+					//	FacesContext.getCurrentInstance().addMessage(null,
+					//			new FacesMessage(FacesMessage.SEVERITY_INFO, "Arquivo Inválido!", ""));
+					//}
 				}
 			} else {
 				System.out.println("Boleto não encontrado + PDF Não inserido");

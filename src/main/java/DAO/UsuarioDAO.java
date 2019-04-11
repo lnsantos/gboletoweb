@@ -46,7 +46,7 @@ public class UsuarioDAO {
 					p.setDeleta_usuario(rs.getInt("p.deleta_usuario"));
 					p.setEdita_boleto(rs.getInt("p.edita_boleto"));
 					p.setEdita_usuario(rs.getInt("p.edita_usuario"));
-					p.setStatu(rs.getInt(rs.getInt("p.statu")));
+					p.setStatu(rs.getInt("p.statu"));
 					
 					u.setPermissao(p);
 					
@@ -62,7 +62,29 @@ public class UsuarioDAO {
 		}
 		return null;
 	}
-
+	
+	public boolean mudaStatus(Usuario u) {
+		if(con != null) {
+			String SQL;
+			if(u.getPermissao().getStatu() != 1) {
+				SQL = "UPDATE permissao SET statu = 1 WHERE codigo = " + u.getCodigo();
+			}else {
+				SQL = "UPDATE permissao SET statu = 0 WHERE codigo = " + u.getCodigo();
+			}
+			
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				if(ps.executeUpdate() > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 	public Usuario buscaUsuarioID(int codigo) {
 		if (con != null) {
 			Usuario u = new Usuario();

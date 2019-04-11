@@ -142,21 +142,29 @@ footer {
 							<f:selectItem itemLabel="Ativado" itemValue="1" />
 						</p:selectOneMenu>
 					</f:facet>
-					<h:outputText value="#{usuario.permissao.statu eq 1 ? 'Ativado' : 'Desativado'}" />
+					<h:outputText
+						value="#{usuario.permissao.statu eq 1 ? 'Ativado' : 'Desativado'}" />
 				</p:column>
 
 				<p:column headerText="Ação" sortBy="" filterMatchMode="in">
+
 					<p:button icon="fa fa-exclamation" />
 					<p:button icon="fa fa-edit" />
 					<p:button icon="fa fa-trash" />
-					<p:button
+					<p:commandButton
 						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
 						rendered="#{usuario.permissao.statu eq 1 ? true : false}"
-						icon="fa fa-unlock" />
-					<p:button
+						icon="fa fa-unlock" onclick="PF('confirmaNovoStatu').show();">
+						<f:setPropertyActionListener value="#{usuario}"
+							target="#{usuarioSistemaMB.usuarioSelecionado}" />
+					</p:commandButton>
+					<p:commandButton
 						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
 						rendered="#{usuario.permissao.statu eq 1 ? false : true}"
-						icon="fa fa-unlock" />
+						icon="fa fa-unlock" onclick="PF('confirmaNovoStatu').show();">
+						<f:setPropertyActionListener value="#{usuario}"
+							target="#{usuarioSistemaMB.usuarioSelecionado}" />
+					</p:commandButton>
 
 				</p:column>
 			</p:dataTable>
@@ -185,7 +193,14 @@ footer {
 			</p:dialog>
 
 		</h:form>
-
+		<h:form>
+			<p:dialog header="Confirma alteração" widgetVar="confirmaNovoStatu">
+				<p:commandButton value="Confirmar Alteração"
+					actionListener="#{usuarioSistemaMB.mudaStatuUsuario}"
+					oncomplete="PF('usuariosTabela').filter();" />
+				<p:commandButton value="Sair" onclick="PF('usuariosTabela').hide();" />
+			</p:dialog>
+		</h:form>
 		<footer>
 			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
 		</footer>
