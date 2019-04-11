@@ -153,8 +153,6 @@ public class BoletoDAO {
 			
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			
-			
-			
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				System.out.println(ps.toString());
