@@ -83,8 +83,13 @@
 							 <f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
 							</p:commandLink>
 						<hr/>
-						<div style="width:100%; background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; border-radius: 4px !important;">
-								<p align="center" style="font-weight:bold"> Status Atual </p>
+						<div>	
+								<p:outputLabel value="#{boleto.status eq 3 ? 'Boleto Atrasado / Vencido' : ''}"/>
+									<p:outputLabel value="#{boleto.status eq 1 ? 'Aguardando Pagamento' : ''}"/>
+									<p:outputLabel value="#{boleto.status eq 0 ? 'Não encontrado' : ''}"/>
+									<p:outputLabel value="#{boleto.status eq 2 ? 'Vencimento em breve' : ''}"/>						
+								<p align="center" style="background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; width:100%; height:5px"/>
+				
 						</div>
 						
 					</h:panelGrid>
