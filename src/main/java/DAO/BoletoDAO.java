@@ -25,9 +25,9 @@ public class BoletoDAO {
 	}
 
 	// CRUD - INSERIR O BOLETO NO SISTEMA
-	public boolean inserirBoleto(Boleto b, int id) {
+	public boolean inserirBoleto(Boleto b) {
 		if (con != null) {
-			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?)";
+			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?)";
 			// LoginMBean informa = null;
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
@@ -36,7 +36,8 @@ public class BoletoDAO {
 					ps.setLong(3, b.getVencimento().getTime());
 					ps.setInt(4, b.getStatus());
 					ps.setLong(5, b.getEmissao().getTime());
-					ps.setInt(6, id);
+					ps.setInt(6, b.getId_usuario());
+					ps.setString(7, b.getPdf_caminho());
 				if(ps.executeUpdate() > 0) {
 					System.out.println("Boleto " + b + " inserido com sucesso!");
 					return true;
@@ -146,16 +147,14 @@ public class BoletoDAO {
 		  */
 		if (con != null) {
 			String SQL = "SELECT  * FROM boleto as b" +
-					"	LEFT JOIN upload_boleto as ub ON b.codigo = ub.id_boleto " +
-					"   INNER JOIN usuario as u ON b.id_usuario = u.codigo "+	
-					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" +"AND b.statu = 0 OR b.statu = 1 OR b.statu = 2"
+					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" +" AND b.statu = 0 OR b.statu = 1 OR b.statu = 2"
 					+ " ORDER BY b.vencimento" ;
 			
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
-				System.out.println(ps.toString());
+				System.out.println("CODIGO SQL : " + ps.toString());
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()) {
@@ -164,8 +163,8 @@ public class BoletoDAO {
 					b.setCodigo(rs.getInt("b.codigo"));
 					b.setEmissao(new Date(rs.getLong("b.emissao")));
 					b.setId_usuario(rs.getInt("b.id_usuario"));
-					b.setItem(rs.getString("nome_item"));
-					b.setPdf_caminho(rs.getString("ub.caminho"));
+					b.setItem(rs.getString("b.nome_item"));
+					b.setPdf_caminho(rs.getString("b.caminho"));
 					b.setStatus(rs.getInt("b.statu"));
 					b.setValor(rs.getDouble("b.valor"));
 					b.setVencimento(new Date(rs.getLong("b.vencimento")));

@@ -30,53 +30,40 @@ public class UploadService extends UploadDAO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private StreamedContent streamedContent;
 
-	public boolean upload(UploadedFile uploadedFile, String nomeUsuario, Upload u) {
-		
+	public Retorno upload(UploadedFile uploadedFile, Integer nomePastaUsuarioDonoPDF) {
+		// [1] = CAMINHO DO ARQUIVO!
+		// [2] = BOOLEAN
+		//rET
 		System.out.println("********************************************");
 		System.out.println(" ");
 		System.out.println(" ");
 		System.out.println("Método : upload [UploadService]");
+		Retorno escreverResultado = null;
 		if (uploadedFile != null) {
+			
 			try {
 				Calendar c = Calendar.getInstance();
-				
+
 				// Pega informação do retorno de tudo
 				String nomeArquivo = uploadedFile.getFileName();
 				String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
+
 				// nome do Arquivo / Bytes a serem copiados / nome da pasta
-				Retorno escreverResultado = ArquivoUtil.escrever(c.getTimeInMillis() + ext, uploadedFile.getContents(),nomeUsuario + "-" + c.getTimeInMillis());
-				System.out.println("Milles de agora! : " + c.getTimeInMillis());
-				System.out.println("NOME DO ARQUIVO : " + nomeUsuario + ext);
-				
+				escreverResultado = ArquivoUtil.escrever(c.getTimeInMillis() + ext, uploadedFile.getContents(),
+						nomePastaUsuarioDonoPDF + "-" + c.getTimeInMillis());
+				System.out.println("upload :: NOME DO ARQUIVO : " + nomePastaUsuarioDonoPDF + ext);
+
 				// Pega caminho do arquivo
-				u.setCaminho(escreverResultado.getCaminho());
+				System.out.println("upload :: caminho do arquivo " + escreverResultado.getCaminho());
 				
-				// Verifica se a inserção deu certo
-				if (uploadArquivo(u, u.getCaminho()).getRetorno() && u.getCaminho() != "") {
-					System.out.println( u + "Adiciou no DB as tabela upload_boleto ");
-					System.out.println("TRY : " + u.getCaminho());
-					// Pega as informações do arquivo
-					File arquivo = escreverResultado.getFile();
-					OutputStream saida = new FileOutputStream(arquivo);
+				File arquivo = escreverResultado.getFile();
+				OutputStream saida = new FileOutputStream(arquivo);
 
-					// Salva o PDF no servidor
-					saida.write(uploadedFile.getContents());
-					saida.close();
-
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage("Boleto armazenado com sucesso!"));
-
-					System.out.println(
-							"[ " + u.getId_usuario() + "] " + nomeUsuario + " <= Boleto inserido com sucesso!");
-					System.out.println(" ");
-					System.out.println(" ");
-					System.out.println("********************************************");
-
-					return true;
-				}else {
-					System.out.println( u + "Não ADD no DB");
-					return false;
-				}
+				// Salva o PDF no servidor
+				saida.write(uploadedFile.getContents());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Boleto armazenado com sucesso!"));
+				saida.close();
+				return escreverResultado;
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -84,14 +71,17 @@ public class UploadService extends UploadDAO implements Serializable {
 				System.out.println("********************************************");
 				System.out.println(" ");
 				System.out.println(" ");
-				System.out.println("Problema ao inserir");
+				System.out.println("Problema ao inserir PDF/BOLETO");
 				System.out.println(" ");
 				System.out.println(" ");
 				System.out.println("********************************************");
-				return false;
+				escreverResultado = null;
+				return null;
 			}
-		}else System.out.println("uploadedFile esta NULL");
-		return false;
+		} else
+			System.out.println("upload :: Arquivo do Form esta NULL");
+		escreverResultado = null;
+		return null;
 	}
 
 	public void download(File arquivo) {

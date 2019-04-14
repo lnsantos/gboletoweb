@@ -16,16 +16,17 @@ import entidade.Retorno;
 
 public class ArquivoUtil {
 	
-	public static Retorno escrever(String nome, byte[] contents, String nomeUsuario) throws IOException {
+	public static Retorno escrever(String nomeArquivoCompleto, byte[] contents, String millisAtual) throws IOException {
 		
-		String nomePDF = nomeUsuario.substring(nomeUsuario.lastIndexOf("-"));
-		String nomePasta = nomeUsuario.substring(0, nomeUsuario.lastIndexOf("-")) ;
+		String nomePDF = millisAtual.substring(millisAtual.lastIndexOf("-"));
+		String nomePasta = millisAtual.substring(0, millisAtual.lastIndexOf("-")) ;
 		
-		File file = new File(diretorioArquivo(nomePasta), nome);
+		File file = new File(diretorioArquivo(nomePasta), nomeArquivoCompleto);
 		OutputStream saida = new FileOutputStream(file);
 		
 		Retorno result = new Retorno(file,file.getPath(),true);
 		System.out.println("ESCREVER CAMINHO : " + file.getPath());
+		
 		// Grava od bytes
 		saida.write(contents);
 		saida.close();

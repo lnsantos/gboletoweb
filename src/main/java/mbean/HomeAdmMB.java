@@ -20,6 +20,7 @@ import DAO.BoletoDAO;
 import DAO.UploadDAO;
 import DAO.UsuarioDAO;
 import entidade.Boleto;
+import entidade.Retorno;
 import entidade.Upload;
 import entidade.Usuario;
 import service.UploadService;
@@ -78,7 +79,52 @@ public class HomeAdmMB extends UploadService {
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
 	
-	public void novoBoleto() {
+	public void inserirBoleto() {
+		// Verifica se existe informação do boleto
+		if(boleto_inserir != null) {
+			// Captura id usuario logado
+			boleto_inserir.setId_usuario(codigoUsuarioFRONT);
+			// Verifica se o usuário inseriu um PDF
+			if(arquivoFileUpload.getSize() != 0) {
+				// PDF + INFORMAÇÕES
+				String nomeArquivo = arquivoFileUpload.getFileName();
+				String ext = nomeArquivo.substring(nomeArquivo.lastIndexOf("."));
+				// VERIFICA SE ARQUIVO É UM PDF/BOLETO
+				if(ext.equals(".pdf")) {
+					Retorno resultadoFinal = upload(arquivoFileUpload, codigoUsuarioFRONT);
+					if(resultadoFinal != null) {
+						boleto_inserir.setPdf_caminho(resultadoFinal.getCaminho());
+						// INSERI AS INFORMAÇÕES DO BOLETO COM O CAMINHO DO PDF
+						if(bDao.inserirBoleto(boleto_inserir)) {
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Todas os Arquivos/Informações inseridos com sucesso!", "Com PDF -> ( BOLETO )" ));
+							boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+							boleto_inserir = null;
+						}else {
+							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Algo de errado, Não esta certo ao inserir  Arquivos/Informações !!", "Não Inserido" ));
+						}
+					}
+				}else {
+					FacesContext.getCurrentInstance().addMessage(null, 
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,"Arquivo inválido!","Tipo de arquivo, não é um PDF!"));
+				}
+			}else {
+				// INSERIR INFORMAÇÕES DO BOLETO
+				if(bDao.inserirBoleto(boleto_inserir)) {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Boleto inserido com sucesso!", "Sem PDF -> ( BOLETO )" ));
+					boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+					boleto_inserir = null;
+				}else {
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Algo de errado, Não esta certo!!", "Não Inserido" ));
+				}
+			}
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_INFO,"Impossível inserir sem informações",""));
+		}
+	}
+	
+	
+/*	public void novoBoleto() {
 		if (boleto_inserir != null) {
 			if (bDao.inserirBoleto(boleto_inserir, codigoUsuarioFRONT)) {
 				System.out.println("Boleto inserido com sucesso!");
@@ -87,7 +133,6 @@ public class HomeAdmMB extends UploadService {
 
 				// Verifica se existe um PDF
 				// Encapsulou ID_BOLETO + ID_USUARIO
-				// byte x = 0;
 				if (resultadoBoletoSolicitado != null && arquivoFileUpload.getSize() > 0) {
 					// Pega informação do retorno de tudo
 					String nomeArquivo = arquivoFileUpload.getFileName();
@@ -122,7 +167,7 @@ public class HomeAdmMB extends UploadService {
 		boletos = bDao.listaBoletosUsuarioLogado(resultadoBoletoSolicitado.getId_usuario());
 		boleto_inserir = null;
 	}
-	
+*/
 	public String veririficaStatusBoleto(int statu) {
 		if(statu == 1) {
 			return "#00FF7F";

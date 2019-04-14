@@ -116,7 +116,7 @@
 						<h:outputText value="#{home.boletoSelecionado.emissaoString}" />
 						
 						<h:outputText value="Adicionado Por:" />
-						<h:outputText value="#{loginMbean.usuarioLogado.nome}"/>
+						<h:outputText value="#{loginMbean.usuarioLogado.nome} eq '' ? loginMbean.usuarioLogado.nome : 'Sem informações'"/>
 						
 					</p:panelGrid>
 				</p:outputPanel>
@@ -136,7 +136,7 @@
 						<span class="ui-separator"> <span
 							class="ui-icon ui-icon-grip-dotted-vertical" />
 						</span>
-						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.novoBoleto}" ajax="false"
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.inserirBoleto}" ajax="false"
 						oncomplete="novo-boleto.hide()">
 								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
 								  target="#{home.codigoUsuarioFRONT}"/>
