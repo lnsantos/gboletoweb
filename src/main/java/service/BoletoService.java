@@ -1,6 +1,7 @@
 package service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +17,8 @@ import javax.faces.bean.ManagedBean;
 import entidade.Log;
 import util.ArquivoUtil;
 
-@ManagedBean(eager=false)
-// @ApplicationScoped
+@ManagedBean(eager=true)
+@ApplicationScoped
 public class BoletoService {
 	
 	// A verificacao sera executada a cada 24 horas
@@ -69,7 +70,9 @@ public class BoletoService {
 	}
 	
 	public Calendar getDataUltimaVerificacao() throws IOException, ParseException {
-		Path arquivoLog = ArquivoUtil.abrirArquivo("gboletoweb/logs/logs.txt");
+		File diretorio = ArquivoUtil.diretorioRaiz("logs");
+		Path arquivoLog = ArquivoUtil.abrirArquivo(diretorio.getPath() + "/logs.txt");
+		
 		BufferedReader reader = Files.newBufferedReader(arquivoLog);
 		
 		String linha;

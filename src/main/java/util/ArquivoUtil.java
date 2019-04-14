@@ -58,6 +58,18 @@ public class ArquivoUtil {
 		return dir;
 	}
 	
+	public static File diretorioRaiz(String pasta) {
+		File dir = new File(System.getProperty("java.io.tmpdir"), "/gboletosweb/"+pasta);
+		
+		// Se o diretorio não existir
+		if(!dir.exists()){
+			// Cria o diretório do arquivo
+			dir.mkdirs();
+		}
+		System.out.println("diretorioRaiz " +  dir);
+		return dir;
+	}
+	
 	public static Path abrirArquivo(String diretorio) throws IOException {
 		Path path = Paths.get(diretorio);
 		if (Files.notExists(path)) {
@@ -82,7 +94,7 @@ public class ArquivoUtil {
 	
 	public static boolean gravarLog(Log log) {
 		try {
-			Path path = abrirArquivo("/gboletosweb/logs/logs.txt");
+			Path path = abrirArquivo(diretorioRaiz("logs") + "/logs.txt");
 			StringBuilder logString = new StringBuilder(log.getData());
 			logString.append(log.getLog());
 			
