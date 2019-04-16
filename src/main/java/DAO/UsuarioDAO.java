@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import database.ConDB;
@@ -19,12 +20,34 @@ public class UsuarioDAO {
 		con = ConDB.getConnection();
 	}
 
+	public boolean novaSenha(Usuario user) {
+		if (con != null) {
+				Calendar c = Calendar.getInstance();
+				user.setSenha("polis" + c.getWeekYear());
+			
+			String SQL = "UPDATE usuario SET senha = ? WHERE codigo = ?";
+			PreparedStatement ps;
+			try {
+				ps = con.prepareStatement(SQL);
+
+				ps.setString(1, user.getSenha());
+				ps.setInt(2, user.getCodigo());
+
+				return ps.executeUpdate() > 0;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	public List<Usuario> listaUsuarios() {
 		if (con != null) {
 
 			List<Usuario> usuarios = new ArrayList<Usuario>();
 
-			String SQL = "SELECT u.*, p.* FROM usuario as u, permissao as p WHERE p.codigo = u.codigo";
+			String SQL = "SELECT u.*, p.* FROM usuario as u, permissao as p WHERE u.codigo = p.codigo ORDER BY u.codigo";
 
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
@@ -47,12 +70,12 @@ public class UsuarioDAO {
 					p.setEdita_boleto(rs.getInt("p.edita_boleto"));
 					p.setEdita_usuario(rs.getInt("p.edita_usuario"));
 					p.setStatu(rs.getInt("p.statu"));
-					
+
 					u.setPermissao(p);
-					
+
 					usuarios.add(u);
 				}
-				
+
 				return usuarios;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -62,19 +85,38 @@ public class UsuarioDAO {
 		}
 		return null;
 	}
-	
-	public boolean mudaStatus(Usuario u) {
+
+	public boolean excluirUsuario(Integer codigo) {
 		if(con != null) {
-			String SQL;
-			if(u.getPermissao().getStatu() != 1) {
-				SQL = "UPDATE permissao SET statu = 1 WHERE codigo = " + u.getCodigo();
-			}else {
-				SQL = "UPDATE permissao SET statu = 0 WHERE codigo = " + u.getCodigo();
-			}
-			
+			String SQL = "DELETE FROM permissao WHERE codigo = " + codigo;
+			String SQL_U = "DELETE FROM usuario WHERE codigo = " + codigo;
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				if(ps.executeUpdate() > 0) {
+					ps = con.prepareStatement(SQL_U);
+					System.out.println("Apagando usuário");
+					return ps.executeUpdate() > 0;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean mudaStatus(Usuario u) {
+		if (con != null) {
+			String SQL;
+			if (u.getPermissao().getStatu() != 1) {
+				SQL = "UPDATE permissao SET statu = 1 WHERE codigo = " + u.getCodigo();
+			} else {
+				SQL = "UPDATE permissao SET statu = 0 WHERE codigo = " + u.getCodigo();
+			}
+
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				if (ps.executeUpdate() > 0) {
 					return true;
 				}
 			} catch (SQLException e) {
@@ -84,7 +126,7 @@ public class UsuarioDAO {
 		}
 		return false;
 	}
-	
+
 	public Usuario buscaUsuarioID(int codigo) {
 		if (con != null) {
 			Usuario u = new Usuario();

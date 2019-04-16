@@ -147,7 +147,7 @@ public class BoletoDAO {
 		  */
 		if (con != null) {
 			String SQL = "SELECT  * FROM boleto as b" +
-					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" +" AND b.statu = 0 OR b.statu = 1 OR b.statu = 2"
+					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" 
 					+ " ORDER BY b.vencimento" ;
 			
 			List<Boleto> boletos = new ArrayList<Boleto>();

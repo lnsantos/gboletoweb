@@ -116,7 +116,7 @@
 						<h:outputText value="#{home.boletoSelecionado.emissaoString}" />
 						
 						<h:outputText value="Adicionado Por:" />
-						<h:outputText value="#{loginMbean.usuarioLogado.nome} eq '' ? loginMbean.usuarioLogado.nome : 'Sem informações'"/>
+						<h:outputText value="#{loginMbean.resultado.nome eq '' ? 'Sem informações' : loginMbean.usuarioLogado.nome}"/>
 						
 					</p:panelGrid>
 				</p:outputPanel>

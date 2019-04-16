@@ -1,5 +1,6 @@
 package mbean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,7 +11,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import DAO.BoletoDAO;
 import DAO.UsuarioDAO;
+import entidade.Boleto;
 import entidade.Permissao;
 
 import entidade.Usuario;
@@ -19,12 +22,17 @@ import entidade.Usuario;
 @SessionScoped
 public class UsuarioSistemaMB {
 	UsuarioDAO uDao;
-
+	BoletoDAO dDao;
+	
 	List<Usuario> usuariosLista;
 	List<Usuario> filtroUsuarios;
-
+	
+	List<Boleto> boletosUsuarioSelecionado; 
+	List<Boleto> filtroBoletosUsuarioSelecionado; 
+	
 	Usuario usuarioSelecionado;
-
+	Boleto boletoUsuarioSelecionado;
+	
 	@ManagedProperty(value = "#{LoginMBean.usuarioLogado}")
 	Usuario usuarioLogadoSistema;
 
@@ -34,25 +42,55 @@ public class UsuarioSistemaMB {
 	@PostConstruct
 	private void init() {
 		uDao = new UsuarioDAO();
+		dDao = new BoletoDAO();
 		usuariosLista = uDao.listaUsuarios();
 
 	}
 
 	public UsuarioSistemaMB() {
 		usuarioSelecionado = new Usuario();
+		boletoUsuarioSelecionado = new Boleto();
+		boletosUsuarioSelecionado = new ArrayList<Boleto>();
 	}
 
 	public void mudaStatuUsuario() {
-			if (uDao.mudaStatus(usuarioSelecionado)) {
-				usuariosLista = uDao.listaUsuarios();
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage("Alteração realizada com sucesso!"));
-				if(usuarioLogadoSistema != null) {
-					System.out.println(usuarioLogadoSistema.getUsuario());
-				}else {
-					System.out.println("Usuário null");
-				}
+		if (uDao.mudaStatus(usuarioSelecionado)) {
+			usuariosLista = uDao.listaUsuarios();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Alteração realizada com sucesso!"));
+			if (usuarioLogadoSistema != null) {
+				System.out.println(usuarioLogadoSistema.getUsuario());
+			} else {
+				System.out.println("Usuário null");
 			}
+		}
+	}
+	
+	public void removeUsuario() {
+		if(uDao.excluirUsuario(usuarioSelecionado.getCodigo())) {
+			FacesContext.getCurrentInstance().addMessage(null,  
+					new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuário " + usuarioSelecionado.getNome() + "Foi excluido com sucesso!",""));
+			usuariosLista = uDao.listaUsuarios();
+			System.out.println("Usuário " + usuarioSelecionado.getUsuario()+ " Excluido com sucesso!");
+		}
+	}
+	
+	public void boletosUsuarioSelecionadoDialog() {
+		boletosUsuarioSelecionado = dDao.listaBoletosUsuarioLogado(usuarioSelecionado.getCodigo());
+	}
+	
+	public void resetaSenha() {
+		if (usuarioSelecionado != null) {
+			if (uDao.novaSenha(usuarioSelecionado)) {
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha resetada para o padrão",""));
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,"Problema ao resetar a senha",""));
+			}
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Selecione um usuario para resetar a senha",""));
+		}
 	}
 
 // GET and SET
@@ -111,4 +149,30 @@ public class UsuarioSistemaMB {
 	public void setFiltroUsuarios(List<Usuario> filtroUsuarios) {
 		this.filtroUsuarios = filtroUsuarios;
 	}
+
+	public List<Boleto> getBoletosUsuarioSelecionado() {
+		return boletosUsuarioSelecionado;
+	}
+
+	public void setBoletosUsuarioSelecionado(List<Boleto> boletosUsuarioSelecionado) {
+		this.boletosUsuarioSelecionado = boletosUsuarioSelecionado;
+	}
+
+	public Boleto getBoletoUsuarioSelecionado() {
+		return boletoUsuarioSelecionado;
+	}
+
+	public void setBoletoUsuarioSelecionado(Boleto boletoUsuarioSelecionado) {
+		this.boletoUsuarioSelecionado = boletoUsuarioSelecionado;
+	}
+
+	public List<Boleto> getFiltroBoletosUsuarioSelecionado() {
+		return filtroBoletosUsuarioSelecionado;
+	}
+
+	public void setFiltroBoletosUsuarioSelecionado(List<Boleto> filtroBoletosUsuarioSelecionado) {
+		this.filtroBoletosUsuarioSelecionado = filtroBoletosUsuarioSelecionado;
+	}
+	
+	
 }

@@ -27,7 +27,7 @@ import service.UploadService;
 
 @ManagedBean(name = "home")
 @ViewScoped
-public class HomeAdmMB extends UploadService {
+public class HomeAdministradorMB extends UploadService {
 	private static final long serialVersionUID = 1L;
 	BoletoDAO bDao;
 	UsuarioDAO uDAO;
@@ -52,7 +52,7 @@ public class HomeAdmMB extends UploadService {
 	private Integer codigoUsuarioFRONT;
 
 	// String idUsuario = informa.getUsuarioLogado().getCodigo().toString();
-	public HomeAdmMB() {
+	public HomeAdministradorMB() {
 		bDao = new BoletoDAO();
 		boleto_inserir = new Boleto();
 		context = FacesContext.getCurrentInstance();

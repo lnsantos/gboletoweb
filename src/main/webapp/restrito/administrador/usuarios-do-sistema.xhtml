@@ -90,7 +90,7 @@ footer {
 </style>
 </h:head>
 <h:body>
-	<p:growl>
+	<p:growl showDetail="true" sticky="true" >
 		<p:autoUpdate />
 	</p:growl>
 
@@ -98,7 +98,6 @@ footer {
 		<div id="menu_sistema"></div>
 
 		<h:form id="form">
-
 			<p:dataTable id="usuariosSistema" var="usuario"
 				value="#{usuarioSistemaMB.usuariosLista}" widgetVar="usuariosTabela"
 				multiViewState="true" rows="10" paginator="true"
@@ -147,10 +146,11 @@ footer {
 				</p:column>
 
 				<p:column headerText="Ação" sortBy="" filterMatchMode="in">
-
-					<p:button icon="fa fa-exclamation" />
+					<p:commandButton icon="fa fa-exclamation" onclick="PF('administrandoUsuario').show()">
+						<f:setPropertyActionListener value="#{usuario}"
+							target="#{usuarioSistemaMB.usuarioSelecionado}" />
+					</p:commandButton>
 					<p:button icon="fa fa-edit" />
-					<p:button icon="fa fa-trash" />
 					<p:commandButton
 						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
 						rendered="#{usuario.permissao.statu eq 1 ? true : false}"
@@ -161,46 +161,127 @@ footer {
 					<p:commandButton
 						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
 						rendered="#{usuario.permissao.statu eq 1 ? false : true}"
-						icon="fa fa-unlock" onclick="PF('confirmaNovoStatu').show();">
+						icon="fa fa-lock" onclick="PF('confirmaNovoStatu').show();">
 						<f:setPropertyActionListener value="#{usuario}"
 							target="#{usuarioSistemaMB.usuarioSelecionado}" />
 					</p:commandButton>
-
 				</p:column>
 			</p:dataTable>
-
+			
 			<p:dialog header="Informações do usuario" widgetVar="usuarioDetalhe"
 				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="userDetail" style="text-align:center;">
 					<p:panelGrid columns="2" columnClasses="label,value">
 						<f:facet name="header">
-							<p:graphicImage name="user-male-icon.png" library="img" />
+							<h:graphicImage library="img" name="user-male-icon.png"  width="75" height="75" />
 						</f:facet>
 
-						<h:outputText value="Codigo :" />
-						<h:outputText />
+						<h:outputText  value="Codigo :" style="font-weight: bold;" />
+						<h:outputText value="#{usuarioSistemaMB.usuarioSelecionado.codigo}"/>
 
-						<h:outputText value="Usuario" />
-						<h:outputText />
+						<h:outputText value="Usuario" style="font-weight: bold;"/>
+						<h:outputText value="#{usuarioSistemaMB.usuarioSelecionado.usuario}" />
 
-						<h:outputText value="Brand" />
-						<h:outputText />
+						<h:outputText value="Email" style="font-weight: bold;"/>
+						<h:outputText value="#{usuarioSistemaMB.usuarioSelecionado.email}"/>
 
-						<h:outputText value="Color:" />
-						<h:outputText />
+						<h:outputText value="Status:" style="font-weight: bold;"/>
+						<h:outputText value="#{usuarioSistemaMB.usuarioSelecionado.permissao.statu eq 1 ? 'Ativo' : 'Desativado'}" style="color:#{usuarioSistemaMB.usuarioSelecionado.permissao.statu eq 1 ? '#90ee90' : '#ff0000' }"/>
+						
+						<h:outputText value="Operação 01:" style="font-weight: bold;"/>
+						<p:commandButton value="Reseta senha" actionListener="#{usuarioSistemaMB.resetaSenha}">
+							<p:confirm header="Confirma alteração" message="Deseja reseta senha de #{usuarioSistemaMB.usuarioSelecionado.usuario}?" icon="fa fa-exclamation-circle"/>
+						</p:commandButton>
+						
+						<h:outputText value="Operação 02:" style="font-weight: bold;"/>
+						<p:commandButton value="Visualizar boletos" actionListener="#{usuarioSistemaMB.boletosUsuarioSelecionadoDialog}" 
+							oncomplete="PF('boletosUsuarioEscolhido').filter()" onclick="PF('boletosUsuarioEscolhido').show()"/>
+						
+						<h:outputText value="Operação 03:" style="font-weight: bold;"/>
+						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{usuarioSistemaMB.removeUsuario}" 
+						oncomplete="PF('boletosUsuarioEscolhido').filter()">
+							<p:confirm header="Confirma alteração" message="Deseja apaga usuário #{usuarioSistemaMB.usuarioSelecionado.usuario}?" icon="fa fa-exclamation-circle"/>
+						</p:commandButton>
 					</p:panelGrid>
 				</p:outputPanel>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" onkeyup="PF('usuariosTabela').filter()" />
+			        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" onclick="PF('usuarioDetalhe').hide();" />
+			    </p:confirmDialog>
+				
 			</p:dialog>
-
 		</h:form>
+		
+		<h:form>
+			<p:dialog header="Confirma remoção" widgetVar="confirmaExclusao">
+				<p:commandButton value="Confirmar Alteração"
+					actionListener="#{usuarioSistemaMB.removeUsuario}"
+					oncomplete="PF('usuariosTabela').filter();"
+					onclick=""/>
+				<p:commandButton value="Sair" onclick="PF('confirmaExclusao').hide();" />
+			</p:dialog>
+		</h:form>
+		
 		<h:form>
 			<p:dialog header="Confirma alteração" widgetVar="confirmaNovoStatu">
 				<p:commandButton value="Confirmar Alteração"
 					actionListener="#{usuarioSistemaMB.mudaStatuUsuario}"
-					oncomplete="PF('usuariosTabela').filter();" />
+					oncomplete="PF('usuariosTabela').filter();"
+					onclick="PF('usuariosTabela').hide();" />
 				<p:commandButton value="Sair" onclick="PF('usuariosTabela').hide();" />
 			</p:dialog>
 		</h:form>
+		
+		<p:dialog header="Boletos Usuario #{usuarioSistemaMB.usuarioSelecionado.usuario}" widgetVar="boletosUsuarioEscolhido">
+			<h:form id="form-boletos-UserSelecionado">
+			<p:dataTable id="boletoUsuarioSelecionado" var="boleto"
+				value="#{usuarioSistemaMB.boletosUsuarioSelecionado}" widgetVar="boletoUsuariosSelecionado"
+				multiViewState="true" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{usuarioSistemaMB.boletoUsuarioSelecionado}"
+				rowKey="#{boleto}"
+				emptyMessage="Nem um usuario encontrado, verifique sua permissão"
+				filteredValue="#{usuarioSistemaMB.filtroBoletosUsuarioSelecionado}">
+				
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Busca tudo:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('boletoUsuariosSelecionado').filter()" style="width:150px"
+							placeholder="Escreva aqui" />
+					</p:outputPanel>
+				</f:facet>
+				
+				<p:ajax event="rowSelect" update=":form-boletos-UserSelecionado:boletoUsuarioSelecionado"
+					oncomplete="PF('boletoDetalhe').show()" />
+
+				<p:column headerText="Produto" filterBy="#{boleto.item}"
+					sortBy="#{boleto.item}" filterMatchMode="contains">
+					<h:outputText value="#{boleto.item}"  />
+				</p:column>
+
+				<p:column headerText="Emissao" filterBy="#{boleto.emissao}"
+					sortBy="#{boleto.item}" filterMatchMode="startsWith">
+					<h:outputText value="#{boleto.emissao}" />
+				</p:column>
+				
+				<p:column headerText="Vencimento" filterBy="#{boleto.vencimentoString}"
+					sortBy="#{boleto.item}" filterMatchMode="startsWith">
+					<h:outputText value="#{boleto.vencimentoString}" />
+				</p:column>
+				
+				<p:column headerText="Status" filterBy="#{boleto.status}"
+					sortBy="#{boleto.item}" filterMatchMode="startsWith">
+					<h:outputText value="#{boleto.status}" />
+				</p:column>
+				
+				</p:dataTable>
+				</h:form>
+		</p:dialog>
+
+		
 		<footer>
 			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
 		</footer>

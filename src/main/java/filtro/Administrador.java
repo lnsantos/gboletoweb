@@ -3,6 +3,7 @@ package filtro;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.faces.bean.ManagedProperty;
@@ -45,7 +46,8 @@ public class Administrador implements Filter{
 			((HttpServletRequest)request).getSession().setAttribute("msg", "Acesso Negado");
 			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
 		}else {
-			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + "Esta logado no sistema");
+			
+			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] ");
 			chain.doFilter(request, response);
 		}
 	}
@@ -53,9 +55,14 @@ public class Administrador implements Filter{
 	@Override
 	public void destroy() {
 		// Sessão finalizada
-		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy z");
-		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
-		System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a Sessão [ " + formataData.format(c));
+		
+		System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a Sessão [ " +dataHoraAtual());
 	}
-
+	
+	private String dataHoraAtual() {
+		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy z");
+		Calendar c = new GregorianCalendar();
+		formataData.setTimeZone(c.getTimeZone());
+		return formataData.format(c.getTime());
+	}
 }
