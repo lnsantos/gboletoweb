@@ -87,6 +87,12 @@ footer {
 	border-top-width: 0;
 	border-right-width: 0;
 }
+.ui-widget-header {
+    /* border: 1px solid #cccccc; */
+    background: #f9f9f9 u 50% 50% repeat-x !important;
+    color: #e69700;
+    font-weight: bold;
+}
 </style>
 </h:head>
 <h:body>
@@ -173,7 +179,7 @@ footer {
 				<p:outputPanel id="userDetail" style="text-align:center;">
 					<p:panelGrid columns="2" columnClasses="label,value">
 						<f:facet name="header">
-							<h:graphicImage library="img" name="user-male-icon.png"  width="75" height="75" />
+							<h:graphicImage library="img" name="Logo-FAJ.png" width="200px" height="150px"/>
 						</f:facet>
 
 						<h:outputText  value="Codigo :" style="font-weight: bold;" />
@@ -194,8 +200,7 @@ footer {
 						</p:commandButton>
 						
 						<h:outputText value="Operação 02:" style="font-weight: bold;"/>
-						<p:commandButton value="Visualizar boletos" actionListener="#{usuarioSistemaMB.boletosUsuarioSelecionadoDialog}" 
-							oncomplete="PF('boletosUsuarioEscolhido').filter()" onclick="PF('boletosUsuarioEscolhido').show()"/>
+						<p:commandButton value="Visualizar boletos" disabled="true"/>
 						
 						<h:outputText value="Operação 03:" style="font-weight: bold;"/>
 						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{usuarioSistemaMB.removeUsuario}" 
@@ -221,7 +226,7 @@ footer {
 					onclick=""/>
 				<p:commandButton value="Sair" onclick="PF('confirmaExclusao').hide();" />
 			</p:dialog>
-		</h:form>
+		</h:form>	
 		
 		<h:form>
 			<p:dialog header="Confirma alteração" widgetVar="confirmaNovoStatu">
@@ -233,17 +238,15 @@ footer {
 			</p:dialog>
 		</h:form>
 		
+		<h:form id="form-boletos-UserSelecionado">
 		<p:dialog header="Boletos Usuario #{usuarioSistemaMB.usuarioSelecionado.usuario}" widgetVar="boletosUsuarioEscolhido">
-			<h:form id="form-boletos-UserSelecionado">
+			
 			<p:dataTable id="boletoUsuarioSelecionado" var="boleto"
-				value="#{usuarioSistemaMB.boletosUsuarioSelecionado}" widgetVar="boletoUsuariosSelecionado"
-				multiViewState="true" rows="10" paginator="true"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				value="#{usuarioSistemaMB.boletosUsuarioSelecionado}" widgetVar="boletoUsuariosSelecionado"	
 				selection="#{usuarioSistemaMB.boletoUsuarioSelecionado}"
-				rowKey="#{boleto}"
+				rowKey="#{boleto.codigo}"
 				emptyMessage="Nem um usuario encontrado, verifique sua permissão"
-				filteredValue="#{usuarioSistemaMB.filtroBoletosUsuarioSelecionado}">
+				filteredValue="#{usuarioSistemaMB.filtroBoletosUsuarioSelecionado}" >
 				
 				<f:facet name="header">
 					<p:outputPanel>
@@ -255,10 +258,10 @@ footer {
 				</f:facet>
 				
 				<p:ajax event="rowSelect" update=":form-boletos-UserSelecionado:boletoUsuarioSelecionado"
-					oncomplete="PF('boletoDetalhe').show()" />
+					oncomplete="PF('boletoUsuariosSelecionado').filters()" />
 
 				<p:column headerText="Produto" filterBy="#{boleto.item}"
-					sortBy="#{boleto.item}" filterMatchMode="contains">
+					sortBy="#{boleto.item}" filterMatchMode="startsWith">
 					<h:outputText value="#{boleto.item}"  />
 				</p:column>
 
@@ -278,9 +281,9 @@ footer {
 				</p:column>
 				
 				</p:dataTable>
-				</h:form>
+				
 		</p:dialog>
-
+		</h:form>
 		
 		<footer>
 			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>

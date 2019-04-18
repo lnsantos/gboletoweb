@@ -47,7 +47,7 @@ public class Administrador implements Filter{
 			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
 		}else {
 			
-			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] ");
+			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] " + request.getProtocol());
 			chain.doFilter(request, response);
 		}
 	}

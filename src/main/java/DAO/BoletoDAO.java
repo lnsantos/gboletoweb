@@ -90,7 +90,8 @@ public class BoletoDAO {
 	
 	public List<Boleto> todosBoletos(){
 		if(con != null) {
-			String SQL = "SELECT boleto*, ub.* FROM boleto LEFT JOIN upload_boleto as ub on ub.id_boleto = boleto.codigo ORDER BY boleto.vencimento";
+			String SQL = "SELECT boleto*, ub.* FROM boleto "
+					+ "LEFT JOIN upload_boleto as ub on ub.id_boleto = boleto.codigo ORDER BY boleto.vencimento";
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
@@ -147,7 +148,7 @@ public class BoletoDAO {
 		  */
 		if (con != null) {
 			String SQL = "SELECT  * FROM boleto as b" +
-					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"'" 
+					"   WHERE b.id_usuario = " +"'"+codigoUsuarioLogado+"' AND b.statu = 1 OR b.statu = 2 OR b.statu = 3" 
 					+ " ORDER BY b.vencimento" ;
 			
 			List<Boleto> boletos = new ArrayList<Boleto>();

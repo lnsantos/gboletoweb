@@ -6,14 +6,15 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="css" name="main.css" id="main" />
-	<Style>
-	.ui-panel .ui-panel-content {
-    border: 0;
-    padding: 0 !important;
-	}
-	.ui-datagrid-content ui-widget-content ui-grid ui-grid-responsive{
-	}
-</Style>
+		<style>
+.ui-widget-header {
+     border: 0px solid #cccccc !important; 
+    background: 0% 50% repeat-x !important;
+    color: #e69700;
+    font-weight: bold;
+}
+
+	</style>
 </h:head>
 <h:body >
 	
@@ -55,8 +56,8 @@
 		<h:form>
 			<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
 		</h:form>
-		<h:form id="form" >
 		
+		<h:form id="form" >
 			<p:dataGrid id="boleto_" var="boleto" value="#{home.boletos}" columns="3" layout="grid"
 				rows="12" paginator="true" widgetVar="listaBoletosPendentes"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -84,12 +85,11 @@
 							</p:commandLink>
 						<hr/>
 						<div>	
-								<p:outputLabel value="#{boleto.status eq 3 ? 'Boleto Atrasado / Vencido' : ''}"/>
-									<p:outputLabel value="#{boleto.status eq 1 ? 'Aguardando Pagamento' : ''}"/>
-									<p:outputLabel value="#{boleto.status eq 0 ? 'Não encontrado' : ''}"/>
-									<p:outputLabel value="#{boleto.status eq 2 ? 'Vencimento em breve' : ''}"/>						
-								<p align="center" style="background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; width:100%; height:5px"/>
-				
+							<p:outputLabel value="#{boleto.status eq 3 ? 'Boleto Atrasado / Vencido' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 1 ? 'Aguardando Pagamento' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 0 ? 'Não encontrado' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 2 ? 'Vencimento em breve' : ''}"/>						
+							<p align="center" style="background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; width:100%; height:5px"/>
 						</div>
 						
 					</h:panelGrid>
