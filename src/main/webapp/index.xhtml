@@ -7,58 +7,49 @@
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="resources/css" name="style.css" />
 	<style>
-body {
-	background-color: #1E90FF;
-}
-
-#corpo {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	background-color: FFFF00;
-}
-
-#area_usuario {
-	width: 40%;
-	padding: 1.5%;
-	margin: 0 auto;
-	background-color: #fff;
-	border-style: solid;
-	border-bottom-width: 10px;
-	border-top-width: 0;
-	border-right-width: 0;
-	border-left-width: 0;
-	border-top-width: 0;
-	border-right-width: 0;
-}
-
-#menu_sistema {
-	width: 100%;
-	background-color: #1E90FF;
-	border-style: solid;
-	border-bottom-width: 10px;
-	border-top-width: 0;
-	border-right-width: 0;
-	border-left-width: 0;
-	border-top-width: 0;
-	border-right-width: 0;
-}
-footer{
-	width: 100%;
-	background-color: #1E90FF;
-	color: #fff;
-	top:94%;
-	position: fixed;
-	border-style: solid;
-	border-bottom-width: 10px;
-	border-top-width: 0;
-	border-right-width: 0;
-	border-left-width: 0;
-	border-top-width: 0;
-	border-right-width: 0;
-}
-</style>
+		body {
+			font-family: 'Roboto', sans-serif;
+    		background-color: #5161c5;
+		}
+		.form_login {
+			padding: 90 50;
+			border-radius: 3px;
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			text-align: center;
+		}
+		.btn_login {
+			border: none;
+		  	background-color: #FAD95C;
+		  	padding: 0.5rem 2.5rem;
+		  	margin-top: 5rem;
+		}
+		#area_usuario {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.input_login{
+			height: 2rem;
+			border: none;
+  			border-bottom: 2px solid #e6e6e6;
+    		width: 15rem;
+    		padding-left: 0.5rem;
+    		margin: .7rem;
+		}
+		
+		.input_login:-webkit-autofill,
+		.input_login:-webkit-autofill:hover, 
+		.input_login:-webkit-autofill:focus, 
+		.input_login:-webkit-autofill:active  {
+    		-webkit-box-shadow: 0 0 0 30px white inset !important;
+		}
+		
+		footer {
+			position: absolute;
+			bottom: 0;
+		}
+	</style>
 </h:head>
 <h:body>
 
@@ -74,10 +65,8 @@ footer{
 							</h:panelGrid>
 						</h:form></td>
 					<td>
-						<h1>GBOLETOS WEB</h1>	
 					</td>
 					<td>
-						<h:graphicImage name="Logo-FAJ" library="img" height="60px" width="60px"/>
 					</td>
 				</tr>
 			</table>
@@ -86,22 +75,17 @@ footer{
 			<p:autoUpdate />
 		</p:growl>
 		<div id="area_usuario">
-			<h3>Digite seu nome de usuário e senha</h3>
-			<h:form>
-				<h:panelGrid id="panel_usuario" columns="2" cellpadding="10"
-					cellspacing="1" styleClass="panelGrid">
-				Usuário:
-				<p:inputText id="usuario" required="true"
-						requiredMessage="Campo usuário obrigatório"
-						value="#{loginMBean.usuario}" />
-			 	
-				Senha:
-				<p:password id="senha" required="true"
-						requiredMessage="Campo senha obrigatório"
-						value="#{loginMBean.senha}" />
-
-					<p:commandButton value="Login" action="#{loginMBean.login()}" />
-				</h:panelGrid>
+			<h:form styleClass="form_login">
+				<div style="display: flex; flex-direction: column">
+					<p:inputText id="usuario" required="true"
+							requiredMessage="Campo usuário obrigatório"
+							value="#{loginMBean.usuario}" styleClass="input_login" placeholder="Usuário"/>
+				 	
+					<p:password id="senha" required="true"
+							requiredMessage="Campo senha obrigatório"
+							value="#{loginMBean.senha}" styleClass="input_login" placeholder="Senha"/>
+				</div>
+				<p:commandButton value="Login" action="#{loginMBean.login()}" styleClass="btn_login"/>
 			</h:form>
 		</div>
 		<footer>
