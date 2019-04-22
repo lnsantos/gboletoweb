@@ -7,13 +7,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import DAO.BoletoDAO;
+import entidade.Boleto;
 import entidade.Log;
 import util.ArquivoUtil;
 
@@ -21,6 +26,8 @@ import util.ArquivoUtil;
 @ApplicationScoped
 public class BoletoService {
 	
+	BoletoDAO bDao = new BoletoDAO();
+	List<Boleto> boletos = new ArrayList<Boleto>();
 	// A verificacao sera executada a cada 24 horas
 	// 86400000ms = 24h
 	private final long PERIODO = 86400000;
@@ -31,7 +38,7 @@ public class BoletoService {
 	private Timer timer = new Timer();
 		
 	public BoletoService() throws IOException, ParseException {
-				
+		boletos = bDao.todoBoletosPendenteVerificandoStatu();		
 		VerificadorValidade vv = new VerificadorValidade();
 		Calendar ultimaVerificacao = getDataUltimaVerificacao();
 		if (ultimaVerificacao != null) {	
@@ -68,6 +75,25 @@ public class BoletoService {
 			
 		} 
 	}
+	
+	
+	public static String verificaVencimento(Date dataVencimento) {
+		Calendar dataAtual = Calendar.getInstance();
+		
+		long diferencaEntreData = dataVencimento.getTime() - dataAtual.getTime().getTime();
+		System.out.println("DIA HOJE : " + dataAtual.getTime().getTime() + " ||| VENCIMENTO : "+ dataVencimento.getTime()+ " ||| DIFERENCA : " + diferencaEntreData);
+		
+		if(diferencaEntreData < 0){
+			System.out.println("Atrasado");
+		}else if(diferencaEntreData > 86400000) {
+			System.out.println("Boleto Pendente no sistema");
+		}else if((diferencaEntreData) < 86400000) {
+			System.out.println("Falta 1 Dia");
+		}else {
+			System.out.println("Atrasado");
+		}
+		return "";
+	} 
 	
 	public Calendar getDataUltimaVerificacao() throws IOException, ParseException {
 		File diretorio = ArquivoUtil.diretorioRaiz("logs");
