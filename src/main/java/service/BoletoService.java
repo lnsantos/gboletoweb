@@ -11,13 +11,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.mail.EmailException;
 
 import DAO.BoletoDAO;
+import email.EmailCommons;
 import entidade.Boleto;
 import entidade.Log;
 import util.ArquivoUtil;
@@ -38,6 +49,16 @@ public class BoletoService {
 	private Timer timer = new Timer();
 		
 	public BoletoService() throws IOException, ParseException {
+		
+		EmailCommons e = new EmailCommons();
+		
+		try {
+			e.enviaEmail();
+		} catch (EmailException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		boletos = bDao.todoBoletosPendenteVerificandoStatu();		
 		VerificadorValidade vv = new VerificadorValidade();
 		Calendar ultimaVerificacao = getDataUltimaVerificacao();
