@@ -7,13 +7,44 @@
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="css" name="main.css" id="main" />
 		<style>
+.btn_global {
+	border: none !important;
+	background-color: #FAD95C !important;
+	padding: 0.5rem 2.5rem !important;
+	margin-top: 5rem !important;
+}
+body {
+	font-family: 'Roboto', sans-serif;
+    background-color: #5161c5 !important;
+}
 .ui-widget-header {
      border: 0px solid #cccccc !important; 
     background: 0% 50% repeat-x !important;
     color: #e69700;
     font-weight: bold;
 }
-
+<!-- -->
+.ui-panel .ui-panel-content {
+	background-color: #ffffff !important;
+	
+	border-radius: 5px;
+}
+.ui-widget-header {
+    border: 0px solid #cccccc !important;
+    background: 0% 50% repeat-x !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+.ui-cardview_{
+	background-color: #FAD95C !important;
+	box-shadow: 0 0 8px 1px #30386d !important;
+	border-radius: 5px;
+}
+<!-- -->
+.ui-icon ui-icon-seek-next{
+	background-color: #ffffff !important;
+	color: black !important;
+}
 	</style>
 </h:head>
 <h:body >
@@ -54,7 +85,7 @@
 	
 		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
 		<h:form>
-			<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
+			<p:commandButton styleClass="btn_global" value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
 		</h:form>
 		
 		<h:form id="form" >
@@ -66,7 +97,7 @@
 		        <f:facet name="left">
 		        	Boletos pendentes
 		        </f:facet>
-			<div style="background-color:blue !important;">
+			<div class="ui-cardview_">
 				<p:panel id="panel-card" header="#{boleto.item}" style="text-align:center;">
 					<h:panelGrid columns="1" style="width:100%;">
 						<h:outputText value="Vencimento" style="font-weight:bold" />
@@ -98,8 +129,10 @@
 			</p:dataGrid>
 			
 			<p:dialog header="#{home.boletoSelecionado.item}" id="boletoDetale" widgetVar="boletoDialog" modal="true"
-			style="margin-top:25%;margin-bottom:50%; width: 50%; border: 3px solid green; padding: 10px;"
+			style="margin-top:25%;margin-bottom:50%; width: 50%; border: 3px solid green; padding: 10px;font-family: 'Roboto', sans-serif;
+    		background-color: #5161c5 !important;box-shadow: 0 0 8px 1px #30386d !important;border-radius: 5px;"
 				showEffect="fade" hideEffect="fade" resizable="false">
+				<div class="ui-cardview_">
 				<p:outputPanel  style="text-align:center;">
 					<p:panelGrid columns="2" rendered="true"
 						columnClasses="label,value" >
@@ -120,6 +153,7 @@
 						
 					</p:panelGrid>
 				</p:outputPanel>
+				</div>
 			</p:dialog>
 			
 			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="15%" showEffect="fade" hideEffect="fade" modal="true" >

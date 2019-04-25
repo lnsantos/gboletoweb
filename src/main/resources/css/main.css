@@ -14,4 +14,7 @@ div{
 body{
 	background-color: black;
 }
+.ui-panel .ui-panel-content {
+	background-color: #ffffff;
+}
   
