@@ -16,7 +16,15 @@ public class Boleto {
 	private int status = 1;
 	private String vencimentoString;
 	private String emissaoString;
+	private int verificado = 0;
 	
+	
+	public int getVerificado() {
+		return verificado;
+	}
+	public void setVerificado(int verificado) {
+		this.verificado = verificado;
+	}
 	public Integer getCodigo() {
 		return codigo;
 	}

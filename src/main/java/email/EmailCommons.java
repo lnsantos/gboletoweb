@@ -71,7 +71,7 @@ public class EmailCommons {
 				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>TOTAL R$1500,00</td>" + 
 				"        </tr>" + 
 				"</table>","text/html");
-		email.addTo("ti.renan@faj.br");
+		email.addTo("lucas.nepomuceno1999@gmail.com");
 		email.send();
 		
 		System.out.println("Enviou");

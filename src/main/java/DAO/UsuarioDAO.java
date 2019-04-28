@@ -12,6 +12,7 @@ import database.ConDB;
 import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
+import entidade.UsuarioCodigo;
 
 public class UsuarioDAO {
 	private Connection con;
@@ -126,7 +127,32 @@ public class UsuarioDAO {
 		}
 		return false;
 	}
-
+	
+	public List<UsuarioCodigo> codigoUsuarios(){
+		if(con != null) {
+			List<UsuarioCodigo> codigos = listaUCodigo("SELECT * FROM usuario");
+			return codigos;
+		}
+		return null;
+	}
+	
+	private List<UsuarioCodigo> listaUCodigo(String SQL) {
+		List<UsuarioCodigo> uCodigos = new ArrayList<UsuarioCodigo>();
+		try {
+			PreparedStatement ps = con.prepareStatement(SQL);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				UsuarioCodigo uCodigo = new UsuarioCodigo();
+				uCodigo.setCodigo(rs.getInt("usuario.codigo"));
+				uCodigos.add(uCodigo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return uCodigos; 
+	}
+	
 	public Usuario buscaUsuarioID(int codigo) {
 		if (con != null) {
 			Usuario u = new Usuario();

@@ -27,7 +27,7 @@ public class BoletoDAO {
 	// CRUD - INSERIR O BOLETO NO SISTEMA
 	public boolean inserirBoleto(Boleto b) {
 		if (con != null) {
-			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?)";
+			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?,0)";
 			// LoginMBean informa = null;
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
@@ -90,7 +90,7 @@ public class BoletoDAO {
 
 	public List<Boleto> todoBoletosPendenteVerificandoStatu() {
 		if (con != null) {
-			String SQL = "SELECT * FROM boleto WHERE boleto.statu <> 4 ORDER BY boleto.vencimento";
+			String SQL = "SELECT * FROM boleto WHERE boleto.statu <> 4 AND boleto.verificado <> 1 ORDER BY boleto.vencimento";
 			List<Boleto> boletos = new ArrayList<Boleto>();
 			
 			ResultSet rs = executeSQL(SQL);
@@ -201,6 +201,9 @@ public class BoletoDAO {
 	private boolean mudaStatuVerificado(Boleto b) {
 		if (con != null) {
 			String SQL = "UPDATE boleto SET statu = "+ b.getStatus()+ " WHERE codigo = " + b.getCodigo();
+			if(b.getStatus() > 2) {
+				SQL = "UPDATE boleto SET statu = "+ b.getStatus()+ ", verificado = 1 WHERE codigo = " + b.getCodigo();
+			}
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				if (ps.executeUpdate() > 0) {
