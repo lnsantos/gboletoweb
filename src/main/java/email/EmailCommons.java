@@ -93,7 +93,7 @@ public class EmailCommons {
 		email.setFrom("hashepo@gmail.com", "Remetente"); // remetente
 		email.setSubject("Teste de email em HTML"); // assunto do e-mail
 		email.setMsg("Teste de Envio de Email no formato HTML, caso tenha recebido este email entrar em contato no tel (xx) xxxx-xxxx"); //conteudo do e-mail
-		email.setAuthentication("hashepo@gmail.com","01616221");
+		email.setAuthentication("spam.nepo2018@gmail.com","senai123");
 		email.setSmtpPort(465);
 		//email.setAuthenticator(new DefaultAuthenticator("hashepo@gmail.com","01616221"));
 		email.setSSLOnConnect(true);
