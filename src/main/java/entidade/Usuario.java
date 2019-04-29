@@ -1,5 +1,8 @@
 package entidade;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Usuario {
 	
 	private Integer codigo;
@@ -8,6 +11,7 @@ public class Usuario {
 	private String sobrenome;
 	private String email;
 	private String senha;
+	private Set<Boleto> boletos = new HashSet<Boleto>();
 	
 	private Permissao permissao;
 	
@@ -53,4 +57,37 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	public Set<Boleto> getBoletos() {
+		return boletos;
+	}
+	public void setBoletos(Set<Boleto> boletos) {
+		this.boletos = boletos;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+	
+	
 }

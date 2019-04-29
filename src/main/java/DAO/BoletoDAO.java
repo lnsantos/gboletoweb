@@ -8,11 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import database.ConDB;
 import entidade.Boleto;
 import entidade.Upload;
+import entidade.Usuario;
 
 public class BoletoDAO {
 
@@ -88,14 +91,23 @@ public class BoletoDAO {
 		return boletosAntes;
 	}
 
-	public List<Boleto> todoBoletosPendenteVerificandoStatu() {
+	public Set<Usuario> todoBoletosPendenteVerificandoStatu() {
 		if (con != null) {
-			String SQL = "SELECT * FROM boleto WHERE boleto.statu <> 4 AND boleto.verificado <> 1 ORDER BY boleto.vencimento";
-			List<Boleto> boletos = new ArrayList<Boleto>();
+			String SQL = "SELECT * FROM usuario"
+					+ "     JOIN boleto on boleto.id_usuario = usuario.codigo"
+					+ "	  WHERE boleto.statu <> 4 AND boleto.verificado <> 1 ORDER BY boleto.vencimento";
+
+			Set<Usuario> usuarios = new HashSet<>();
 			
 			ResultSet rs = executeSQL(SQL);
 			try {
 				while (rs.next()) {
+					Usuario u = new Usuario();
+					u.setCodigo(rs.getInt("usuario.codigo"));
+					u.setEmail(rs.getString("usuario.email"));
+					
+					usuarios.add(u);
+					
 					Boleto b = new Boleto();
 
 					b.setCodigo(rs.getInt("codigo"));
@@ -107,6 +119,8 @@ public class BoletoDAO {
 					b.setValor(rs.getDouble("valor"));
 					b.setVencimento(new Date(rs.getLong("vencimento")));
 					
+					u.getBoletos().add(b);
+					
 					int novoStatu = verificaVencimento(b.getVencimento());
 					if(novoStatu != b.getStatus()) {
 						b.setStatus(novoStatu);
@@ -114,14 +128,12 @@ public class BoletoDAO {
 							System.out.println(b.getCodigo() + "Novo statu inserido!");
 						}
 					}
-					
-					boletos.add(b);
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return boletos;
+			return usuarios;
 			
 		}
 		return null;
@@ -149,6 +161,8 @@ public class BoletoDAO {
 		}
 	
 	} 
+	
+	
 	
 	private ResultSet executeSQL(String SQL) {
 		if (con != null) {
@@ -282,5 +296,4 @@ public class BoletoDAO {
 		}
 		return null;
 	}
-
 }

@@ -30,6 +30,9 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
+import entidade.Boleto;
+import entidade.Usuario;
+
 public class EmailCommons {
 	
 	private static final String HOSTNAME = "smtp.gmail.com";
@@ -48,9 +51,17 @@ public class EmailCommons {
 		   return email;
 	}
 	
-	public void enviaEmail() throws EmailException{
+	public void enviaEmail(Usuario u) throws EmailException{
 		Email email = conectaEmail();
 		email.setSubject("BOLETOS A SEREM PAGOS!");
+		StringBuilder boletos = new StringBuilder();
+		
+		for (Boleto b : u.getBoletos()) {
+			boletos.append("<li>");
+			boletos.append(b.getItem());
+			boletos.append("</li>");
+		}
+		
 		email.setContent("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>" + 
 				"    <tr style='background-color: black; height: 50px;'>" + 
 				"        <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>ALERTA AUTOMÁTICO!</td>" + 
@@ -59,11 +70,7 @@ public class EmailCommons {
 				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 15px;color:black;'>" + 
 				"                Alguns boletos estão atrasados!" + 
 				"                <ul>" + 
-				"                    <li> Panelas de pressão</li>" + 
-				"                    <li> Matagaus de ferro</li>" + 
-				"                    <li> Pilhas de molho</li>" + 
-				"                    <li> Show Recommendations</li>" + 
-				"                    <li> Professores</li>" + 
+									boletos +
 				"                </ul>" + 
 				"            </td>" + 
 				"    </tr>" + 
@@ -71,7 +78,7 @@ public class EmailCommons {
 				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>TOTAL R$1500,00</td>" + 
 				"        </tr>" + 
 				"</table>","text/html");
-		email.addTo("lucas.nepomuceno1999@gmail.com");
+		email.addTo("lucas.nepomuceno1999@gmail.com"); // alterar para u.getEmail();
 		email.send();
 		
 		System.out.println("Enviou");

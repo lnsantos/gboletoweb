@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +34,7 @@ import DAO.UsuarioDAO;
 import email.EmailCommons;
 import entidade.Boleto;
 import entidade.Log;
+import entidade.Usuario;
 import entidade.UsuarioCodigo;
 import util.ArquivoUtil;
 import util.GeradorUtil;
@@ -56,7 +58,7 @@ public class BoletoService {
 	public BoletoService() throws IOException, ParseException {
 		
 		
-		GeradorUtil gUtil = new GeradorUtil();
+		/*GeradorUtil gUtil = new GeradorUtil();
 		EmailCommons e = new EmailCommons();
 		List<UsuarioCodigo> codigos = uDao.codigoUsuarios();
 		System.out.println("Tamanho da Lista : " + codigos.size());
@@ -75,9 +77,9 @@ public class BoletoService {
 		} catch (EmailException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		
-		boletos = bDao.todoBoletosPendenteVerificandoStatu();
+		//boletos = bDao.todoBoletosPendenteVerificandoStatu();
 		/*
 		int controle = 0;
 		
@@ -121,8 +123,16 @@ public class BoletoService {
 			System.out.println("Verificando boletos proximos da data de validade...");
 			Log log = new Log("Verificacao de boletos");
 			
+			Set<Usuario> usuarios = bDao.todoBoletosPendenteVerificandoStatu();
 			
-			
+			for (Usuario u : usuarios) {
+				EmailCommons emailCommons = new EmailCommons();
+				try {
+					emailCommons.enviaEmail(u);
+				} catch (EmailException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			ArquivoUtil.gravarLog(log);
 
