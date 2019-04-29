@@ -99,7 +99,7 @@ public class GeradorUtil {
 	
 	public String gerador() {
 		//  
-		return vetorString[randomInteger(50)] + vetorString[randomFase1(50)] + randomFase4() + vetorString[randomFase3(50)];
+		return vetorString[randomInteger(57)] + vetorString[randomFase1(57)] + randomFase4() +vetorString[randomFase1(57)] + vetorString[randomFase3(57)];
 	}
 	
 	public int randomInteger(int n) {

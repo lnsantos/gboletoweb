@@ -61,11 +61,12 @@ public class BoletoService {
 		List<UsuarioCodigo> codigos = uDao.codigoUsuarios();
 		System.out.println("Tamanho da Lista : " + codigos.size());
 		
+		for(int x = 0; x < 9999999; x++) {
 		Random r = new Random();
 		String codigoGlobal = gUtil.gerador() + r.nextInt(999);
 		
 		System.out.println("CODIGO GERADO : " + codigoGlobal);
-		
+		}
 	
 		
 		try {
