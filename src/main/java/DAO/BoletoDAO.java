@@ -105,7 +105,6 @@ public class BoletoDAO {
 					Usuario u = new Usuario();
 					u.setCodigo(rs.getInt("usuario.codigo"));
 					u.setEmail(rs.getString("usuario.email"));
-					
 					usuarios.add(u);
 					
 					Boleto b = new Boleto();

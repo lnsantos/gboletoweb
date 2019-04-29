@@ -39,7 +39,7 @@ import entidade.UsuarioCodigo;
 import util.ArquivoUtil;
 import util.GeradorUtil;
 
-@ManagedBean(eager = true)
+@ManagedBean(eager=true)
 @ApplicationScoped
 public class BoletoService {
 	
@@ -56,42 +56,6 @@ public class BoletoService {
 	private Timer timer = new Timer();
 	
 	public BoletoService() throws IOException, ParseException {
-		
-		
-		/*GeradorUtil gUtil = new GeradorUtil();
-		EmailCommons e = new EmailCommons();
-		List<UsuarioCodigo> codigos = uDao.codigoUsuarios();
-		System.out.println("Tamanho da Lista : " + codigos.size());
-		
-		for(int x = 0; x < 9999999; x++) {
-		Random r = new Random();
-		String codigoGlobal = gUtil.gerador() + r.nextInt(999);
-		
-		System.out.println("CODIGO GERADO : " + codigoGlobal);
-		}
-	
-		
-		try {
-			
-			e.enviaEmail();
-		} catch (EmailException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
-		//boletos = bDao.todoBoletosPendenteVerificandoStatu();
-		/*
-		int controle = 0;
-		
-		do{
-			for(Boleto b: boletos) {
-				if(b.getId_usuario() == 1) {
-					System.out.println("BOLETO : " + b.getItem() + " DO USUÁRIO " + b.getId_usuario() + " :: CONTADOR :" + controle);
-				}
-			}
-			controle++;
-		}while(controle >= codigos.size());
-		*/
 		VerificadorValidade vv = new VerificadorValidade();
 		Calendar ultimaVerificacao = getDataUltimaVerificacao();
 		if (ultimaVerificacao != null) {	
@@ -122,9 +86,7 @@ public class BoletoService {
 			// TODO Implementar metodo que verifica a validade
 			System.out.println("Verificando boletos proximos da data de validade...");
 			Log log = new Log("Verificacao de boletos");
-			
 			Set<Usuario> usuarios = bDao.todoBoletosPendenteVerificandoStatu();
-			
 			for (Usuario u : usuarios) {
 				EmailCommons emailCommons = new EmailCommons();
 				try {
@@ -133,9 +95,7 @@ public class BoletoService {
 					e.printStackTrace();
 				}
 			}
-			
 			ArquivoUtil.gravarLog(log);
-
 		}
 	}
 
