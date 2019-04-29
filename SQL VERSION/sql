@@ -20,7 +20,12 @@ create table boleto(
     statu int default 0,
     emissao long,
     id_usuario int,
-    caminho varchar(120)
+    caminho varchar(120),
+    verificado int default 0
+    -- --------------------------------------
+    -- Verificado ---------------------------
+    -- 0 = NÃO VIRIFICADO -------------------
+    -- 1 = VERIFICADO -----------------------
     -- --------------------------------------
     -- Explicações do STATUS ----------------
 	-- 0 = Boleto pendente ( VERDE )                  -
@@ -77,3 +82,4 @@ SELECT * FROM USUARIO;
 
 -- LISTA TODOS BOLETOS
 SELECT * FROM BOLETO;
+UPDATE boleto SET statu = 1, verificado = 1 WHERE codigo = 1;
