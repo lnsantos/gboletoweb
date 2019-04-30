@@ -109,14 +109,14 @@ public class BoletoDAO {
 					
 					Boleto b = new Boleto();
 
-					b.setCodigo(rs.getInt("codigo"));
-					b.setEmissao(new Date(rs.getLong("emissao")));
-					b.setId_usuario(rs.getInt("id_usuario"));
-					b.setItem(rs.getString("nome_item"));
-					b.setPdf_caminho(rs.getString("caminho"));
-					b.setStatus(rs.getInt("statu"));
-					b.setValor(rs.getDouble("valor"));
-					b.setVencimento(new Date(rs.getLong("vencimento")));
+					b.setCodigo(rs.getInt("boleto.codigo"));
+					b.setEmissao(new Date(rs.getLong("boleto.emissao")));
+					b.setId_usuario(rs.getInt("boleto.id_usuario"));
+					b.setItem(rs.getString("boleto.nome_item"));
+					b.setPdf_caminho(rs.getString("boleto.caminho"));
+					b.setStatus(rs.getInt("boleto.statu"));
+					b.setValor(rs.getDouble("boleto.valor"));
+					b.setVencimento(new Date(rs.getLong("boleto.vencimento")));
 					
 					u.getBoletos().add(b);
 					
@@ -259,8 +259,8 @@ public class BoletoDAO {
 		 * 1;
 		 */
 		if (con != null) {
-			String SQL = "SELECT  * FROM boleto as b" + "   WHERE b.id_usuario = " + "'" + codigoUsuarioLogado
-					+ "' AND b.statu = 1 OR b.statu = 2 OR b.statu = 3" + " ORDER BY b.vencimento";
+			String SQL = "SELECT  * FROM boleto as b WHERE b.id_usuario = " + "'" + codigoUsuarioLogado
+					+ "' AND b.statu <> 4 ORDER BY b.vencimento";
 
 			List<Boleto> boletos = new ArrayList<Boleto>();
 

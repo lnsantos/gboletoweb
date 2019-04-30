@@ -63,7 +63,7 @@ public class EmailCommons {
 			boletos.append(b.getItem());
 			boletos.append("</li>");
 			
-			valorTotal =+ b.getValor();
+			// valorTotal =+ b.getValor();
 		}
 		
 		email.setContent("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>" + 

@@ -48,8 +48,9 @@ public class BoletoService {
 	List<Boleto> boletos = new ArrayList<Boleto>();
 	// A verificacao sera executada a cada 24 horas
 	// 86400000ms = 24h
-	private final long PERIODO = 86400000;
-
+	// private final long PERIODO = 86400000;
+	private final long PERIODO = 10000;
+	
 	// A verificacao sera executada as 12:00h
 	private final int HORARIO_DE_VERIFICACAO = 12;
 
@@ -77,6 +78,7 @@ public class BoletoService {
 		
 		// Agenda as verificacoes com um periodo de 24h entre elas
 		timer.scheduleAtFixedRate(new VerificadorValidade(), proximaVerificacao.getTime(), PERIODO);
+		
 	}
 
 	private class VerificadorValidade extends TimerTask {
