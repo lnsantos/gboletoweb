@@ -72,7 +72,7 @@ public class HomeAdministradorMB extends UploadService {
 	}
 	
 	public void limpa() {
-		boleto_inserir = null;
+		boleto_inserir = new Boleto();
 	}
 
 	public void atualizarListaBoleto() {
@@ -98,7 +98,7 @@ public class HomeAdministradorMB extends UploadService {
 						if(bDao.inserirBoleto(boleto_inserir)) {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Todas os Arquivos/Informações inseridos com sucesso!", "Com PDF -> ( BOLETO )" ));
 							boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
-							boleto_inserir = null;
+							boleto_inserir = new Boleto();
 						}else {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Algo de errado, Não esta certo ao inserir  Arquivos/Informações !!", "Não Inserido" ));
 						}
@@ -112,7 +112,7 @@ public class HomeAdministradorMB extends UploadService {
 				if(bDao.inserirBoleto(boleto_inserir)) {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Boleto inserido com sucesso!", "Sem PDF -> ( BOLETO )" ));
 					boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
-					boleto_inserir = null;
+					boleto_inserir = new Boleto();
 				}else {
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Algo de errado, Não esta certo!!", "Não Inserido" ));
 				}
