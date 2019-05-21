@@ -49,7 +49,7 @@ public class BoletoService {
 	// A verificacao sera executada a cada 24 horas
 	// 86400000ms = 24h
 	// private final long PERIODO = 86400000;
-	private final long PERIODO = 10000;
+	private final long PERIODO = 1000;
 	
 	// A verificacao sera executada as 12:00h
 	private final int HORARIO_DE_VERIFICACAO = 12;

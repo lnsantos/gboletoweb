@@ -82,6 +82,8 @@ public class HomeAdministradorMB extends UploadService {
 	public void inserirBoleto() {
 		// Verifica se existe informação do boleto
 		if(boleto_inserir != null) {
+			int valueVerificado = bDao.verificaVencimento(boleto_inserir.getVencimento());
+			boleto_inserir.setVerificado(valueVerificado);
 			// Captura id usuario logado
 			boleto_inserir.setId_usuario(codigoUsuarioFRONT);
 			// Verifica se o usuário inseriu um PDF
@@ -94,6 +96,8 @@ public class HomeAdministradorMB extends UploadService {
 					Retorno resultadoFinal = upload(arquivoFileUpload, codigoUsuarioFRONT);
 					if(resultadoFinal != null) {
 						boleto_inserir.setPdf_caminho(resultadoFinal.getCaminho());
+						
+						
 						// INSERI AS INFORMAÇÕES DO BOLETO COM O CAMINHO DO PDF
 						if(bDao.inserirBoleto(boleto_inserir)) {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Todas os Arquivos/Informações inseridos com sucesso!", "Com PDF -> ( BOLETO )" ));
