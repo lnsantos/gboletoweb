@@ -57,7 +57,16 @@ public class BoletoDAO {
 		}
 		return false;
 	}
-
+	
+	public boolean deletaBoleto(int codigo) throws SQLException {
+		String SQL = "DELETE FROM boleto WHERE codigo = "+ codigo;
+		if(con != null) {
+			PreparedStatement ps = con.prepareStatement(SQL);
+			return ps.executeUpdate() > 0;
+		}
+		return false;
+	}
+	
 	public Upload busca_Id_Boleto(Boleto b) {
 		if (con != null) {
 			String SQL = "SELECT * FROM boleto WHERE nome_item = " + "'" + b.getItem() + "'" + " AND valor = "
