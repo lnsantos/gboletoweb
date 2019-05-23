@@ -89,6 +89,13 @@ public class HomeAdministradorMB extends UploadService {
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 	}
 	
+	public void excluirBoleto() {
+		// Busca informações do boleto
+		// pega caminho do PDF se tiver
+		// apaga PDF
+		// apaga dado do database
+	}
+	
 	public void inserirBoleto() {
 		// Verifica se existe informação do boleto
 		if(boleto_inserir != null) {
