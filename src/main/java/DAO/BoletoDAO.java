@@ -30,17 +30,22 @@ public class BoletoDAO {
 	// CRUD - INSERIR O BOLETO NO SISTEMA
 	public boolean inserirBoleto(Boleto b) {
 		if (con != null) {
-			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?,0)";
+			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?,?)";
 			// LoginMBean informa = null;
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				ps.setString(1, b.getItem());
 				ps.setDouble(2, b.getValor());
 				ps.setLong(3, b.getVencimento().getTime());
+				
+				b.setStatus(verificaVencimento(b.getVencimento()));
+				
 				ps.setInt(4, b.getStatus());
 				ps.setLong(5, b.getEmissao().getTime());
 				ps.setInt(6, b.getId_usuario());
 				ps.setString(7, b.getPdf_caminho());
+				
+				ps.setInt(8, b.getVerificado());
 				if (ps.executeUpdate() > 0) {
 					System.out.println("Boleto " + b + " inserido com sucesso!");
 					return true;
@@ -161,7 +166,9 @@ public class BoletoDAO {
 	
 	} 
 	
-	
+	public List<Boleto> listaBoletoPorStatuDoUsuario(int codigoBusca, int codigoUsuario){
+		String SQL = "SELECT * FROM boleto";
+	}
 	
 	private ResultSet executeSQL(String SQL) {
 		if (con != null) {

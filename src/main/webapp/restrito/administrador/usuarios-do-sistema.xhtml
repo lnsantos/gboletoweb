@@ -99,10 +99,17 @@ footer {
 	<p:growl showDetail="true" sticky="true" >
 		<p:autoUpdate />
 	</p:growl>
-
+	
+	
+	
 	<div id="corpo">
-		<div id="menu_sistema"></div>
-
+		<div id="menu_sistema">
+			<p:breadCrumb>
+			    <p:menuitem value="Inicio" url="#" />
+			    <p:menuitem value="Usuarios" url="#" />
+			</p:breadCrumb>
+		</div>
+	
 		<h:form id="form">
 			<p:dataTable id="usuariosSistema" var="usuario"
 				value="#{usuarioSistemaMB.usuariosLista}" widgetVar="usuariosTabela"
@@ -147,16 +154,10 @@ footer {
 							<f:selectItem itemLabel="Ativado" itemValue="1" />
 						</p:selectOneMenu>
 					</f:facet>
-					<h:outputText
-						value="#{usuario.permissao.statu eq 1 ? 'Ativado' : 'Desativado'}" />
+					<h:outputText value="#{usuario.permissao.statu eq 1 ? 'Ativado' : 'Desativado'}" />
 				</p:column>
 
 				<p:column headerText="Ação" sortBy="" filterMatchMode="in">
-					<p:commandButton icon="fa fa-exclamation" onclick="PF('administrandoUsuario').show()">
-						<f:setPropertyActionListener value="#{usuario}"
-							target="#{usuarioSistemaMB.usuarioSelecionado}" />
-					</p:commandButton>
-					<p:button icon="fa fa-edit" />
 					<p:commandButton
 						value="#{usuario.permissao.statu eq 1 ? 'Desabilita' : 'Habilita'}"
 						rendered="#{usuario.permissao.statu eq 1 ? true : false}"

@@ -35,6 +35,8 @@ public class HomeAdministradorMB extends UploadService {
 	
 	Boleto boletoSelecionado;
 	
+	int boletoStatus = 0;
+	
 	Boleto boleto_inserir;
 	Usuario temporario;
 	Usuario usuarioLogado;
@@ -65,7 +67,14 @@ public class HomeAdministradorMB extends UploadService {
 		boletos = new ArrayList<Boleto>();
 		boletoSelecionado = new Boleto();
 	}
-
+	
+	public void carregaListaPorStatus() {
+		if(boletoStatus < 1) {
+			boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+		}else {
+			
+		}
+	}
 	@PostConstruct
 	public void init() {
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
@@ -82,8 +91,8 @@ public class HomeAdministradorMB extends UploadService {
 	public void inserirBoleto() {
 		// Verifica se existe informação do boleto
 		if(boleto_inserir != null) {
-			int valueVerificado = bDao.verificaVencimento(boleto_inserir.getVencimento());
-			boleto_inserir.setVerificado(valueVerificado);
+			//int valueVerificado = bDao.verificaVencimento(boleto_inserir.getVencimento());
+			//boleto_inserir.setVerificado(valueVerificado);
 			// Captura id usuario logado
 			boleto_inserir.setId_usuario(codigoUsuarioFRONT);
 			// Verifica se o usuário inseriu um PDF
@@ -322,4 +331,13 @@ public class HomeAdministradorMB extends UploadService {
 		this.boletoSelecionado = boletoSelecionado;
 	}
 
+	public int getBoletoStatus() {
+		return boletoStatus;
+	}
+
+	public void setBoletoStatus(int boletoStatus) {
+		this.boletoStatus = boletoStatus;
+	}
+	
+	
 }
