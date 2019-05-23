@@ -69,43 +69,27 @@ body {
 <h:body >
 	
  <p:growl id="growl">
-		<p:autoUpdate />		
-	 </p:growl>
+	<p:autoUpdate />		
+ </p:growl>
 	<h:panelGrid rendered="#{loginMBean.logado}" style="width:100%">
-		Você está logado como : #{loginMBean.usuarioLogado.nome} #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)}  #{loginMBean.usuarioLogado.sobrenome}
-		<p:megaMenu orientation="#{megaMenuView.orientation}"
-			style="margin-top:5px;">
-			<p:submenu label="Gerencia" icon="pi pi-check">
-				<p:column>
-					<p:submenu label="Usuarios">
-						<p:menuitem value="Pendentes" url="#" />
-						<p:menuitem value="Ativos" url="#" />
-						<p:menuitem value="Inativos" url="#" />
-					</p:submenu>
-					<p:submenu label="Boleto">
-						<p:menuitem value="Pendente" url="#" />
-						<p:menuitem value="Atrasados" url="#" />
-					</p:submenu>
-				</p:column>
-			</p:submenu>
-
-			<p:submenu label="Perfil" icon="pi pi-file">
-				<p:column>
-					<p:submenu label="#{loginMBean.usuario}">
-						<p:menuitem value="Informações" url="#" />
-						<p:menuitem value="Permissões" url="#" />
-					</p:submenu>
-				</p:column>
-			</p:submenu>
-
-			<p:menuitem value="Quit" url="http://www.primefaces.org"
-				icon="pi pi-times" />
-		</p:megaMenu>
+		<div style="background-color:#000; color:#fff">Você está logado como : #{loginMBean.usuarioLogado.nome} #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)}  #{loginMBean.usuarioLogado.sobrenome}</div>
 	
 		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
-		<h:form>
-			<p:commandButton styleClass="btn_global" value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
-		</h:form>
+
+					<h:form>
+						<p:commandButton styleClass="btn_global" value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
+					</h:form>
+			
+					<h:form>
+					<p:selectOneMenu id="menu-lista-statu" style="width:125px">
+			            <f:selectItem itemLabel="TODOS" itemValue="" />
+			            <f:selectItem itemLabel="Verde" itemValue="" />
+			            <f:selectItem itemLabel="Amarelo" itemValue="" />
+			            <f:selectItem itemLabel="Vermelho" itemValue="" />
+		        	</p:selectOneMenu>
+		        	</h:form>
+
+		
 		
 		<h:form id="form" >
 			<p:dataGrid id="boleto_" var="boleto" value="#{home.boletos}" columns="3" layout="grid"

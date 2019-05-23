@@ -78,7 +78,6 @@ public class BoletoService {
 		
 		// Agenda as verificacoes com um periodo de 24h entre elas
 		timer.scheduleAtFixedRate(new VerificadorValidade(), proximaVerificacao.getTime(), PERIODO);
-		
 	}
 
 	private class VerificadorValidade extends TimerTask {
@@ -123,9 +122,7 @@ public class BoletoService {
 	public Calendar getDataUltimaVerificacao() throws IOException, ParseException {
 		File diretorio = ArquivoUtil.diretorioRaiz("logs");
 		Path arquivoLog = ArquivoUtil.abrirArquivo(diretorio.getPath() + "/logs.txt");
-
 		BufferedReader reader = Files.newBufferedReader(arquivoLog);
-
 		String linha;
 		String ultimaVerificacaoLog = null;
 		while ((linha = reader.readLine()) != null) {
@@ -139,7 +136,6 @@ public class BoletoService {
 			ultimaVerificacao.setTime(sdf.parse(ultimaVerificacaoLog.substring(0, 19)));
 			return ultimaVerificacao;
 		}
-
 		return null;
 	}
 }
