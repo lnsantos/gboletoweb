@@ -30,7 +30,7 @@ public class BoletoDAO {
 	// CRUD - INSERIR O BOLETO NO SISTEMA
 	public boolean inserirBoleto(Boleto b) {
 		if (con != null) {
-			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?,?)";
+			String SQL = "INSERT INTO boleto VALUE(0,?,?,?,?,?,?,?,0)";
 			// LoginMBean informa = null;
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL);
@@ -44,8 +44,7 @@ public class BoletoDAO {
 				ps.setLong(5, b.getEmissao().getTime());
 				ps.setInt(6, b.getId_usuario());
 				ps.setString(7, b.getPdf_caminho());
-				
-				ps.setInt(8, b.getVerificado());
+
 				if (ps.executeUpdate() > 0) {
 					System.out.println("Boleto " + b + " inserido com sucesso!");
 					return true;
@@ -167,7 +166,39 @@ public class BoletoDAO {
 	} 
 	
 	public List<Boleto> listaBoletoPorStatuDoUsuario(int codigoBusca, int codigoUsuario){
-		String SQL = "SELECT * FROM boleto";
+		String SQL = "SELECT * FROM boleto WHERE id_cliente = ? AND statu = ?";
+		List<Boleto> boletos = new ArrayList<Boleto>();
+		if(con != null) {
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				ps.setInt(1, codigoUsuario);
+				ps.setInt(2, codigoBusca);
+				
+				ResultSet rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					Boleto b = new Boleto();
+
+					b.setCodigo(rs.getInt("boleto.codigo"));
+					b.setEmissao(new Date(rs.getLong("boleto.emissao")));
+					b.setId_usuario(rs.getInt("boleto.id_usuario"));
+					b.setItem(rs.getString("boleto.nome_item"));
+					b.setPdf_caminho(rs.getString("boleto.caminho"));
+					b.setStatus(rs.getInt("boleto.statu"));
+					b.setValor(rs.getDouble("boleto.valor"));
+					b.setVencimento(new Date(rs.getLong("boleto.vencimento")));
+					
+					boletos.add(b);
+				}
+				return boletos;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}else {
+			return null;
+		}
 	}
 	
 	private ResultSet executeSQL(String SQL) {
