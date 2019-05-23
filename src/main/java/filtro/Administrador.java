@@ -56,7 +56,7 @@ public class Administrador implements Filter{
 	public void destroy() {
 		// Sessão finalizada
 		
-		System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a Sessão [ " +dataHoraAtual());
+		// System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a Sessão [ " +dataHoraAtual());
 	}
 	
 	private String dataHoraAtual() {

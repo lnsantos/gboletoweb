@@ -166,27 +166,23 @@ public class BoletoDAO {
 	} 
 	
 	public List<Boleto> listaBoletoPorStatuDoUsuario(int codigoBusca, int codigoUsuario){
-		String SQL = "SELECT * FROM boleto WHERE id_cliente = ? AND statu = ?";
+		String SQL = "SELECT * FROM boleto WHERE id_usuario = "+codigoUsuario+" AND statu = "+"'"+codigoBusca+"'";
 		List<Boleto> boletos = new ArrayList<Boleto>();
 		if(con != null) {
 			try {
-				PreparedStatement ps = con.prepareStatement(SQL);
-				ps.setInt(1, codigoUsuario);
-				ps.setInt(2, codigoBusca);
-				
+				PreparedStatement ps = con.prepareStatement(SQL);	
 				ResultSet rs = ps.executeQuery();
 				
 				while(rs.next()) {
 					Boleto b = new Boleto();
 
-					b.setCodigo(rs.getInt("boleto.codigo"));
-					b.setEmissao(new Date(rs.getLong("boleto.emissao")));
-					b.setId_usuario(rs.getInt("boleto.id_usuario"));
-					b.setItem(rs.getString("boleto.nome_item"));
-					b.setPdf_caminho(rs.getString("boleto.caminho"));
-					b.setStatus(rs.getInt("boleto.statu"));
-					b.setValor(rs.getDouble("boleto.valor"));
-					b.setVencimento(new Date(rs.getLong("boleto.vencimento")));
+					b.setCodigo(rs.getInt("codigo"));
+					b.setEmissao(new Date(rs.getLong("emissao")));
+					b.setItem(rs.getString("nome_item"));
+					b.setPdf_caminho(rs.getString("caminho"));
+					b.setStatus(rs.getInt("statu"));
+					b.setValor(rs.getDouble("valor"));
+					b.setVencimento(new Date(rs.getLong("vencimento")));
 					
 					boletos.add(b);
 				}

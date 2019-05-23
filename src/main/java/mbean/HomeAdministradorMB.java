@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -26,7 +27,7 @@ import entidade.Usuario;
 import service.UploadService;
 
 @ManagedBean(name = "home")
-@ViewScoped
+@SessionScoped
 public class HomeAdministradorMB extends UploadService {
 	private static final long serialVersionUID = 1L;
 	BoletoDAO bDao;
@@ -35,7 +36,7 @@ public class HomeAdministradorMB extends UploadService {
 	
 	Boleto boletoSelecionado;
 	
-	int boletoStatus = 0;
+	int boletoStatus;
 	
 	Boleto boleto_inserir;
 	Usuario temporario;
@@ -72,7 +73,7 @@ public class HomeAdministradorMB extends UploadService {
 		if(boletoStatus < 1) {
 			boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
 		}else {
-			
+			boletos = bDao.listaBoletoPorStatuDoUsuario(boletoStatus, codigoUsuarioFRONT);
 		}
 	}
 	@PostConstruct
@@ -186,8 +187,10 @@ public class HomeAdministradorMB extends UploadService {
 			return "#00FF7F";
 		}else if(statu == 2) {
 			return "#FFFF00";
-		}else {
+		}else if(statu == 3) {
 			return "#FF0000";
+		}else {
+			return "#1e90ff";
 		}
 	}
 	

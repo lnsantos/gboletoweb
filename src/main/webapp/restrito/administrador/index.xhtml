@@ -183,7 +183,8 @@ body {
 				            <f:selectItem itemLabel="Vermelho" itemValue="3" />
 				            <f:selectItem itemLabel="Pagos" itemValue="4" />
 			        	</p:selectOneMenu>
-			        	<p:commandButton value="Carrega" icon="pi pi-check" />
+			        	<p:commandButton value="Carrega" icon="pi pi-check" 
+			        	actionListener="#{home.carregaListaPorStatus}" onclick="PF('listaBoletosPendentes').filter()"/>
 		        	</h:form>
 		</h:panelGrid>
 		
