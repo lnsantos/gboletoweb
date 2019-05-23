@@ -2,8 +2,11 @@ package util;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
@@ -11,11 +14,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import entidade.Log;
 import entidade.Retorno;
 
 public class ArquivoUtil {
 	
+	String contentType;
+	String nomeArq;
 	public static Retorno escrever(String nomeArquivoCompleto, byte[] contents, String millisAtual) throws IOException {
 		
 		String nomePDF = millisAtual.substring(millisAtual.lastIndexOf("-"));
@@ -33,7 +41,23 @@ public class ArquivoUtil {
 		
 		return result;
 	}
-	
+	public StreamedContent download(String caminho,int codigoUsuario,String nome){
+		StreamedContent arquivoDownload;
+		if(caminho.equals("")) {
+			return null;
+		}else {
+			InputStream in;
+			try {
+				in = new FileInputStream(new File(caminho));
+				 arquivoDownload = new DefaultStreamedContent(in, ".pdf",codigoUsuario+"_"+nome+".pdf");
+				 return arquivoDownload;
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
 	public static File diretorioArquivo(String nomePastaUsuario){
 		File dir = new File(diretorioRaiz(), nomePastaUsuario);
 		

@@ -15,6 +15,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import DAO.BoletoDAO;
@@ -25,6 +26,7 @@ import entidade.Retorno;
 import entidade.Upload;
 import entidade.Usuario;
 import service.UploadService;
+import util.ArquivoUtil;
 
 @ManagedBean(name = "home")
 @SessionScoped
@@ -35,6 +37,7 @@ public class HomeAdministradorMB extends UploadService {
 	UploadDAO uPDAO;
 	
 	Boleto boletoSelecionado;
+	ArquivoUtil aUtil;
 	
 	int boletoStatus;
 	
@@ -45,6 +48,8 @@ public class HomeAdministradorMB extends UploadService {
 	LoginMBean informa;
 	LoginMBean teste;
 	List<Boleto> boletos;
+	
+	StreamedContent arquivoDownload;
 	
 	Upload resultadoBoletoSolicitado;
 
@@ -67,6 +72,7 @@ public class HomeAdministradorMB extends UploadService {
 		resultadoBoletoSolicitado = new Upload();
 		boletos = new ArrayList<Boleto>();
 		boletoSelecionado = new Boleto();
+		aUtil = new ArquivoUtil();
 	}
 	
 	public void carregaListaPorStatus() {
@@ -87,6 +93,17 @@ public class HomeAdministradorMB extends UploadService {
 
 	public void atualizarListaBoleto() {
 		boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+	}
+	
+	public void baixaBoleto() {
+		arquivoDownload = aUtil.download(boletoSelecionado.getPdf_caminho(), codigoUsuarioFRONT, boletoSelecionado.getItem());
+		if(arquivoDownload != null) {
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Download Realizado com sucesso!", "( BOLETO )" ));
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não existe um PDF desse boleto !!", "( BOLETO )" ));
+		}
 	}
 	
 	public void excluirBoleto() {
@@ -347,6 +364,14 @@ public class HomeAdministradorMB extends UploadService {
 
 	public void setBoletoStatus(int boletoStatus) {
 		this.boletoStatus = boletoStatus;
+	}
+
+	public StreamedContent getArquivoDownload() {
+		return arquivoDownload;
+	}
+
+	public void setArquivoDownload(StreamedContent arquivoDownload) {
+		this.arquivoDownload = arquivoDownload;
 	}
 	
 	

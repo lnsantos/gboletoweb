@@ -254,8 +254,8 @@ body {
 						<h:outputText value="#{loginMbean.resultado.nome eq '' ? 'Sem informações' : loginMbean.usuarioLogado.nome}"/>
 						
 						<h:outputText value="Operação 01:" style="font-weight: bold;"/>
-						<p:commandButton value="Download PDF" >
-							<p:confirm header="Confirma alteração" message="Deseja reseta senha de ?" icon="fa fa-exclamation-circle"/>
+						<p:commandButton value="Download PDF" actionListener="#{home.baixaBoleto}" ajax="false">
+							<p:fileDownload value="#{home.arquivoDownload}"></p:fileDownload>
 						</p:commandButton>
 						
 						<h:outputText value="Operação 02:" style="font-weight: bold;"/>
