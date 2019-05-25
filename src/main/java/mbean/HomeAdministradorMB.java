@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,10 +108,44 @@ public class HomeAdministradorMB extends UploadService {
 	}
 	
 	public void excluirBoleto() {
-		// Busca informações do boleto
-		// pega caminho do PDF se tiver
-		// apaga PDF
-		// apaga dado do database
+		// Busca informações do boleto (Já temos, fica no boletoSelecionado)
+		// pega caminho do PDF se tiver (Já temos, fica no boletoSelecionado)
+		// apaga PDF 
+		if(boletoSelecionado.getPdf_caminho().equals("")) {
+			try {
+				if(bDao.deletaBoleto(boletoSelecionado.getCodigo())) {
+					FacesContext.getCurrentInstance().addMessage(null, 
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "Boleto excluido com sucesso!", "( BOLETO )" ));
+					boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "FALHOU! EXCEPTION", "( BOLETO )" ));
+			}
+		}else {
+			File arquivoBoleto = new File(boletoSelecionado.getPdf_caminho());
+			if(arquivoBoleto.delete()) {
+				// apaga dado do database
+				try {
+					if(bDao.deletaBoleto(boletoSelecionado.getCodigo())) {
+						FacesContext.getCurrentInstance().addMessage(null, 
+								new FacesMessage(FacesMessage.SEVERITY_INFO, "Boleto excluido com sucesso!", "( BOLETO )" ));
+						boletos = bDao.listaBoletosUsuarioLogado(codigoUsuarioFRONT);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					FacesContext.getCurrentInstance().addMessage(null, 
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "FALHOU! EXCEPTION", "( BOLETO )" ));
+				}
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "FALHOU!", "( BOLETO )" ));
+			}
+		}
+		
 	}
 	
 	public void inserirBoleto() {

@@ -70,16 +70,10 @@ footer {
 <p:growl id="growl">
 	<p:autoUpdate />		
 </p:growl>
-	#{perfil.setUsuarioLogado(loginMBean.usuarioLogado)}
+
 	<div id="corpo">
-		<div id="menu_sistema">
-			<p:breadCrumb>
-			    <p:menuitem value="Inicio" url="/restrito/administrador/" />
-			    <p:menuitem value="Usuarios" url="/restrito/administrador/usuarios-do-sistema.xhtml" />
-			    <p:menuitem  value="Perfil" url="/restrito/administrador/perfil.xhtml"/>
-			</p:breadCrumb>
-		</div>
-		<h1>#{perfil.codigoUsuarioLogado.nome}</h1>
+		<div id="menu_sistema"></div>
+		<h1>#{perfil.codigoUsuarioLogado}</h1>
 		<p:panelGrid columns="1" styleClass="fieldSet">
 		
 			<p:fieldset legend="Informações Básica" toggleable="true" toggleSpeed="500"  >
@@ -101,7 +95,6 @@ footer {
 				</h:panelGrid>
 			</p:fieldset>
 			
-			<h:form id="formsenha">
 			<p:fieldset legend="Modificar Senha" toggleable="true" toggleSpeed="500" >
 				<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}"
 					update="growl" />
@@ -119,11 +112,10 @@ footer {
 					<p:password value="#{perfil.senhaSecundaria}" style="font-weight:bold"/>
 					
 					<hr/>
-					<p:commandButton value="Confirmar Alterações" actionListener="#{perfil.verificaSenhaParaEdita}" update="formsenha"/>
+					<p:commandButton value="Confirmar Alterações" actionListener="#{perfil.verificaSenhaParaEdita}"/>
 					
 				</h:panelGrid>
 			</p:fieldset>
-			</h:form>
 			
 			<p:fieldset legend="Modificar Email" toggleable="true" toggleSpeed="500">
 				<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}"

@@ -168,7 +168,7 @@ public class UsuarioDAO {
 					u.setNome(rs.getString("nome"));
 					u.setSobrenome(rs.getString("sobrenome"));
 					u.setUsuario(rs.getString("usuario"));
-
+					
 					return u;
 				}
 			} catch (SQLException e) {
@@ -373,7 +373,8 @@ public class UsuarioDAO {
 					u.setSobrenome(rs.getString("sobrenome"));
 					u.setUsuario(rs.getString("usuario"));
 					u.setEmail(rs.getString("email"));
-
+					u.setSenha(rs.getString("senha"));
+					
 					resultado = buscaUsuarioLiberado(u.getCodigo().toString());
 
 					if (resultado.getRetorno()) {
@@ -398,7 +399,6 @@ public class UsuarioDAO {
 			}
 			return resultado;
 		}
-
 		return null;
 	}
 }

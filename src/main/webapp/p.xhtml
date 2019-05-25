@@ -1,0 +1,128 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="resources/css" name="style.css" />
+	<!-- background-color: #5161c5; -->
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+    		background-color: #012840 !important;
+		}
+		.form_login {
+			padding: 90 50;
+			border-radius: 3px;
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			text-align: center;
+		}
+		.btn_login {
+			border: none;
+		  	background-color: #D9A404;
+		  	padding: 0.5rem 2.5rem;
+		  	margin-top: 5rem;
+		}
+		#area_usuario {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.input_login{
+			height: 2rem;
+			border: none;
+  			border-bottom: 2px solid #e6e6e6;
+    		width: 15rem;
+    		padding-left: 0.5rem;
+    		margin: .7rem;
+		}
+		
+		.input_login:-webkit-autofill,
+		.input_login:-webkit-autofill:hover, 
+		.input_login:-webkit-autofill:focus, 
+		.input_login:-webkit-autofill:active  {
+    		-webkit-box-shadow: 0 0 0 30px white inset !important;
+		}
+		
+		footer {
+			position: absolute;
+			bottom: 0;
+		}
+		
+		.td{
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			border-radius: 5px;
+			padding-bottom: 60%;
+		}
+		.card_tr{
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			text-align: center;
+			border-radius: 10px; 
+		}
+		table{
+			border-radius: 10px;
+			height: 100%;
+			width: 100%;
+		}
+		a{
+			text-decoration: none;
+			text-align: center;
+			font-size: 25px;
+			font-weight: bold;
+			
+			text-decoration: overline;
+			text-shadow: 2px #30386d;
+		}
+		.BUTTON_MENU_LATERAL{
+			width: 90%;
+			border: 0px;
+			padding: 10px;
+			margin-top: 5px;
+			margin-bottom:2px;
+			margin-left: 1px;
+			margin-right: 1px;
+			background-color: #fff;
+			box-shadow: 0 0 8px 1px #30386d;
+			border-radius: 10px;
+			color: black;
+		}
+		.BUTTON_MENU_LATERAL:hover{
+			background-color: black;
+			color: white;
+		}
+		
+		
+	</style>
+</h:head>
+<h:body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<div id="corpo">
+		<div id="menu_sistema">
+			
+		</div>
+		<!-- Conteúdo -->
+		<table  >
+			<tr class="card_tr">
+				<td class="td" style="border:1px solid black" width="20%">
+					<BUTTON class="BUTTON_MENU_LATERAL"><a href="#">INICIO</a></BUTTON>
+					<BUTTON class="BUTTON_MENU_LATERAL"><a href="#">MUDA SENHA</a></BUTTON>
+					<BUTTON class="BUTTON_MENU_LATERAL"><a href="#">INFORMAÇÕES</a></BUTTON>
+					<BUTTON class="BUTTON_MENU_LATERAL"><a href="#">NOVO EMAIL</a></BUTTON>
+				</td>
+				<td class="td" style="border:1px solid black" width="80%">
+					
+				</td>
+			</tr>
+		</table>
+	</div>
+	<footer>
+		<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+	</footer>
+</h:body>
+</html>

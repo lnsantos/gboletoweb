@@ -166,8 +166,9 @@ body {
 		<div id="corpo">
 		<div id="menu_sistema">
 			<p:breadCrumb>
-			    <p:menuitem value="Inicio" url="#" />
-			    <p:menuitem value="Usuarios" url="/restrito/administrador//usuarios-do-sistema.xhtml" />
+			    <p:menuitem value="Inicio" url="/restrito/administrador/" />
+			    <p:menuitem value="Usuarios" url="/restrito/administrador/usuarios-do-sistema.xhtml" />
+			    <p:menuitem  value="Perfil" url="/restrito/administrador/perfil.xhtml"/>
 			</p:breadCrumb>
 		</div>
 		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
@@ -255,16 +256,15 @@ body {
 						
 						<h:outputText value="Operação 01:" style="font-weight: bold;"/>
 						<p:commandButton value="Download PDF" actionListener="#{home.baixaBoleto}" ajax="false">
-							<p:fileDownload value="#{home.arquivoDownload}"></p:fileDownload>
+							<p:fileDownload value="#{home.arquivoDownload}" ></p:fileDownload>
 						</p:commandButton>
 						
 						<h:outputText value="Operação 02:" style="font-weight: bold;"/>
 						<p:commandButton value="Confirmar pagamento" onclick="PF('confirmaPagamento').show();"/>
 						
 						<h:outputText value="Operação 03:" style="font-weight: bold;"/>
-						<p:commandButton icon="fa fa-trash" value="Remover"  
-						oncomplete="PF('listaBoletosPendentes').filter()">
-							<p:confirm header="Confirma alteração" message="Deseja excluir esse boleto? ?" icon="fa fa-exclamation-circle"/>
+						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{home.excluirBoleto}"  
+							update="form:boleto_">
 						</p:commandButton>
 					    
 					</p:panelGrid>
@@ -345,7 +345,7 @@ body {
 					<p:row>
 						<p:column colspan="1" style="width:49%">
 							<p:fileUpload mode="simple" sizeLimit="1000000" skinSimple="true"
-								label="Anexar Boleto" invalidSizeMessage="Arquivo muito grande"
+								label="Anexar Boleto" invalidSizeMessage="Arquivo superior a 1MB, verique se é um boleto! Caso contrário entra em contato com administrador do sistema suporte.boleto@faj.br"
 								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
 								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
 								value="#{home.arquivoFileUpload}"
