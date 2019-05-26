@@ -4,6 +4,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import DAO.UsuarioDAO;
 import entidade.Permissao;
@@ -25,6 +26,8 @@ public class LoginMBean {
 	
 	private boolean logado = false;
 	
+	
+	
 	public LoginMBean() {
 		usuarioLogado = new Usuario();
 		uDao = new UsuarioDAO();
@@ -39,16 +42,30 @@ public class LoginMBean {
 	}
 	
 	public String login(){
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().
+				 getSession(true);
+		
 		resultado = uDao.loginUsuario(usuario, senha);
 		usuarioLogado = resultado.getUser();
 		per = resultado.getPer();
 		
-		if(resultado.getRetorno()){
+		if(resultado.getRetorno() && per.getCria_usuario() > 0){
 			logado = true;
-			System.out.println( "[ "+usuarioLogado.getCodigo() + " ] " + usuarioLogado.getNome() + "Logado no sistema!");
+			
+			session.setAttribute("administradorLogado", true);
+			session.setAttribute("usuarioLogado", resultado);
+			
 			return "/restrito/administrador/index?faces-redirect=true";
+		}else if(resultado.getRetorno() && per.getCria_usuario() < 1) {
+			logado = true;
+			
+			session.setAttribute("usuarioNormalLogado", true);
+			session.setAttribute("usuarioLogado", resultado);
+			
+			return "/restrito/usuario/index?faces-redirect=true";
 		}else {
 			FacesContext context = FacesContext.getCurrentInstance();
+			logado = false;
 			context.addMessage(null, new 
 					FacesMessage(FacesMessage.SEVERITY_ERROR,resultado.getMensagem(),""));
 			return null;

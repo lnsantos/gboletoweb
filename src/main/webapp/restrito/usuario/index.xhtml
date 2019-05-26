@@ -1,0 +1,409 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<!-- <h:outputStylesheet library="css" name="main.css" id="main" />  -->
+	<h:outputStylesheet library="resources/css" name="style.css" />
+	<h:outputStylesheet
+		name="webjars/font-awesome/4.4.0/css/font-awesome.css" />
+		<style>
+		
+		.ui-g {
+		    display: -webkit-box;
+		    display: -moz-box;
+		    display: -ms-flexbox;
+		    display: -webkit-flex;
+		    display: flex;
+		    flex-wrap: wrap;
+		    background-color: #012840 !important;
+		    -ms-flex-wrap: wrap;
+		}
+		
+		
+		.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	    border: 1px solid black !important;
+	   	background-color: white !important;
+	    background-color: white !important;
+	    background-color: white !important;
+	    background-color: white !important;
+	    font-weight: bold;
+	    color: #4f4f4f;
+	    text-shadow: 0px !important;
+	}
+		
+		
+		.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	display: none;
+}
+
+.ui-widget-header {
+	border: 0px !important;
+	background: #f9f9f9
+		url(/gboletoweb/javax.faces.resource/images/ui-bg_highlight-soft_100_f9f9f9_1x100.png.xhtml?ln=primefaces-excite-bike)
+		50% 50% repeat-x;
+	color: #e69700;
+	font-weight: bold;
+}
+
+.
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	border: 1px solid #ffffff;
+	background-color: #1484e6 50% 50% repeat !important;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+body {
+	background-color: #1E90FF;
+}
+#corpo {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: #012840;
+}
+
+#area_usuario {
+	width: 40%;
+	padding: 1.5%;
+	margin: 0 auto;
+	background-color: #fff;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+#menu_sistema {
+	width: 100%;
+	background-color: #1E90FF;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+
+footer {
+	width: 100%;
+	background-color: #1E90FF;
+	color: #fff;
+	top: 94%;
+	position: fixed;
+	border-style: solid;
+	border-bottom-width: 10px;
+	border-top-width: 0;
+	border-right-width: 0;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-width: 0;
+}
+.ui-widget-header {
+    /* border: 1px solid #cccccc; */
+    background: #f9f9f9 u 50% 50% repeat-x !important;
+    color: #e69700;
+    font-weight: bold;
+}
+		/*
+.btn_global {
+	border: none !important;
+	background-color: #D9A404 !important;
+	padding: 0.5rem 2.5rem !important;
+	margin-top: 5rem !important;
+}
+.btn_global_dialog {
+	border: none !important;
+	background-color: #012840 !important;
+	width:100%;
+	padding: 0.5rem 2.5rem !important;
+	margin-top: 0rem !important;
+	color: #fff;
+	border-radius:0px 0px 5px 5px;
+}
+.div_global_dialog {
+	border: none !important;
+	background-color: #012840 !important;
+	width:100%;
+	padding: 0.5rem 2.5rem !important;
+	margin-top: 0rem !important;
+	color: #fff;
+	border-radius:5px 5px 0px 0px;
+	text-align:center;
+}
+body {
+	font-family: 'Roboto', sans-serif;
+    background-color: #012840 !important;
+}
+.ui-widget-header {
+     border: 0px solid #cccccc !important; 
+    background: 0% 50% repeat-x !important;
+    color: #e69700;
+    font-weight: bold;
+}
+<!-- -->
+.ui-panel .ui-panel-content {
+	background-color: #ffffff !important;
+	
+	border-radius: 5px;
+}
+.ui-widget-header {
+    border: 0px solid #cccccc !important;
+    background: 0% 50% repeat-x !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+.ui-cardview_{
+	background-color: #D9A404 !important;
+	box-shadow: 0 0 8px 1px #30386d !important;
+	border-radius: 5px;
+}
+<!-- -->
+.ui-icon ui-icon-seek-next{
+	background-color: #ffffff !important;
+	color: black !important;
+}
+*/
+.ui-widget-content {
+    border: 3px solid black;
+    cursor: pointer;
+    overflow: visible; 
+}
+	</style>
+</h:head>
+<h:body >
+	
+ <p:growl id="growl">
+	<p:autoUpdate />		
+ </p:growl>
+	<!--   <h:panelGrid rendered="#{loginMBean.logado}" style="width:100%"> -->
+		 #{home.setCodigoUsuarioFRONT(loginMBean.usuarioLogado.codigo)} 
+		 #{home.setUsuarioLogado_sistema(loginMBean.usuarioLogado)}
+		<div id="corpo">
+		<div id="menu_sistema">
+			<p:breadCrumb>
+			    <p:menuitem value="Inicio" url="/restrito/usuario/" />
+			    <p:menuitem  value="#{loginMBean.usuarioLogado.nome} #{loginMBean.usuarioLogado.sobrenome}" url="/restrito/usuario/perfil.xhtml"/>
+			</p:breadCrumb>
+		</div>
+		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->
+		<h:panelGrid columns="3">
+					<h:form>
+						<p:commandButton value="NOVO BOLETO" onclick="PF('novo-boleto').show()" type="button"/>
+					</h:form>
+					<h:form>
+						<p:selectOneMenu id="menu-lista-statu" value="#{home.boletoStatus}" style="width:125px">
+				            <f:selectItem itemLabel="TODOS" itemValue="0" />
+				            <f:selectItem itemLabel="Verde" itemValue="1" />
+				            <f:selectItem itemLabel="Amarelo" itemValue="2" />
+				            <f:selectItem itemLabel="Vermelho" itemValue="3" />
+				            <f:selectItem itemLabel="Pagos" itemValue="4" />
+			        	</p:selectOneMenu>
+			        	<p:commandButton value="Carrega" icon="pi pi-check" 
+			        	actionListener="#{home.carregaListaPorStatus}" onclick="PF('listaBoletosPendentes').filter()"/>
+		        	</h:form>
+		</h:panelGrid>
+		
+		
+		<h:form id="form" >
+			<p:dataGrid id="boleto_" var="boleto" value="#{home.boletos}" columns="3" layout="grid"
+				rows="12" paginator="true" widgetVar="listaBoletosPendentes"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16" >
+
+		        <f:facet name="left">
+		        	Boletos pendentes
+		        </f:facet>
+			<div class="ui-cardview_">
+				<p:panel id="panel-card" header="#{boleto.item}" style="text-align:center;">
+					<h:panelGrid columns="1" style="width:100%;">
+						<h:outputText value="Vencimento" style="font-weight:bold" />
+						<h:outputText value="#{boleto.vencimentoString}" />
+
+						<h:outputText value="Valor:" style="font-weight:bold" />
+						<h:outputText value="#{boleto.valor}" />
+						
+						<p:commandLink update=":form:" value="Mostra Informações" style="font-weight:bold"
+							oncomplete="PF('boletoDialog').show()" title="Mostra Informações">
+							<h:outputText styleClass="pi pi-search" style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
+						</p:commandLink>
+						<p:commandLink value="Confirmar Pagamento" onclick="PF('confirmaPagamento').show();" style="font-weight:bold" update="growl" >
+							 <f:setPropertyActionListener value="#{boleto}" target="#{home.boletoSelecionado}"/>
+							</p:commandLink>
+						<hr/>
+						<div>	
+							<p:outputLabel value="#{boleto.status eq 3 ? 'Boleto Atrasado / Vencido' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 1 ? 'Aguardando Pagamento' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 0 ? 'Não encontrado' : ''}"/>
+								<p:outputLabel value="#{boleto.status eq 2 ? 'Vencimento em breve' : ''}"/>						
+							<p align="center" style="background-color: #{home.veririficaStatusBoleto(boleto.status)} !important; width:100%; height:5px"/>
+						</div>
+						
+					</h:panelGrid>
+				</p:panel>
+			</div>
+			</p:dataGrid>
+			
+			
+			<p:dialog header="#{home.boletoSelecionado.item}" id="boletoDetale" widgetVar="boletoDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="userDetail" style="text-align:center;">
+					<p:panelGrid columns="2" columnClasses="label,value">
+						<f:facet name="header">
+							<h:graphicImage library="img" name="Logo-FAJ.png" width="200px" height="150px"/>
+						</f:facet>
+
+						<h:outputText value="Identificação :" />
+						<h:outputText value="#{home.boletoSelecionado.codigo}" />
+
+						<h:outputText value="Vencimento :" />
+						<h:outputText value="#{home.boletoSelecionado.vencimentoString}" />
+
+						<h:outputText value="Valor :" />
+						<h:outputText value="#{home.boletoSelecionado.valor}"/>
+						
+						<h:outputText value="Emissão :" />
+						<h:outputText value="#{home.boletoSelecionado.emissaoString}" />
+						
+						<h:outputText value="Adicionado Por :" />
+						<h:outputText value="#{home.usuarioLogado_sistema.usuario eq '' ? 'Sem informações' : home.usuarioLogado_sistema.usuario}"/>
+						
+						<h:outputText value="Operação 01 :" style="font-weight: bold;"/>
+						<p:commandButton value="Download PDF" actionListener="#{home.baixaBoleto}" ajax="false">
+							<p:fileDownload value="#{home.arquivoDownload}" ></p:fileDownload>
+						</p:commandButton>
+						
+						<h:outputText value="Operação 02 :" style="font-weight: bold;"/>
+						<p:commandButton value="Confirmar pagamento" onclick="PF('confirmaPagamento').show();"/>
+						
+						<h:outputText value="Operação 03 :" style="font-weight: bold;"/>
+						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{home.excluirBoleto}"  
+							update="form:boleto_">
+						</p:commandButton>
+					    
+					</p:panelGrid>
+					
+					<p style="background-color: #{home.veririficaStatusBoleto(home.boletoSelecionado.status)} !important; width:100%; height:5px"/>
+					<p:outputLabel value="#{home.boletoSelecionado.status eq 3 ? 'Boleto Atrasado / Vencido' : ''}"/>
+					<p:outputLabel value="#{home.boletoSelecionado.status eq 1 ? 'Aguardando Pagamento' : ''}"/>
+					<p:outputLabel value="#{home.boletoSelecionado.status eq 0 ? 'Não encontrado' : ''}"/>
+					<p:outputLabel value="#{home.boletoSelecionado.status eq 2 ? 'Vencimento em breve' : ''}"/>	
+					
+				</p:outputPanel>
+				
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" onkeyup="PF('listaBoletosPendentes').filter()" />
+			        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" onclick="PF('listaBoletosPendentes').hide();" />
+			    </p:confirmDialog>
+				
+			</p:dialog>
+			<!-- style="margin-top:25%;margin-bottom:50%; width: 50%; border: 3px solid green; padding: 10px;font-family: 'Roboto', sans-serif;
+    		background-color: #5161c5 !important;box-shadow: 0 0 8px 1px #30386d !important;border-radius: 5px;" -->
+		
+			
+			<p:dialog widgetVar="confirmaPagamento" header="Você esta preste a confirma o pagamento!" width="15%" showEffect="fade" hideEffect="fade" modal="true" >
+					<p:commandButton value="Confirma Pagamento" actionListener="#{home.confirmaPagamento}" 
+					onclick="PF('listaBoletosPendentes').filter()"/>
+        			<p:commandButton value="Não quero confirmar, ouve um engano!" onclick="PF('confirmaPagamento').hide();" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:dialog>
+		</h:form>
+		
+		<h:form id="form-boleto" enctype="multipart/form-data">
+			<p:dialog id="id_novo-boleto" widgetVar="novo-boleto" width="50%" height="50%">
+				<p:toolbar>
+					<f:facet name="left">
+						<span class="ui-separator"> <span
+							class="ui-icon ui-icon-grip-dotted-vertical" />
+						</span>
+						<p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{home.inserirBoleto}" ajax="false"
+						oncomplete="novo-boleto.hide()">
+								<f:setPropertyActionListener value="#{loginMBean.usuarioLogado.codigo}" 
+								  target="#{home.codigoUsuarioFRONT}"/>
+						</p:commandButton>
+						<p:commandButton value="Limpar" icon="ui-icon-arrowrefresh-1-e"
+							disabled="false" update="id_novo-boleto" >
+						</p:commandButton>
+					</f:facet>
+				</p:toolbar>
+				<p:panelGrid id="grid-produto" style="width:100%">
+					<f:facet name="header">
+						<p:outputLabel value="Informações do boleto"></p:outputLabel>
+					</f:facet>
+					<p:row>
+						<p:column style="width:49%">
+							<p:inputText id="nomeBoleto" style="width:100%"
+								placeholder="Nome Boleto" value="#{home.boleto_inserir.item}" />
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputText id="codigoBarra" style="width:100%"
+								placeholder="Número CB" />
+						</p:column>
+						
+					</p:row>
+
+					<p:row>
+						<p:column style="width:49%">
+							<p:calendar id="data_nasc" required="true"
+								requiredMessage="Campo data obrigarório"
+								placeholder="Data de Emissão" pattern="dd/MM/yyyy" mask="true" 
+								value="#{home.boleto_inserir.emissao}"/>
+						</p:column>
+						<p:column stylfre="width:49%">
+							<p:calendar id="data_vencimento" required="true"
+								requiredMessage="Campo data obrigarório" styleClass="input-data"
+								placeholder="Data de Vencimento" pattern="dd/MM/yyyy"
+								mask="true" value="#{home.boleto_inserir.vencimento}" />
+						</p:column>
+						
+					</p:row>
+					<p:row>
+						<p:column colspan="1" style="width:49%">
+							<p:fileUpload mode="simple" sizeLimit="1000000" skinSimple="true"
+								label="Anexar Boleto" invalidSizeMessage="Arquivo superior a 1MB, verique se é um boleto! Caso contrário entra em contato com administrador do sistema suporte.boleto@faj.br"
+								invalidFileMessage="Arquivo inválido, escolha um pdf, jpg ou png"
+								allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" 
+								value="#{home.arquivoFileUpload}"
+								onstart="console.log('Iniciando envio de arquivo')"
+    							onerror="console.log('Erro na requisição de envio')"
+    							oncomplete="console.log('Envio concluído')"/>
+						</p:column>
+						<p:column style="width:49%">
+							<p:inputNumber id="valor_itens" symbol="R$" style="width:100%"
+								decimalSeparator="," thousandSeparator="."
+								requiredMessage="Campo valor dos itens obritatório."
+								required="true" placeholder="00,00"
+								value="#{home.boleto_inserir.valor}">
+							</p:inputNumber>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</p:dialog>
+		</h:form>
+				<footer>
+			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+		</footer>
+		</div>			
+	<!-- </h:panelGrid> -->
+
+	<h:panelGroup rendered="#{!loginMBean.logado}">
+		Você não está logado, será redirecionado em 2s!
+		#{loginMBean.errorLogin()}
+		<meta http-equiv="refresh" content="2; url=/gboletoweb/index.xhtml" />
+	</h:panelGroup>
+</h:body>
+</html>

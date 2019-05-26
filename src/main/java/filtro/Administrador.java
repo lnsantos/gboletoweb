@@ -20,47 +20,50 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.Request;
 
+import entidade.Retorno;
+import entidade.Usuario;
 import mbean.LoginMBean;
 
 @WebFilter("/restrito/administrador/*")
-public class Administrador implements Filter{
-	
-	LoginMBean loginMbean; 
+public class Administrador implements Filter {
+
+	Boolean logado;
 	Request request;
 	HttpSession session;
-	
+	Retorno user;
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// Sessão iniciou
 		// SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy z");
 		// Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
-		// System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta Online [ " + formataData.format(c));
+		// System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta Online
+		// [ " + formataData.format(c));
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// Processamento { Thregger }
-			loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("loginMBean");
-			
-			if(loginMbean == null) {
-				String diretorio = ((HttpServletRequest)request).getContextPath();
+		logado = (Boolean) ((HttpServletRequest) request).getSession().getAttribute("administradorLogado");
+		user = (Retorno) ((HttpServletRequest) request).getSession().getAttribute("usuarioLogado");
+
+			if (logado == false || logado == null) {
+				String diretorio = ((HttpServletRequest) request).getContextPath();
 				System.out.println(diretorio);
-				((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
-			}else {
-				System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] " + request.getProtocol());
-				chain.doFilter(request, response);
-			}
-		
+				((HttpServletResponse) response).sendRedirect(diretorio + "/index.xhtml");
+			} 
+			chain.doFilter(request, response);
 	}
 
 	@Override
 	public void destroy() {
 		// Sessão finalizada
-		
-		// System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a Sessão [ " +dataHoraAtual());
+
+		// System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Finalizou a
+		// Sessão [ " +dataHoraAtual());
 	}
-	
+
 	private String dataHoraAtual() {
 		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy z");
 		Calendar c = new GregorianCalendar();
