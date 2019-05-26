@@ -8,7 +8,7 @@ public class Boleto {
 
 	private Integer codigo;
 	private String item;
-	private double valor;
+	private double valor = 10.00;
 	private Date vencimento;
 	private Date emissao;
 	private String pdf_caminho = "";

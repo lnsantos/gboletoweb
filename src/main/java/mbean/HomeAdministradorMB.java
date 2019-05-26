@@ -41,6 +41,7 @@ public class HomeAdministradorMB extends UploadService {
 	ArquivoUtil aUtil;
 	
 	int boletoStatus;
+	Usuario usuarioLogado_sistema;
 	
 	Boleto boleto_inserir;
 	Usuario temporario;
@@ -408,6 +409,13 @@ public class HomeAdministradorMB extends UploadService {
 	public void setArquivoDownload(StreamedContent arquivoDownload) {
 		this.arquivoDownload = arquivoDownload;
 	}
-	
+
+	public Usuario getUsuarioLogado_sistema() {
+		return usuarioLogado_sistema;
+	}
+
+	public void setUsuarioLogado_sistema(Usuario usuarioLogado_sistema) {
+		this.usuarioLogado_sistema = usuarioLogado_sistema;
+	}
 	
 }
