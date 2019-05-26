@@ -16,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.coyote.Request;
 
@@ -26,6 +27,8 @@ public class Administrador implements Filter{
 	
 	LoginMBean loginMbean; 
 	Request request;
+	HttpSession session;
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// Sessão iniciou
@@ -38,18 +41,17 @@ public class Administrador implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// Processamento { Thregger }
-		
-		loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("loginMBean");
-		if(loginMbean == null) {
-			String diretorio = ((HttpServletRequest)request).getContextPath();
-			System.out.println(diretorio);
-			((HttpServletRequest)request).getSession().setAttribute("msg", "Acesso Negado");
-			((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
-		}else {
+			loginMbean = (LoginMBean) ((HttpServletRequest) request).getSession().getAttribute("loginMBean");
 			
-			System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] " + request.getProtocol());
-			chain.doFilter(request, response);
-		}
+			if(loginMbean == null) {
+				String diretorio = ((HttpServletRequest)request).getContextPath();
+				System.out.println(diretorio);
+				((HttpServletResponse)response).sendRedirect(diretorio + "/index.xhtml");
+			}else {
+				System.out.println(loginMbean.getUsuarioLogado().getUsuario() + " Esta logado no sistema [ " + dataHoraAtual() + "] " + request.getProtocol());
+				chain.doFilter(request, response);
+			}
+		
 	}
 
 	@Override

@@ -6,9 +6,65 @@
 <h:head>
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="resources/css" name="style.css" />
+	<!-- background-color: #5161c5; -->
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+    		background-color: #012840 !important;
+    		margin-top:60px;
+		}
+		.btn_login {
+			border: none;
+		  	background-color: #D9A404;
+		  	padding: 0.5rem 2.5rem;
+		  	margin-top: 5rem;
+		}
+		.display {
+			width:40%;
+			padding: 90 50;
+			border-radius: 3px;
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			text-align: center;
+			display: flex; 
+			flex-direction: column;
+			margin:0 auto;
+			font-size: 32px;
+			font-weight: bold;
+		}
+		footer{
+			width:40%;
+			border-radius: 3px;
+			text-align: center;
+			display: flex; 
+			flex-direction: column;
+			margin:0 auto;
+			font-weight: bold;
+			color: #fff;
+		}
+		#corpo{
+			width: 100%;
+		}
+		.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	    border-bottom: 1px solid black !important;
+	    border-top: 1px solid black !important;
+	    background-color: white !important;
+	    font-weight: bold;
+	    color: #4f4f4f;
+	    text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+	}
+	</style>
 </h:head>
 <h:body>
-		<p:commandButton value="Acessar minha conta" action="index?facesredirect=true" />
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<div id="corpo">
+		<div id="menu_sistema">
+			
+		</div>
+		<div class="display">
+		<h:form><p:commandButton value="Acessar minha conta" action="index?facesredirect=true"  styleClass="btn_login"/></h:form>
 		<h3>Você esta cadastrando um novo usuário</h3>
 		
 		<h:form>
@@ -40,8 +96,14 @@
 					requiredMessage="Campo email obrigatório" />
 				<p:message  for="email" />
 				
-				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}"/>
+				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}" styleClass="btn_login"/>
 			</h:panelGrid>
 		</h:form>
+		</div>
+		<footer>
+			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+		</footer>
+	</div>
+	
 </h:body>
 </html>

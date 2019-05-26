@@ -268,30 +268,30 @@ body {
 							<h:graphicImage library="img" name="Logo-FAJ.png" width="200px" height="150px"/>
 						</f:facet>
 
-						<h:outputText value="Id:" />
+						<h:outputText value="Identificação :" />
 						<h:outputText value="#{home.boletoSelecionado.codigo}" />
 
-						<h:outputText value="Vencimento" />
+						<h:outputText value="Vencimento :" />
 						<h:outputText value="#{home.boletoSelecionado.vencimentoString}" />
 
-						<h:outputText value="Valor:" />
+						<h:outputText value="Valor :" />
 						<h:outputText value="#{home.boletoSelecionado.valor}"/>
 						
-						<h:outputText value="Emissão:" />
+						<h:outputText value="Emissão :" />
 						<h:outputText value="#{home.boletoSelecionado.emissaoString}" />
 						
-						<h:outputText value="Adicionado Por:" />
+						<h:outputText value="Adicionado Por :" />
 						<h:outputText value="#{home.usuarioLogado_sistema.usuario eq '' ? 'Sem informações' : home.usuarioLogado_sistema.usuario}"/>
 						
-						<h:outputText value="Operação 01:" style="font-weight: bold;"/>
+						<h:outputText value="Operação 01 :" style="font-weight: bold;"/>
 						<p:commandButton value="Download PDF" actionListener="#{home.baixaBoleto}" ajax="false">
 							<p:fileDownload value="#{home.arquivoDownload}" ></p:fileDownload>
 						</p:commandButton>
 						
-						<h:outputText value="Operação 02:" style="font-weight: bold;"/>
+						<h:outputText value="Operação 02 :" style="font-weight: bold;"/>
 						<p:commandButton value="Confirmar pagamento" onclick="PF('confirmaPagamento').show();"/>
 						
-						<h:outputText value="Operação 03:" style="font-weight: bold;"/>
+						<h:outputText value="Operação 03 :" style="font-weight: bold;"/>
 						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{home.excluirBoleto}"  
 							update="form:boleto_">
 						</p:commandButton>
