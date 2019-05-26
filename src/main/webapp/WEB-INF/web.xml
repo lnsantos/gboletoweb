@@ -25,6 +25,10 @@
 		<error-code>500</error-code>
 		<location>/HTTP_SECURITY.xhtml</location>
 	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/EXECPTION.xhtml</location>
+	</error-page>
 <!-- 
 	<context-param>
     	<param-name>primefaces.THEME</param-name>

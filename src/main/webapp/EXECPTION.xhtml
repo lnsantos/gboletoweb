@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="resources/css" name="style.css" />
+	<!-- background-color: #5161c5; -->
+	<style>
+		body {
+			font-family: 'Roboto', sans-serif;
+    		background-color: #012840 !important;
+    		margin-top:60px;
+		}
+		.display {
+			width:40%;
+			padding: 90 50;
+			border-radius: 3px;
+			background-color: white;
+			box-shadow: 0 0 8px 1px #30386d;
+			text-align: center;
+			display: flex; 
+			flex-direction: column;
+			margin:0 auto;
+			font-size: 32px;
+			font-weight: bold;
+		}
+		footer{
+			width:40%;
+			border-radius: 3px;
+			text-align: center;
+			display: flex; 
+			flex-direction: column;
+			margin:0 auto;
+			font-weight: bold;
+			color: #fff;
+		}
+		#corpo{
+			width: 100%;
+		}
+	</style>
+</h:head>
+<h:body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<div id="corpo">
+		<div id="menu_sistema">
+			
+		</div>
+		<div class="display">
+		<h:graphicImage library="img" name="Logo-FAJ.png" width="200px" height="150px" style="margin:0 auto;"/><br/>
+			INFELIZMENTE OCORREU UM ERRO =( <br/>
+			<a href="/gboletoweb/index.xhtml">PAGINA INICIAL</a><br/>
+				
+		</div>
+		<footer>
+			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
+		</footer>
+	</div>
+	
+</h:body>
+</html>
