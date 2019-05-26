@@ -74,7 +74,7 @@ public class EmailCommons {
 				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 15px;color:black;'>" + 
 				"                Alguns boletos estão atrasados!" + 
 				"                <ul>" + 
-									boletos.toString() +
+									boletos.toString() + 
 				"                </ul>" + 
 				"            </td>" + 
 				"    </tr>" + 

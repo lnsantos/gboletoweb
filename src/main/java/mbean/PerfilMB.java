@@ -15,25 +15,53 @@ import entidade.Usuario;
 @ManagedBean(name="perfil")
 @ViewScoped
 public class PerfilMB {
-	
+	Usuario usuarioLogado;
 	PerfilDAO pDao;
 	
+	// TROCA SENHA
 	String senhaAtual;
 	String senhaPrimaria;
 	String senhaSecundaria;
 	
+	Boolean fieldset_email_codigo = false;
+	
+	// TROCA EMAIL
+	String novoEmail;
+	String verificaNovoEmail;
+	String codigoConfirmaEmailString;
+	
+	// TROCA NOME COMPLETO
+	String nomeUsuario = "";
+	String sobrenomeUsuario = "";
 	
 	// @ManagedProperty(value = "#{loginMBean.usuarioLogado.codigo}")
-	Usuario usuarioLogado;
+	
 	
 	public PerfilMB() {
 		pDao = new PerfilDAO();
+		//nomeUsuario = usuarioLogado.getNome();
+		//sobrenomeUsuario = usuarioLogado.getSobrenome();
 	}
 	
 	@PostConstruct
 	public void postPerfilMB() {
-		// 
+		if(usuarioLogado != null) {
+			nomeUsuario = usuarioLogado.getNome();
+			sobrenomeUsuario = usuarioLogado.getSobrenome();
+		}
 		//usuarioLogado.setCodigo("#{loginMBean.usuarioLogado.codigo}");
+	}
+	
+	public void efeturarTrocaNomeCompleto() {
+		
+	}
+	
+	public void efetuarTrocaEmail() {
+		novoEmail = "lc";
+		verificaNovoEmail= "lc";
+		codigoConfirmaEmailString= "lc";
+		System.out.println("clicou");
+		fieldset_email_codigo = !fieldset_email_codigo;
 	}
 	
 	public void verificaSenhaParaEdita() {
@@ -43,6 +71,12 @@ public class PerfilMB {
 				else problemaSQLPassword();
 			}else passwordNotEquals();
 		}else passwordInvalid();
+	}
+	
+	private boolean verificaInputAlterados() {
+		if(nomeUsuario.equals("") && sobrenomeUsuario.equals("")) {
+			return false;
+		}else return true;
 	}
 	
 	private void passEditSucess() {
@@ -116,6 +150,52 @@ public class PerfilMB {
 		this.usuarioLogado = usuarioLogado;
 	}
 
+	public Boolean getFieldset_email_codigo() {
+		return fieldset_email_codigo;
+	}
 
+	public void setFieldset_email_codigo(Boolean fieldset_email_codigo) {
+		this.fieldset_email_codigo = fieldset_email_codigo;
+	}
+
+	public String getNovoEmail() {
+		return novoEmail;
+	}
+
+	public void setNovoEmail(String novoEmail) {
+		this.novoEmail = novoEmail;
+	}
+
+	public String getVerificaNovoEmail() {
+		return verificaNovoEmail;
+	}
+
+	public void setVerificaNovoEmail(String verificaNovoEmail) {
+		this.verificaNovoEmail = verificaNovoEmail;
+	}
+
+	public String getCodigoConfirmaEmailString() {
+		return codigoConfirmaEmailString;
+	}
+
+	public void setCodigoConfirmaEmailString(String codigoConfirmaEmailString) {
+		this.codigoConfirmaEmailString = codigoConfirmaEmailString;
+	}
+
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+
+	public String getSobrenomeUsuario() {
+		return sobrenomeUsuario;
+	}
+
+	public void setSobrenomeUsuario(String sobrenomeUsuario) {
+		this.sobrenomeUsuario = sobrenomeUsuario;
+	}
 	
 }

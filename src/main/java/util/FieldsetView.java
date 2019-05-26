@@ -9,7 +9,7 @@ import org.primefaces.event.ToggleEvent;
 @ManagedBean
 public class FieldsetView {
 	 public void handleToggle(ToggleEvent event) {
-	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ocultado", "Visivel:" + event.getVisibility());
+	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ocultado", "Visivel:" + event.getComponent());
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	    }
 }

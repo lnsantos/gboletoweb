@@ -21,7 +21,10 @@ public class PerfilDAO {
 		return false;
 	}
 	
-	public Boolean novoNome() {
+	public Boolean novoNomeCompleto(String nome, String sobrenome, Integer codigo) {
+		if(preparaSql(updateUsuarioSQL("nome = "+nome+ " AND sobrenome = "+ sobrenome ,codigo.toString()))) {
+			return true;
+		}
 		return false;
 	}
 	

@@ -7,6 +7,57 @@
 	<meta charset="UTF-8" />
 	<h:outputStylesheet library="resources/css" name="style.css" />
 	<style>
+	
+	
+		.ui-g {
+		    display: -webkit-box;
+		    display: -moz-box;
+		    display: -ms-flexbox;
+		    display: -webkit-flex;
+		    display: flex;
+		    flex-wrap: wrap;
+		    background-color: #012840 !important;
+		    -ms-flex-wrap: wrap;
+		}
+		
+		
+		.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	    border: 1px solid black !important;
+	   	background-color: white !important;
+	    background-color: white !important;
+	    background-color: white !important;
+	    background-color: white !important;
+	    font-weight: bold;
+	    color: #4f4f4f;
+	    text-shadow: 0px !important;
+	}
+	
+	.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	display: none;
+}
+
+.ui-widget-header {
+	border: 0px !important;
+	background: #f9f9f9
+		url(/gboletoweb/javax.faces.resource/images/ui-bg_highlight-soft_100_f9f9f9_1x100.png.xhtml?ln=primefaces-excite-bike)
+		50% 50% repeat-x;
+	color: #e69700;
+	font-weight: bold;
+}
+
+.
+.ui-state-default, .ui-widget-content .ui-state-default,
+	.ui-widget-header .ui-state-default {
+	border: 1px solid #ffffff;
+	background-color: #1484e6 50% 50% repeat !important;
+	font-weight: bold;
+	color: #ffffff;
+}
+	
 body {
 	background-color: #1E90FF;
 }
@@ -16,8 +67,9 @@ body {
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	background-color: FFFF00;
+	background-color: #012840;
 }
+
 
 #area_usuario {
 	width: 40%;
@@ -76,76 +128,73 @@ footer {
 			<p:breadCrumb>
 			    <p:menuitem value="Inicio" url="/restrito/administrador/" />
 			    <p:menuitem value="Usuarios" url="/restrito/administrador/usuarios-do-sistema.xhtml" />
-			    <p:menuitem  value="Perfil" url="/restrito/administrador/perfil.xhtml"/>
+			    <p:menuitem  value="#{loginMBean.usuarioLogado.nome} #{loginMBean.usuarioLogado.sobrenome}" url="/restrito/administrador/perfil.xhtml"/>
 			</p:breadCrumb>
 		</div>
-		<h1>#{perfil.codigoUsuarioLogado.nome}</h1>
 		<p:panelGrid columns="1" styleClass="fieldSet">
-		
-			<p:fieldset legend="Informações Básica" toggleable="true" toggleSpeed="500"  >
-				<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}"
-					update="growl" />
-				<h:panelGrid columns="2" cellpadding="5">
+			<p:tabView>
+				<p:tab title="Informações Básica">
+				<h:form id="form_nomecompleto">
+					<h:panelGrid columns="2" cellpadding="5">
 					<p:graphicImage name="Logo-FAJ.png" library="img" width="150" height="100"/>
 					<hr/>
 					
 					<p:outputLabel value="Nome : "/>
-					<p:inputText value=""/>
-					
-					<p:outputLabel value="Sobrenome : "/>
-					<p:inputText value=""/>
-					
+					<p:inputText value="#{perfil.nomeUsuario}" placeholder="#{perfil.codigoUsuarioLogado.nome}"/>
+						
+					<p:outputLabel value="Sobrenome : "  />
+					<p:inputText value="#{perfil.sobrenomeUsuario}" placeholder="#{perfil.codigoUsuarioLogado.sobrenome}"/>
+						
 					<hr/>
-					<p:commandButton value="Confirmar Alterações"/>
-					
+					<p:commandButton value="Confirmar Alterações" update="form_nomecompleto"/>
 				</h:panelGrid>
-			</p:fieldset>
-			
-			<h:form id="formsenha">
-			<p:fieldset legend="Modificar Senha" toggleable="true" toggleSpeed="500" >
-				<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}"
-					update="growl" />
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:graphicImage name="Logo-FAJ.png" library="img" width="150" height="100"/>
-					<hr/>
-					
-					<p:outputLabel value="Senha Atual : "/>
-					<p:password value="#{perfil.senhaAtual}" style="font-weight:bold"/>
-					
-					<p:outputLabel value="Nova Senha : "/>		            
-		            <p:password value="#{perfil.senhaPrimaria}" style="font-weight:bold"/>
-					
-					<p:outputLabel value="Confirmar Senha : "/>					
-					<p:password value="#{perfil.senhaSecundaria}" style="font-weight:bold"/>
-					
-					<hr/>
-					<p:commandButton value="Confirmar Alterações" actionListener="#{perfil.verificaSenhaParaEdita}" update="formsenha"/>
-					
-				</h:panelGrid>
-			</p:fieldset>
-			</h:form>
-			
-			<p:fieldset legend="Modificar Email" toggleable="true" toggleSpeed="500">
-				<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}"
-					update="growl" />
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:graphicImage name="Logo-FAJ.png" library="img" width="150" height="100"/>
-					<hr/>
-					
-					<p:outputLabel value="Novo Email : "/>
-					<p:inputText value=""/>
-					
-					<p:outputLabel value="Verifica Email : "/>
-					<p:inputText value=""/>
-					
-					<p:outputLabel value="Código : "/>
-					<p:inputText value=""/>
-					<hr/>
-					<p:commandButton value="Confirmar Alterações"/>
-					
-				</h:panelGrid>
-			</p:fieldset>
-
+				</h:form>
+				</p:tab>
+				<p:tab title="Modificar Senha">
+					<h:form id="form_tab_senha">
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:graphicImage name="Logo-FAJ.png" library="img" width="150" height="100"/>
+							<hr/>
+							
+							<p:outputLabel value="Senha Atual : "/>
+							<p:password value="#{perfil.senhaAtual}" style="font-weight:bold"/>
+							
+							<p:outputLabel value="Nova Senha : "/>		            
+				            <p:password value="#{perfil.senhaPrimaria}" style="font-weight:bold"/>
+							
+							<p:outputLabel value="Confirmar Senha : "/>					
+							<p:password value="#{perfil.senhaSecundaria}" style="font-weight:bold"/>
+							
+							<hr/>
+							<p:commandButton value="Confirmar Alterações" actionListener="#{perfil.verificaSenhaParaEdita}" update="form_tab_senha"/>
+						</h:panelGrid>
+					</h:form>
+				</p:tab>
+				<p:tab title="Modificar Email" disabled="true">
+					<h:form id="form_tab_email">
+						<h:panelGrid columns="2" cellpadding="5">
+							<p:graphicImage name="Logo-FAJ.png" library="img" width="150" height="100"/>
+							<hr/>
+							
+							<p:outputLabel value="Novo Email : " />
+							<p:inputText value="#{perfil.novoEmail}" disabled="#{perfil.fieldset_email_codigo}"/>
+							
+							<p:outputLabel value="Verifica Email : " />
+							<p:inputText value="" disabled="#{perfil.fieldset_email_codigo}"/>
+							
+							<p:outputLabel value="Código : "/>
+							<p:inputText value="" disabled="#{!perfil.fieldset_email_codigo}"/>
+							
+							<p:commandButton value="Confirmar Alterações" disabled="#{perfil.fieldset_email_codigo}"
+							 update="form_tab_email" ajax="true" actionListener="#{perfil.efetuarTrocaEmail}"/>
+							<p:commandButton value="Confirmar Codigo" disabled="#{!perfil.fieldset_email_codigo}"
+							 update="form_tab_email" actionListener="#{perfil.efetuarTrocaEmail}"/>
+							<hr/>
+							<hr/>
+						</h:panelGrid>
+					</h:form>
+				</p:tab>
+			</p:tabView>
 </p:panelGrid>
 		<footer>
 			<p>© 2019 Gerencimanto de Boletos Web - UniFAJ, Inc.</p>
