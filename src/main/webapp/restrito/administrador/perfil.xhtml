@@ -146,7 +146,7 @@ footer {
 					<p:inputText value="#{perfil.sobrenomeUsuario}" placeholder="#{perfil.codigoUsuarioLogado.sobrenome}"/>
 						
 					<hr/>
-					<p:commandButton value="Confirmar Alterações" update="form_nomecompleto"/>
+					<p:commandButton value="Confirmar Alterações" update="form_nomecompleto" actionListener="#{perfil.efeturarTrocaNomeCompleto}"/>
 				</h:panelGrid>
 				</h:form>
 				</p:tab>

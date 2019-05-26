@@ -53,7 +53,10 @@ public class PerfilMB {
 	}
 	
 	public void efeturarTrocaNomeCompleto() {
-		
+		if(verificaInputAlterados()) {
+			if(pDao.novoNomeCompleto(usuarioLogado)) sucessoNomeCompleto();
+			else erroNomeCompleto();
+		}else erroPrenchaCampos();
 	}
 	
 	public void efetuarTrocaEmail() {
@@ -74,9 +77,24 @@ public class PerfilMB {
 	}
 	
 	private boolean verificaInputAlterados() {
-		if(nomeUsuario.equals("") && sobrenomeUsuario.equals("")) {
-			return false;
-		}else return true;
+		if(nomeUsuario.equals("") && sobrenomeUsuario.equals("")) return false;
+		else {
+			if(nomeUsuario.equals("")) {} else usuarioLogado.setNome(nomeUsuario);
+			if(sobrenomeUsuario.equals("")) {} else usuarioLogado.setSobrenome(sobrenomeUsuario);
+			return true;
+		}
+	}
+	
+	private void sucessoNomeCompleto() {
+		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Nome Alterado com sucesso!"));
+		nomeUsuario = "";
+		sobrenomeUsuario = "";
+	}
+	private void erroNomeCompleto() {
+		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Hove um problema ao confirmar alteração do nome, tente mais tarde!"));
+	}
+	private void erroPrenchaCampos() {
+		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Preencha os campos que deseja alterar"));
 	}
 	
 	private void passEditSucess() {

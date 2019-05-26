@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import database.ConDB;
+import entidade.Usuario;
 
 public class PerfilDAO {
 	
@@ -15,14 +16,14 @@ public class PerfilDAO {
 	}
 	
 	public Boolean novaSenhaUsuario(Integer codigo,String novaSenha) {
-		if(preparaSql(updateUsuarioSQL("senha = "+novaSenha ,codigo.toString()))) {
+		if(preparaSql(updateUsuarioSQL("senha = "+novaSenha ,codigo))) {
 			return true;
 		}
 		return false;
 	}
 	
-	public Boolean novoNomeCompleto(String nome, String sobrenome, Integer codigo) {
-		if(preparaSql(updateUsuarioSQL("nome = "+nome+ " AND sobrenome = "+ sobrenome ,codigo.toString()))) {
+	public Boolean novoNomeCompleto(Usuario u) {
+		if(preparaSql(updateUsuarioSQL("nome = "+"'"+u.getNome()+"'"+" , sobrenome = "+"'"+ u.getSobrenome()+"'" ,u.getCodigo()))) {
 			return true;
 		}
 		return false;
@@ -31,13 +32,10 @@ public class PerfilDAO {
 	public Boolean novoEmail() {
 		return false;
 	}
-	public Boolean novoNomeSobrenome() {
-		return false;
-	}
-	
-	
-	private String updateUsuarioSQL(String query,String where) {
+
+	private String updateUsuarioSQL(String query,Integer where) {
 		String SQL = "UPDATE usuario SET " + query +" WHERE codigo = "+ where;
+		System.out.println(SQL);
 		return SQL;
 	}
 	
