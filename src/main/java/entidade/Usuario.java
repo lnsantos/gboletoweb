@@ -1,6 +1,7 @@
 package entidade;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Usuario {
@@ -12,6 +13,7 @@ public class Usuario {
 	private String email;
 	private String senha;
 	private Set<Boleto> boletos = new HashSet<Boleto>();
+	private List<Boleto> boletosAtual;
 	
 	private Permissao permissao;
 	
@@ -64,6 +66,12 @@ public class Usuario {
 		this.boletos = boletos;
 	}
 	
+	public List<Boleto> getBoletosAtual() {
+		return boletosAtual;
+	}
+	public void setBoletosAtual(List<Boleto> boletosAtual) {
+		this.boletosAtual = boletosAtual;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

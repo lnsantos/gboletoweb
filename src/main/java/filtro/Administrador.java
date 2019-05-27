@@ -52,6 +52,9 @@ public class Administrador implements Filter {
 				String diretorio = ((HttpServletRequest) request).getContextPath();
 				System.out.println(diretorio);
 				((HttpServletResponse) response).sendRedirect(diretorio + "/index.xhtml");
+			}
+			if(user != null && !user.getPer().getCria_usuario().equals(1)){
+				((HttpServletResponse) response).sendRedirect("/index.xhtml");
 			} 
 			chain.doFilter(request, response);
 	}

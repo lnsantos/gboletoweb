@@ -118,7 +118,7 @@ public class BoletoDAO {
 					Usuario u = new Usuario();
 					u.setCodigo(rs.getInt("usuario.codigo"));
 					u.setEmail(rs.getString("usuario.email"));
-					usuarios.add(u);
+					
 					
 					Boleto b = new Boleto();
 
@@ -132,7 +132,7 @@ public class BoletoDAO {
 					b.setVencimento(new Date(rs.getLong("boleto.vencimento")));
 					
 					u.getBoletos().add(b);
-					
+					usuarios.add(u);
 					int novoStatu = verificaVencimento(b.getVencimento());
 					if(novoStatu != b.getStatus()) {
 						b.setStatus(novoStatu);

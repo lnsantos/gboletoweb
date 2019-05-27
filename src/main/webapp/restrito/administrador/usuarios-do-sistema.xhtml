@@ -244,8 +244,13 @@ footer {
 						oncomplete="PF('boletosUsuarioEscolhido').filter()">
 							<p:confirm header="Confirma alteração" message="Deseja apaga usuário #{usuarioSistemaMB.usuarioSelecionado.usuario}?" icon="fa fa-exclamation-circle"/>
 						</p:commandButton>
-						<h:outputText value="Operação 04:" style="font-weight: bold;"/>
-						<p:commandButton value="MODO MODERADOR"  
+						<h:outputText value="Operação 04: :" style="font-weight: bold;"/>
+						<p:commandButton value="Modifica Email"  
+						oncomplete="PF('boletosUsuarioEscolhido').filter()" disabled="true">
+							<p:confirm header="Confirma alteração" message="Deseja transformar #{usuarioSistemaMB.usuarioSelecionado.usuario} em moderador?" icon="fa fa-exclamation-circle"/>
+						</p:commandButton>
+						<h:outputText value="MODO MODERADOR :" style="font-weight: bold;"/>
+						<p:commandButton value="Desabilitado"  
 						oncomplete="PF('boletosUsuarioEscolhido').filter()" disabled="true">
 							<p:confirm header="Confirma alteração" message="Deseja transformar #{usuarioSistemaMB.usuarioSelecionado.usuario} em moderador?" icon="fa fa-exclamation-circle"/>
 						</p:commandButton>

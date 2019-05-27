@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +30,7 @@ import entidade.Upload;
 import entidade.Usuario;
 import service.UploadService;
 import util.ArquivoUtil;
+import util.DataUtils;
 
 @ManagedBean(name = "home")
 @SessionScoped
@@ -243,12 +246,15 @@ public class HomeAdministradorMB extends UploadService {
 	}
 */
 	public String veririficaStatusBoleto(int statu) {
+		
 		if(statu == 1) {
 			return "#00FF7F";
 		}else if(statu == 2) {
 			return "#FFFF00";
 		}else if(statu == 3) {
 			return "#FF0000";
+		}else if(statu == 3) {
+			return "#FF69B4";
 		}else {
 			return "#1e90ff";
 		}
