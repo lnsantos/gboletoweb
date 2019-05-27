@@ -292,7 +292,8 @@ body {
 						</p:commandButton>
 						
 						<h:outputText value="Operação 02 :" style="font-weight: bold;"/>
-						<p:commandButton value="Confirmar pagamento" onclick="PF('confirmaPagamento').show();"/>
+						<p:commandButton value="Confirmar pagamento" onclick="PF('confirmaPagamento').show();"
+						disabled="#{home.boletoSelecionado.status eq 4 ? true : false}"/>
 						
 						<h:outputText value="Operação 03 :" style="font-weight: bold;"/>
 						<p:commandButton icon="fa fa-trash" value="Remover" actionListener="#{home.excluirBoleto}"  

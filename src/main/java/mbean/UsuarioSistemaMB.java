@@ -19,7 +19,7 @@ import entidade.Permissao;
 import entidade.Usuario;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UsuarioSistemaMB {
 	UsuarioDAO uDao;
 	BoletoDAO dDao;
