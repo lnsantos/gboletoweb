@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -284,10 +285,24 @@ public class UsuarioDAO {
 				// incorretamente!
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println();
-				resul.setMensagem("Problema com " + SQL);
-				System.out.println(resul.getMensagem());
+				// e.printStackTrace();
+				//Verifica qual duplicidade é
+				
+				/*String fraseErr = e.toString();
+				String busca[] = new String[2];
+				
+				busca[0] ="'email'";
+				busca[1] ="'usuario'";
+				
+				for(int x = 0; x < busca[2].length();x++) {
+					String confirma = fraseErr.toLowerCase();
+					if(confirma.contains(busca[x])) {
+						resul.setMensagem("Esse " + busca[x] + " Já existe no sistema");
+						resul.setRetorno(false);
+						System.out.println("Esse " + busca[x] + " Já existe no sistema");
+						return resul;
+					}
+				}*/
 				return resul;
 			}
 		}

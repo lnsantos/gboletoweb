@@ -56,9 +56,6 @@
 	</style>
 </h:head>
 <h:body>
-	<p:growl>
-		<p:autoUpdate />
-	</p:growl>
 	<div id="corpo">
 		<div id="menu_sistema">
 			
@@ -67,7 +64,7 @@
 		<h:form><p:commandButton value="Acessar minha conta" action="index?facesredirect=true"  styleClass="btn_login"/></h:form>
 		<h3>Você esta cadastrando um novo usuário</h3>
 		
-		<h:form>
+		<h:form id="form">
 			<p:messages />
 			<h:panelGrid columns="3" cellpadding="10" cellspacing="1" styleClass="panelGrid" >
 				
@@ -89,14 +86,15 @@
 				<p:message  for="senha" />
 				Verifica Senha:
 				<p:password id="senha_verifica" required="true" 
-					requiredMessage="Campo senha obrigatório"/>
+					requiredMessage="Campo senha obrigatório" value="#{cadastroMB.senhaSecundaria}"/>
 				<p:message  for="senha_verifica" />
 				Email:
-				<p:inputText id="email" required="true" value="#{cadastroMB.usuario.email}"
+				<p:inputText id="email" required="true" type="email" value="#{cadastroMB.usuario.email}"
 					requiredMessage="Campo email obrigatório" />
 				<p:message  for="email" />
 				
-				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}" styleClass="btn_login"/>
+				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}" 
+				styleClass="btn_login" update="form" ajax="true"/>
 			</h:panelGrid>
 		</h:form>
 		</div>
