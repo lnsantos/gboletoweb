@@ -106,9 +106,7 @@ public class BoletoDAO {
 
     public Set<Usuario> todoBoletosPendenteVerificandoStatu() {
         if (con != null) {
-            String SQL = "SELECT * FROM usuario"
-                    + "     JOIN boleto on boleto.id_usuario = usuario.codigo"
-                    + "	  WHERE boleto.statu <> 4 AND boleto.verificado <> 1 ORDER BY boleto.vencimento";
+            String SQL = "SELECT * FROM usuario";
 
             Set<Usuario> usuarios = new HashSet<>();
 
