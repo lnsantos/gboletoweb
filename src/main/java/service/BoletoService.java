@@ -38,6 +38,7 @@ import entidade.Usuario;
 import entidade.UsuarioCodigo;
 import util.ArquivoUtil;
 import util.GeradorUtil;
+import validation.BoletoValidation;
 
 @ManagedBean(eager=true)
 @ApplicationScoped
@@ -46,10 +47,11 @@ public class BoletoService {
 	BoletoDAO bDao = new BoletoDAO();
 	UsuarioDAO uDao = new UsuarioDAO();
 	List<Boleto> boletos = new ArrayList<Boleto>();
+	BoletoValidation bV = new BoletoValidation();
 	// A verificacao sera executada a cada 24 horas
 	// 86400000ms = 24h
 	// private final long PERIODO = 86400000;
-	private final long PERIODO = 43200000;
+	private final long PERIODO = 1000;
 	
 	// A verificacao sera executada as 12:00h
 	private final int HORARIO_DE_VERIFICACAO = 12;
@@ -88,6 +90,7 @@ public class BoletoService {
 			System.out.println("Verificando boletos proximos da data de validade...");
 			Log log = new Log("Verificacao de boletos");
 			Set<Usuario> usuarios = bDao.todoBoletosPendenteVerificandoStatu();
+			// Set<Mail> emails = bV.listSendEmail();
 			for (Usuario u : usuarios) {
 				EmailCommons emailCommons = new EmailCommons();
 				try {
@@ -97,6 +100,7 @@ public class BoletoService {
 				}
 			}
 			ArquivoUtil.gravarLog(log);
+			System.out.println("Verificação concluída...");
 		}
 	}
 

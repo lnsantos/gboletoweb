@@ -114,8 +114,8 @@ public class BoletoDAO {
             try {
                 while (rs.next()) {
                     Usuario u = new Usuario();
-                    u.setCodigo(rs.getInt("usuario.codigo"));
-                    u.setEmail(rs.getString("usuario.email"));
+                    u.setCodigo(rs.getInt("codigo"));
+                    u.setEmail(rs.getString("email"));
 
                     String boletoSQL = "SELECT * FROM boleto WHERE boleto.id_usuario = ? AND boleto.statu <> 4 AND boleto.verificado <> 1";
 
@@ -126,14 +126,14 @@ public class BoletoDAO {
                     while (boletos.next()) {
                         Boleto b = new Boleto();
 
-                        b.setCodigo(rs.getInt("boleto.codigo"));
-                        b.setEmissao(new Date(rs.getLong("boleto.emissao")));
-                        b.setId_usuario(rs.getInt("boleto.id_usuario"));
-                        b.setItem(rs.getString("boleto.nome_item"));
-                        b.setPdf_caminho(rs.getString("boleto.caminho"));
-                        b.setStatus(rs.getInt("boleto.statu"));
-                        b.setValor(rs.getDouble("boleto.valor"));
-                        b.setVencimento(new Date(rs.getLong("boleto.vencimento")));
+                        b.setCodigo(boletos.getInt("codigo"));
+                        b.setEmissao(new Date(boletos.getLong("emissao")));
+                        b.setId_usuario(boletos.getInt("id_usuario"));
+                        b.setItem(boletos.getString("nome_item"));
+                        b.setPdf_caminho(boletos.getString("caminho"));
+                        b.setStatus(boletos.getInt("statu"));
+                        b.setValor(boletos.getDouble("valor"));
+                        b.setVencimento(new Date(boletos.getLong("vencimento")));
 
                         u.getBoletos().add(b);
                         usuarios.add(u);

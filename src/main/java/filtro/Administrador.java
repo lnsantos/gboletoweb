@@ -54,7 +54,7 @@ public class Administrador implements Filter {
 				((HttpServletResponse) response).sendRedirect(diretorio + "/index.xhtml");
 			}
 			if(user != null && !user.getPer().getCria_usuario().equals(1)){
-				((HttpServletResponse) response).sendRedirect("/index.xhtml");
+				((HttpServletResponse) response).sendRedirect("/NOT_FOUND.xhtml");
 			} 
 			chain.doFilter(request, response);
 	}
