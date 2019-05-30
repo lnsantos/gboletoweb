@@ -90,7 +90,9 @@
 				<p:message  for="senha_verifica" />
 				Email:
 				<p:inputText id="email" required="true" type="email" value="#{cadastroMB.usuario.email}"
-					requiredMessage="Campo email obrigatório" />
+					requiredMessage="Campo email obrigatório" >
+					<p:keyFilter regEx="/[a-z0-9_\.\-@]/i"/> 	
+				</p:inputText>
 				<p:message  for="email" />
 				
 				<p:commandButton value="Cadastrar" action="#{cadastroMB.cadastrarUsuario()}" 

@@ -125,7 +125,7 @@ public class BoletoDAO {
 
                     while (boletos.next()) {
                         Boleto b = new Boleto();
-
+                        
                         b.setCodigo(boletos.getInt("codigo"));
                         b.setEmissao(new Date(boletos.getLong("emissao")));
                         b.setId_usuario(boletos.getInt("id_usuario"));
@@ -134,7 +134,7 @@ public class BoletoDAO {
                         b.setStatus(boletos.getInt("statu"));
                         b.setValor(boletos.getDouble("valor"));
                         b.setVencimento(new Date(boletos.getLong("vencimento")));
-
+                        
                         u.getBoletos().add(b);
                         usuarios.add(u);
                         int novoStatu = verificaVencimento(b.getVencimento());
@@ -147,7 +147,6 @@ public class BoletoDAO {
                     }
                 }
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return usuarios;
