@@ -50,19 +50,21 @@ public class CadastroMB {
 			else return encontrado;
 		}
 		
-		String DOMAIN = email.substring(email.indexOf("@"));	
-		Set<String> domains = new HashSet<String>();
-		
-		domains.add("@faj.br");
-		/* domains.add("@gmail.com");
-		domains.add("@gmail.com.br");
-		domains.add("@hotmail.com");
-		domains.add("@hotmail.com.br"); */
-		
-		for(Iterator<String> domain = domains.iterator(); domain.hasNext();) {
-			String value = domain.next();
-			if(DOMAIN.equals(value)) {
-				return true;
+		if(encontrado) {
+			String DOMAIN = email.substring(email.indexOf("@"));	
+			Set<String> domains = new HashSet<String>();
+			
+			domains.add("@faj.br");
+			/* domains.add("@gmail.com");
+			domains.add("@gmail.com.br");
+			domains.add("@hotmail.com");
+			domains.add("@hotmail.com.br"); */
+			
+			for(Iterator<String> domain = domains.iterator(); domain.hasNext();) {
+				String value = domain.next();
+				if(DOMAIN.equals(value)) {
+					return true;
+				}
 			}
 		}
 		// erroEmailVerdadeiro();
