@@ -135,15 +135,17 @@ public class BoletoDAO {
                         b.setValor(boletos.getDouble("valor"));
                         b.setVencimento(new Date(boletos.getLong("vencimento")));
                         
-                        u.getBoletos().add(b);
-                        usuarios.add(u);
+                        System.out.println("Verificando Status de " + b.getItem());
                         int novoStatu = verificaVencimento(b.getVencimento());
+                        System.out.println("Comparando Status de " + b.getItem());
                         if (novoStatu != b.getStatus()) {
                             b.setStatus(novoStatu);
                             if (mudaStatuVerificado(b)) {
                                 System.out.println(b.getCodigo() + "Novo statu inserido!");
                             }
                         }
+                        u.getBoletos().add(b);
+                        usuarios.add(u);
                     }
                 }
             } catch (SQLException e) {

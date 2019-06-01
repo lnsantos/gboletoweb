@@ -28,12 +28,12 @@ public class CadastroMB {
 	public String cadastrarUsuario() {
 		if(verificaIntegridadeSenha()) {
 			if(verificaIgualdadeSenha()) {
-				if(verificaEmailVerdadeiro()) {
+				// if(verificaEmailVerdadeiro()) {
 					
 					if(uDAO.cadastrarUsuario(usuario).getRetorno()) 
 					return "index?facesredirect=true";
 					else erroCadastrarUsuario();
-				}else erroEmailVerdadeiro();
+				//}else erroEmailVerdadeiro();
 			}else erroIgualdadeSenha();
 		}else erroIntegridadeSenha();
 		return "";
@@ -41,9 +41,7 @@ public class CadastroMB {
 	
 	private boolean verificaEmailVerdadeiro() {
 		String email = usuario.getEmail();
-		
 		Boolean encontrado = false;
-		
 		for(int i=0;i < email.length();i++){
 			char c = email.charAt(i);
 			if(c == '@') encontrado = true;
@@ -90,7 +88,8 @@ public class CadastroMB {
 
 	}
 	private void erroEmailVerdadeiro() {
-		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Porfavor Insira um Email, caso tenha inserido um email verifique o dominio registrado!"));
+		FacesContext.getCurrentInstance().addMessage("", new FacesMessage("Porfavor Insira um Email, "
+				+ "caso tenha inserido um email verifique o dominio registrado!"));
 		senhaSecundaria = "";
 		usuario.setEmail("");
 	}

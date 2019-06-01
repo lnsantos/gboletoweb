@@ -29,6 +29,10 @@
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/EXECPTION.xhtml</location>
 	</error-page>
+	<error-page>
+		<exception-type>java.lang.NullPointerException</exception-type>
+		<location>/EXECPTION.xhtml</location>
+	</error-page>
 <!-- 
 	<context-param>
     	<param-name>primefaces.THEME</param-name>

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -89,7 +90,12 @@ public class BoletoService {
 			// TODO Implementar metodo que verifica a validade
 			System.out.println("Verificando boletos proximos da data de validade...");
 			Log log = new Log("Verificacao de boletos");
-			Set<Usuario> usuarios = bDao.todoBoletosPendenteVerificandoStatu();
+			Set<Usuario> usuarios = null;
+			
+			if(usuarios == null) {
+				System.out.println("Recuperando boletos, mais seus usuários!");
+				usuarios = bDao.todoBoletosPendenteVerificandoStatu();
+			}
 			// Set<Mail> emails = bV.listSendEmail();
 			for (Usuario u : usuarios) {
 				EmailCommons emailCommons = new EmailCommons();
