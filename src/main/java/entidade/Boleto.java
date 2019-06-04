@@ -16,6 +16,7 @@ public class Boleto {
 	private int status = 1;
 	private String vencimentoString;
 	private String emissaoString;
+	private String mensagemEmail;
 	private int verificado = 0;
 	
 	
@@ -75,6 +76,15 @@ public class Boleto {
 		return status;
 	}
 	public void setStatus(int status) {
+		if(status == 1) {
+			setMensagemEmail("Esta pentende ainda, data de vencimento : "+getVencimentoString());
+		}else if(status == 2) {
+			setMensagemEmail("Amanhã é o último dia para paga esse boleto, data de vencimento é "+getVencimentoString());
+		}else if(status == 3) {
+			setMensagemEmail("Infelizmente esse boleto venceu dia "+getVencimentoString() + "Para não receber mais esse boleto nas verificações, confirme o pagamento dele no sistema!");
+		}else {
+			setMensagemEmail("Sem informações...");
+		}
 		this.status = status;
 	}
 	@Override
@@ -106,6 +116,12 @@ public class Boleto {
 		return result;
 	}
 	
+	public String getMensagemEmail() {
+		return mensagemEmail;
+	}
+	public void setMensagemEmail(String mensagemEmail) {
+		this.mensagemEmail = mensagemEmail;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
