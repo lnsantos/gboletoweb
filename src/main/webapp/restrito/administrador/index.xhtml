@@ -197,10 +197,12 @@ body {
 		 #{home.setUsuarioLogado_sistema(loginMBean.usuarioLogado)}
 		<div id="corpo">
 		<div id="menu_sistema">
+		
 			<p:breadCrumb>
 			    <p:menuitem value="Inicio" url="/restrito/administrador/" />
 			    <p:menuitem value="Usuarios" url="/restrito/administrador/usuarios-do-sistema.xhtml" />
-			    <p:menuitem  value="#{loginMBean.usuarioLogado.nome} #{loginMBean.usuarioLogado.sobrenome}" url="/restrito/administrador/perfil.xhtml"/>
+			    <p:menuitem value="#{loginMBean.usuarioLogado.nome} #{loginMBean.usuarioLogado.sobrenome}" url="/restrito/administrador/perfil.xhtml"/>
+				<p:menuitem value="=> FINALIZAR SUA SESSÃO" actionListener="#{home.finalizarSessao}" url="/"/>
 			</p:breadCrumb>
 		</div>
 		<!-- LISTA DE BOLETOS PENDENTE NO SISTEMA -->

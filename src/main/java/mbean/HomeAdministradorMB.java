@@ -17,6 +17,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -110,7 +111,11 @@ public class HomeAdministradorMB extends UploadService {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não existe um PDF desse boleto !!", "( BOLETO )" ));
 		}
 	}
-	
+	public void finalizarSessao() {
+		FacesContext facesContext = FacesContext.getCurrentInstance();  
+		HttpSession session = (HttpSession) facesContext .getExternalContext().getSession(false);  
+		session.invalidate();
+	}
 	public void excluirBoleto() {
 		// Busca informações do boleto (Já temos, fica no boletoSelecionado)
 		// pega caminho do PDF se tiver (Já temos, fica no boletoSelecionado)

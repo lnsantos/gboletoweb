@@ -33,6 +33,10 @@
 		<exception-type>java.lang.NullPointerException</exception-type>
 		<location>/EXECPTION.xhtml</location>
 	</error-page>
+	<error-page>
+		<exception-type>javax.el.ELException</exception-type>
+		<location>/EXECPTION.xhtml</location>
+	</error-page>
 <!-- 
 	<context-param>
     	<param-name>primefaces.THEME</param-name>
