@@ -39,7 +39,6 @@ import entidade.Usuario;
 import entidade.UsuarioCodigo;
 import util.ArquivoUtil;
 import util.GeradorUtil;
-import validation.BoletoValidation;
 
 @ManagedBean(eager=true)
 @ApplicationScoped
@@ -48,7 +47,6 @@ public class BoletoService {
 	BoletoDAO bDao = new BoletoDAO();
 	UsuarioDAO uDao = new UsuarioDAO();
 	List<Boleto> boletos = new ArrayList<Boleto>();
-	BoletoValidation bV = new BoletoValidation();
 	// A verificacao sera executada a cada 24 horas
 	// 86400000ms = 24h
 	// private final long PERIODO = 86400000;

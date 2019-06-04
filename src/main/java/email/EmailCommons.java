@@ -55,33 +55,34 @@ public class EmailCommons {
 		Email email = conectaEmail();
 		email.setSubject("BOLETOS A SEREM PAGOS!");
 		StringBuilder boletos = new StringBuilder();
-		
-		Double valorTotal = (double) 0;
+		Double valorTotal =  0.0;
 		
 		for (Boleto b : u.getBoletos()) {
-			boletos.append("<li>");
+			boletos.append("<li style=' font-size: 16px;padding-top: 16px;padding-left:  16px;padding-right:  16px;padding-bottom:  1px;color: #fff;background-color: #333;border-left: 15px solid red;border-radius: 5px;margin-top: 16px;'>");
 			boletos.append(b.getItem());
-			boletos.append("</li>");
+			boletos.append("<hr style='height: 5px;background-color: #fff;'><p style='font-size: 12px;font-family: 'Roboto', sans-serif;fill: black;'>"+ b.getMensagemEmail() +"</p></li>");
 			
-			// valorTotal =+ b.getValor();
+			valorTotal =+ b.getValor();
 		}
 		
-		email.setContent("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>" + 
-				"    <tr style='background-color: black; height: 50px;'>" + 
-				"        <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>ALERTA AUTOMÁTICO!</td>" + 
-				"    </tr>" + 
-				"    <tr style='background-color:darkgray'>" + 
-				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 15px;color:black;'>" + 
-				"                Alguns boletos estão atrasados!" + 
-				"                <ul>" + 
-									boletos.toString() + 
-				"                </ul>" + 
-				"            </td>" + 
-				"    </tr>" + 
-				"    <tr style='background-color: black; height: 50px;'>" + 
-				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>TOTAL "+ valorTotal.toString() +"</td>" + 
-				"        </tr>" + 
-				"</table>","text/html");
+		email.setContent("<body style=\"width: 99%;background-color: #012840;font-family: 'Anton', sans-serif;\">" + 
+				"	<ul style=\"margin: 0 auto;background-color: #fff;border-radius: 5px 5px 0px 0px;padding: 16px;\">" + 
+				"		<table>" + 
+				"			<tr>" + 
+				"				<td width=\"25%\" >" + 
+				"			<img src=\"https://media.licdn.com/dms/image/C4E0BAQHPz3e4CY-yCg/company-logo_200_200/0?e=2159024400&v=beta&t=xBnEhPA8evzcLGlZl8h9QJ4szsxRiAI6G5OR3j-_h_Y\"" + 
+				"		width=\"50px\" height=\"50px\"/>" + 
+				"				</td>" + 
+				"				<td width=\"75%\" style=\"font-size: 160%\">" + 
+				"					Olá "+u.getNome()+" "+u.getSobrenome()+" , nosso sistema detectou algumas informações sua registrada no sistema!" + 
+				"				</td> " + 
+				"			</tr>" + 
+				"		</table>" + 
+				"		<h6>GBOLETOWEB AVISO AUTOMÁTICO! Esta mensagem foi enviada para o e-mail "+u.getEmail()+" e é dirigida a "+u.getUsuario()+". "+"</h6>" + 
+				"        "+boletos+"" + 
+				"	</ul>" + 
+				"	<div style=\"border-top: 2px solid black;border-radius: 0px 0px 5px 5px;background-color: #C0C0C0;padding: 16px;\">Este email não recebe respostas. Está a receber esta mensagem de alerta automatico pelo sistema interno no núcleo de informática da UniFaj. Caso desconheça esse sistema mande um email para ti.santos@faj.br</div>" + 
+				"</body>","text/html");
 		email.addTo(u.getEmail()); // alterar para u.getEmail();
 		email.send();
 		

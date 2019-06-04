@@ -76,6 +76,9 @@ public class Boleto {
 		return status;
 	}
 	public void setStatus(int status) {
+		
+		if(getVencimentoString() == "") setVencimentoString(getVencimento());
+		
 		if(status == 1) {
 			setMensagemEmail("Esta pentende ainda, data de vencimento : "+getVencimentoString());
 		}else if(status == 2) {

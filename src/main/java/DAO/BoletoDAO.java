@@ -116,7 +116,10 @@ public class BoletoDAO {
                     Usuario u = new Usuario();
                     u.setCodigo(rs.getInt("codigo"));
                     u.setEmail(rs.getString("email"));
-
+                    u.setNome(rs.getString("nome"));
+                    u.setSobrenome(rs.getString("sobrenome"));
+                    u.setUsuario(rs.getString("usuario"));
+                    
                     String boletoSQL = "SELECT * FROM boleto WHERE boleto.id_usuario = ? AND boleto.statu <> 4 AND boleto.verificado <> 1";
 
                     PreparedStatement ps = con.prepareStatement(boletoSQL);
