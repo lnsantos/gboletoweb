@@ -31,7 +31,6 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 
 import entidade.Boleto;
-import entidade.Mail;
 import entidade.Usuario;
 
 public class EmailCommons {
@@ -51,32 +50,7 @@ public class EmailCommons {
 		   
 		   return email;
 	}
-	public void enviaEmail(Mail u) throws EmailException{
-		Email email = conectaEmail();
-		email.setSubject("BOLETOS A SEREM PAGOS!");
-		String boletos = u.getMsg();
-		
-		Double valorTotal = (double) 0;
-		
-		email.setContent("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>" + 
-				"    <tr style='background-color: black; height: 50px;'>" + 
-				"        <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>ALERTA AUTOMÁTICO!</td>" + 
-				"    </tr>" + 
-				"    <tr style='background-color:darkgray'>" + 
-				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 15px;color:black;'>" + 
-				"                Alguns boletos estão atrasados!" + 
-				"                <ul>" + 
-									boletos + 
-				"                </ul>" + 
-				"            </td>" + 
-				"    </tr>" + 
-				"    <tr style='background-color: black; height: 50px;'>" + 
-				"            <td align='center' valign='top' style='font-weight: bold;font-style: normal;font-size: 30px;color:red;'>TOTAL "+ valorTotal.toString() +"</td>" + 
-				"        </tr>" + 
-				"</table>","text/html");
-		email.addTo(u.getEmail()); // alterar para u.getEmail();
-		email.send();
-		}
+	
 	public void enviaEmail(Usuario u) throws EmailException{
 		Email email = conectaEmail();
 		email.setSubject("BOLETOS A SEREM PAGOS!");
