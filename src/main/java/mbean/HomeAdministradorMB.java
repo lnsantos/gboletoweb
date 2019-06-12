@@ -41,6 +41,8 @@ public class HomeAdministradorMB extends UploadService {
 	UsuarioDAO uDAO;
 	UploadDAO uPDAO;
 	
+	String novoEmail;
+	
 	Boleto boletoSelecionado;
 	ArquivoUtil aUtil;
 	
@@ -79,6 +81,7 @@ public class HomeAdministradorMB extends UploadService {
 		boletos = new ArrayList<Boleto>();
 		boletoSelecionado = new Boleto();
 		aUtil = new ArquivoUtil();
+		novoEmail = "";
 	}
 	
 	public void carregaListaPorStatus() {
@@ -111,6 +114,7 @@ public class HomeAdministradorMB extends UploadService {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Não existe um PDF desse boleto !!", "( BOLETO )" ));
 		}
 	}
+	
 	public void finalizarSessao() {
 		FacesContext facesContext = FacesContext.getCurrentInstance();  
 		HttpSession session = (HttpSession) facesContext .getExternalContext().getSession(false);  
@@ -174,8 +178,6 @@ public class HomeAdministradorMB extends UploadService {
 					Retorno resultadoFinal = upload(arquivoFileUpload, codigoUsuarioFRONT);
 					if(resultadoFinal != null) {
 						boleto_inserir.setPdf_caminho(resultadoFinal.getCaminho());
-						
-						
 						// INSERI AS INFORMAÇÕES DO BOLETO COM O CAMINHO DO PDF
 						if(bDao.inserirBoleto(boleto_inserir)) {
 							FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Todas os Arquivos/Informações inseridos com sucesso!", "Com PDF -> ( BOLETO )" ));
@@ -427,6 +429,14 @@ public class HomeAdministradorMB extends UploadService {
 
 	public void setUsuarioLogado_sistema(Usuario usuarioLogado_sistema) {
 		this.usuarioLogado_sistema = usuarioLogado_sistema;
+	}
+
+	public String getNovoEmail() {
+		return novoEmail;
+	}
+
+	public void setNovoEmail(String novoEmail) {
+		this.novoEmail = novoEmail;
 	}
 	
 }

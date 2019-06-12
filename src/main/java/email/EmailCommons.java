@@ -3,6 +3,9 @@ package email;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -35,19 +38,23 @@ import entidade.Usuario;
 
 public class EmailCommons {
 	
-	private static final String HOSTNAME = "smtp.gmail.com";
-	private static final String USERNAME = "spam.nepo2018@gmail.com";
-	private static final String PASSWORD = "senai123";
-	private static final String EMAILORIGEM = "spam.nepo2018@gmail.com";
-	
+	private static final String HOSTNAME = "";
+	private static final String USERNAME = "alerta.boletoalert@gmail.com";
+	private static final String PASSWORD = "polis2019";
+	private static final String EMAILORIGEM = "BOLETO ALERTA <>";
+	private String dataHoraAtual() {
+		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy z");
+		Calendar c = new GregorianCalendar();
+		formataData.setTimeZone(c.getTimeZone());
+		return formataData.format(c.getTime());
+	}
 	public Email conectaEmail() throws EmailException{
 		   Email email = new SimpleEmail();
-		   email.setHostName(HOSTNAME);
+		   email.setHostName("smtp.gmail.com");
 		   email.setSmtpPort(587);
-		   email.setAuthenticator(new DefaultAuthenticator(USERNAME, PASSWORD));
+		   email.setAuthenticator(new DefaultAuthenticator("alerta.boletoalert@gmail.com", "polis2019"));
 		   email.setStartTLSEnabled(true);
-		   email.setFrom(EMAILORIGEM);
-		   
+		   email.setFrom("alerta.boletoalert@gmail.com", "ALERTA " + dataHoraAtual());		   
 		   return email;
 	}
 	
@@ -84,6 +91,7 @@ public class EmailCommons {
 				"	<div style=\"border-top: 2px solid black;border-radius: 0px 0px 5px 5px;background-color: #C0C0C0;padding: 16px;\">Este email não recebe respostas. Está a receber esta mensagem de alerta automatico pelo sistema interno no núcleo de informática da UniFaj. Caso desconheça esse sistema mande um email para ti.santos@faj.br</div>" + 
 				"</body>","text/html");
 		email.addTo(u.getEmail()); // alterar para u.getEmail();
+		
 		email.send();
 		
 		System.out.println("Enviou Email para : " + u.getNome() + " " + u.getSobrenome());

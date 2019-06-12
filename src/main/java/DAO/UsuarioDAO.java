@@ -308,7 +308,7 @@ public class UsuarioDAO {
 		}
 		return null;
 	} // Fecha metodo
-
+	
 	public Retorno buscaUsuarioLiberado(String codigo) {
 		if (con != null) {
 			String SQL_BUSCA_PERMISSAO = "SELECT * FROM permissao WHERE codigo =" + codigo;
@@ -356,7 +356,23 @@ public class UsuarioDAO {
 		}
 		return null;
 	}
-
+	
+	public boolean modificarEmail(Usuario u, String email) {
+		if(con != null) {
+			String SQL = "UPDATE usuario SET email = ? WHERE codigo = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(SQL);
+				ps.setString(1, email);
+				ps.setInt(2, u.getCodigo());
+				return ps.executeUpdate() > 0;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 	// ******************************************************************************
 	// ******************************************************************************
 	// *********** cadastrarUsuario

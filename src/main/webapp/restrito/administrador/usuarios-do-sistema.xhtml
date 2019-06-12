@@ -127,14 +127,26 @@ footer {
     cursor: pointer;
     overflow: visible; 
 }
-
+#testUnitario{
+	z-index: 99;
+	position: fixed;
+	width: 12%;
+	height: 35px;
+	background-color: white;
+	border: 1px solid black;
+	float: left;
+	text-align: center;	
+	
+}
 </style>
 </h:head>
 <h:body>
 	<p:growl showDetail="true" sticky="true" >
 		<p:autoUpdate />
 	</p:growl>
+	
 	<div id="corpo">
+		
 		<div id="menu_sistema">
 			<p:breadCrumb>
 			    <p:menuitem value="Inicio" url="/restrito/administrador/" />
@@ -142,7 +154,7 @@ footer {
 			    <p:menuitem  value="#{loginMBean.usuarioLogado.nome} #{loginMBean.usuarioLogado.sobrenome}" url="/restrito/administrador/perfil.xhtml"/>
 			</p:breadCrumb>
 		</div>
-	
+		<p:button id="testUnitario" value="DESCONECTAR"/>
 		<h:form id="form">
 			<p:dataTable id="usuariosSistema" var="usuario"
 				value="#{usuarioSistemaMB.usuariosLista}" widgetVar="usuariosTabela"
@@ -242,9 +254,7 @@ footer {
 							<p:confirm header="Confirma alteração" message="Deseja apaga usuário #{usuarioSistemaMB.usuarioSelecionado.usuario}?" icon="fa fa-exclamation-circle"/>
 						</p:commandButton>
 						<h:outputText value="Operação 04: :" style="font-weight: bold;"/>
-						<p:commandButton value="Modifica Email"  
-						oncomplete="PF('boletosUsuarioEscolhido').filter()" disabled="true">
-							<p:confirm header="Confirma alteração" message="Deseja transformar #{usuarioSistemaMB.usuarioSelecionado.usuario} em moderador?" icon="fa fa-exclamation-circle"/>
+						<p:commandButton value="Modifica Email" disabled="false" onclick="PF('emailUsuarioEscolhido').show();">
 						</p:commandButton>
 						<h:outputText value="MODO MODERADOR :" style="font-weight: bold;"/>
 						<p:commandButton value="Desabilitado"  
@@ -326,6 +336,14 @@ footer {
 				
 				</p:dataTable>
 				
+		</p:dialog>
+		</h:form>		
+		
+		<h:form id="form_novo_email_usuario">
+		<p:dialog header="Modifica email de : #{usuarioSistemaMB.usuarioSelecionado.usuario}" widgetVar="emailUsuarioEscolhido">
+			<h:outputText value="Novo correio eletrônico:" />
+			<p:inputText id="novoEmailUsuarioSelecionado" placeholder="Ex:. novo-email@exemplo.com" value="#{usuarioSistemaMB.novoEmail}"/>
+			<p:commandButton value="MODIFICA" actionListener="#{usuarioSistemaMB.modificaEmail}" oncomplete="PF('boletosUsuarioEscolhido').filter()"/>
 		</p:dialog>
 		</h:form>
 		

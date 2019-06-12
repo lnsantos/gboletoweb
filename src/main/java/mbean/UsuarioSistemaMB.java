@@ -33,6 +33,8 @@ public class UsuarioSistemaMB {
 	Usuario usuarioSelecionado;
 	Boleto boletoUsuarioSelecionado;
 	
+	String novoEmail;
+	
 	@ManagedProperty(value = "#{LoginMBean.usuarioLogado}")
 	Usuario usuarioLogadoSistema;
 
@@ -44,7 +46,7 @@ public class UsuarioSistemaMB {
 		uDao = new UsuarioDAO();
 		dDao = new BoletoDAO();
 		usuariosLista = uDao.listaUsuarios();
-
+		novoEmail = "";
 	}
 
 	public UsuarioSistemaMB() {
@@ -76,6 +78,24 @@ public class UsuarioSistemaMB {
 	
 	public void boletosUsuarioSelecionadoDialog() {
 		boletosUsuarioSelecionado = dDao.listaBoletosUsuarioLogado(usuarioSelecionado.getCodigo());
+	}
+	
+	public void modificaEmail() {
+		if(!novoEmail.equals("")) {
+			if(uDao.modificarEmail(usuarioSelecionado, novoEmail)) {
+				usuariosLista = uDao.listaUsuarios();
+				novoEmail = "";
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_INFO,"O Email do usuario " 
+				+ usuarioSelecionado.getUsuario() + " foi alterado com sucesso!!",""));
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null, 
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,"Problema ao modifica senha do usuário "+ usuarioSelecionado.getUsuario(),""));
+			}
+		}else {
+			FacesContext.getCurrentInstance().addMessage(null, 
+					new FacesMessage(FacesMessage.SEVERITY_INFO,"Porfavor, Insira um texto",""));
+		}
 	}
 	
 	public void resetaSenha() {
@@ -173,6 +193,12 @@ public class UsuarioSistemaMB {
 	public void setFiltroBoletosUsuarioSelecionado(List<Boleto> filtroBoletosUsuarioSelecionado) {
 		this.filtroBoletosUsuarioSelecionado = filtroBoletosUsuarioSelecionado;
 	}
-	
-	
+
+	public String getNovoEmail() {
+		return novoEmail;
+	}
+
+	public void setNovoEmail(String novoEmail) {
+		this.novoEmail = novoEmail;
+	}
 }
