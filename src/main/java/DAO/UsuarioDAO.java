@@ -1,5 +1,8 @@
 package DAO;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,25 +17,40 @@ import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
 import entidade.UsuarioCodigo;
+import util.StringMD5;
 
 public class UsuarioDAO {
 	private Connection con;
-
+	
+	private StringMD5 md5;
+	
 	public UsuarioDAO() {
 		con = ConDB.getConnection();
 	}
-
+	
+	public String md5(String password) {
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.update(password.getBytes(),0,password.length());
+			return new BigInteger(1,m.digest()).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	public boolean novaSenha(Usuario user) {
 		if (con != null) {
-				Calendar c = Calendar.getInstance();
-				user.setSenha("polis" + c.getWeekYear());
+			Calendar c = Calendar.getInstance();
+			user.setSenha("polis" + c.getWeekYear());
 			
 			String SQL = "UPDATE usuario SET senha = ? WHERE codigo = ?";
 			PreparedStatement ps;
 			try {
 				ps = con.prepareStatement(SQL);
-
-				ps.setString(1, user.getSenha());
+				
+				ps.setString(1, md5(user.getSenha()));
 				ps.setInt(2, user.getCodigo());
 
 				return ps.executeUpdate() > 0;

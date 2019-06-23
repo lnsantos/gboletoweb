@@ -1,5 +1,6 @@
 package DAO;
 
+import java.awt.Desktop;
 import java.awt.Event;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,7 +104,7 @@ public class BoletoDAO {
         }
         return boletosAntes;
     }
-
+    
     public Set<Usuario> todoBoletosPendenteVerificandoStatu() {
         if (con != null) {
             String SQL = "SELECT * FROM usuario";

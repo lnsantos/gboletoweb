@@ -1,5 +1,9 @@
 package mbean;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -10,6 +14,7 @@ import DAO.UsuarioDAO;
 import entidade.Permissao;
 import entidade.Retorno;
 import entidade.Usuario;
+import util.StringMD5;
 
 @ManagedBean(eager=false)
 @SessionScoped
@@ -18,6 +23,8 @@ public class LoginMBean {
 	private String usuario;
 	private String senha;
 	private String mensagem;
+	
+	private StringMD5 smd5;
 	
 	Usuario usuarioLogado; 
 	UsuarioDAO uDao;
@@ -33,6 +40,7 @@ public class LoginMBean {
 		uDao = new UsuarioDAO();
 		resultado = new Retorno(); // Usuario esta aqui dentro
 		per = new Permissao();
+		smd5 = null ;
 	}
 	
 	public void errorLogin(){
@@ -41,11 +49,24 @@ public class LoginMBean {
 				FacesMessage(FacesMessage.SEVERITY_ERROR,"Você não está logado!",""));
 	}
 	
+	
+	public String md5(String password) {
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.update(password.getBytes(),0,password.length());
+			return new BigInteger(1,m.digest()).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	public String login(){
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().
 				 getSession(true);
-		
-		resultado = uDao.loginUsuario(usuario, senha);
+
+		resultado = uDao.loginUsuario(usuario,md5(senha) );
 		usuarioLogado = resultado.getUser();
 		per = resultado.getPer();
 		

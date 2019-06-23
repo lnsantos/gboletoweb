@@ -1,22 +1,26 @@
 package DAO;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import database.ConDB;
 import entidade.Usuario;
+import util.StringMD5;
 
 public class PerfilDAO {
 	
 	Connection con;
-	
+	private StringMD5 md5;
 	public PerfilDAO() {
 		con = ConDB.getConnection();
 	}
 	
 	public Boolean novaSenhaUsuario(Integer codigo,String novaSenha) {
-		if(preparaSql(updateUsuarioSQL("senha = "+novaSenha ,codigo))) {
+		if(preparaSql(updateUsuarioSQL("senha = "+md5(novaSenha) ,codigo))) {
 			return true;
 		}
 		return false;
@@ -48,6 +52,18 @@ public class PerfilDAO {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public String md5(String password) {
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.update(password.getBytes(),0,password.length());
+			return new BigInteger(1,m.digest()).toString(16);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 }
