@@ -114,7 +114,7 @@ public class UsuarioDAO {
 				PreparedStatement ps = con.prepareStatement(SQL);
 				if(ps.executeUpdate() > 0) {
 					ps = con.prepareStatement(SQL_U);
-					System.out.println("Apagando usuário");
+					System.out.println("Apagando usuï¿½rio");
 					return ps.executeUpdate() > 0;
 				}
 			} catch (SQLException e) {
@@ -200,7 +200,7 @@ public class UsuarioDAO {
 
 	// *********** buscaUsuarioRetornaID
 	// ********************************************
-	// *********** Esse método é o tipo retorno, onde retorna o ID do usuario,
+	// *********** Esse mï¿½todo ï¿½ o tipo retorno, onde retorna o ID do usuario,
 	// ******
 	// *********** e um true, para simboliza que deu tudo certo
 	// *********************
@@ -226,14 +226,14 @@ public class UsuarioDAO {
 			// Insere o ID do usuario no codigo, criando uma linha na tabela permissao
 			ps = con.prepareStatement(SQL + indentificadorEncontrado + ")");
 
-			// Verifica se a inserção deu certo
+			// Verifica se a inserï¿½ï¿½o deu certo
 			if (ps.executeUpdate() > 0) {
-				System.out.println("Permissões criadas com sucesso!");
-				Retorno r = new Retorno("Permissões criadas com sucesso!", true);
+				System.out.println("Permissï¿½es criadas com sucesso!");
+				Retorno r = new Retorno("Permissï¿½es criadas com sucesso!", true);
 				return r;
 			} else {
-				System.out.println("Permissões não foi criada!");
-				Retorno r = new Retorno("Permissões não foi criada!", false);
+				System.out.println("Permissï¿½es nï¿½o foi criada!");
+				Retorno r = new Retorno("Permissï¿½es nï¿½o foi criada!", false);
 				return r;
 			}
 		}
@@ -245,7 +245,7 @@ public class UsuarioDAO {
 	// ******************************************************************************
 	// *********** cadastrarUsuario
 	// *************************************************
-	// *********** Esse método é o tipo retorno, onde retorna o mensagem do
+	// *********** Esse mï¿½todo ï¿½ o tipo retorno, onde retorna o mensagem do
 	// ocorrido*
 	// *********** e um boolean
 	// *****************************************************
@@ -264,13 +264,13 @@ public class UsuarioDAO {
 			System.out.println(SQL_GERA_PERMISSAO);
 			String SQL = "INSERT INTO usuario(usuario,nome,sobrenome,email,senha) VALUE(" + "'" + u.getUsuario() + "'"
 					+ "," + "'" + u.getNome() + "'" + "," + "'" + u.getSobrenome() + "'" + "," + "'" + u.getEmail()
-					+ "'" + "," + "'" + u.getSenha() + "'" + ")";
+					+ "'" + "," + "'" + md5(u.getSenha()) + "'" + ")";
 			System.out.println(SQL);
 			try {
-				// executa o sql de criação de usuario
+				// executa o sql de criaï¿½ï¿½o de usuario
 				ps = con.prepareStatement(SQL);
 
-				// verifica se a inserção foi bem Sucedida
+				// verifica se a inserï¿½ï¿½o foi bem Sucedida
 				if (ps.executeUpdate() > 0) {
 					System.out.println("usuario cadastrado com sucesso!");
 					try {
@@ -293,18 +293,18 @@ public class UsuarioDAO {
 					// Retorno do TRY
 					return resul;
 
-					// Se usuario já existir no banco ou inserção mau sucedida
+					// Se usuario jï¿½ existir no banco ou inserï¿½ï¿½o mau sucedida
 				} else {
-					System.out.println("Email/usuario já existe no sistema!");
-					resul.setMensagem("Email/usuario já existe no sistema!");
+					System.out.println("Email/usuario jï¿½ existe no sistema!");
+					resul.setMensagem("Email/usuario jï¿½ existe no sistema!");
 					return resul;
 				}
-				// Não conseguiu executar SQL, problema com a conexão ou dados inserido
+				// Nï¿½o conseguiu executar SQL, problema com a conexï¿½o ou dados inserido
 				// incorretamente!
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
-				//Verifica qual duplicidade é
+				//Verifica qual duplicidade ï¿½
 				
 				/*String fraseErr = e.toString();
 				String busca[] = new String[2];
@@ -315,9 +315,9 @@ public class UsuarioDAO {
 				for(int x = 0; x < busca[2].length();x++) {
 					String confirma = fraseErr.toLowerCase();
 					if(confirma.contains(busca[x])) {
-						resul.setMensagem("Esse " + busca[x] + " Já existe no sistema");
+						resul.setMensagem("Esse " + busca[x] + " Jï¿½ existe no sistema");
 						resul.setRetorno(false);
-						System.out.println("Esse " + busca[x] + " Já existe no sistema");
+						System.out.println("Esse " + busca[x] + " Jï¿½ existe no sistema");
 						return resul;
 					}
 				}*/
@@ -332,10 +332,10 @@ public class UsuarioDAO {
 			String SQL_BUSCA_PERMISSAO = "SELECT * FROM permissao WHERE codigo =" + codigo;
 			Retorno resultado = new Retorno();
 
-			// Retorno PADRÃO
+			// Retorno PADRï¿½O
 			resultado.setRetorno(false);
 			resultado.setPer(null);
-			resultado.setMensagem("Problema com a conexão");
+			resultado.setMensagem("Problema com a conexï¿½o");
 
 			try {
 				PreparedStatement ps = con.prepareStatement(SQL_BUSCA_PERMISSAO);
@@ -397,9 +397,9 @@ public class UsuarioDAO {
 	// *************************************************
 	public Retorno loginUsuario(String usuario, String senha) {
 		if (con != null) {
-			Retorno resultado = new Retorno("Usuario não encontrado", false);
+			Retorno resultado = new Retorno("Usuario nï¿½o encontrado", false);
 
-			// Informações do usuario a ser retornado
+			// Informaï¿½ï¿½es do usuario a ser retornado
 			Usuario u = new Usuario();
 
 			// String SQL a ser executada
