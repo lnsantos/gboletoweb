@@ -77,14 +77,14 @@ public class Boleto {
 	}
 	public void setStatus(int status) {
 		
-		if(getVencimentoString() == "") setVencimentoString(getVencimento());
+		if(getVencimentoString() == "" ) setVencimentoString(getVencimento());
 		
 		if(status == 1) {
-			setMensagemEmail("Esta pentende ainda, data de vencimento : "+getVencimentoString());
+			setMensagemEmail("Esta pentende ainda, data de vencimento : " + getVencimento());
 		}else if(status == 2) {
-			setMensagemEmail("Amanhã é o último dia para paga esse boleto, data de vencimento é "+getVencimentoString());
+			setMensagemEmail("Amanhã é o último dia para paga esse boleto, fique atento  ");
 		}else if(status == 3) {
-			setMensagemEmail("Infelizmente esse boleto venceu dia "+getVencimentoString() + "Para não receber mais esse boleto nas verificações, confirme o pagamento dele no sistema!");
+			setMensagemEmail("Infelizmente esse boleto venceu dia "+ getVencimento() + "Para não receber mais esse boleto nas verificações, confirme o pagamento dele no sistema!");
 		}else {
 			setMensagemEmail("Sem informações...");
 		}

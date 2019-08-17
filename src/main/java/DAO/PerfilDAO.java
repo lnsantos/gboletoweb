@@ -20,7 +20,7 @@ public class PerfilDAO {
 	}
 	
 	public Boolean novaSenhaUsuario(Integer codigo,String novaSenha) {
-		if(preparaSql(updateUsuarioSQL("senha = "+md5(novaSenha) ,codigo))) {
+		if(preparaSql(updateUsuarioSQL("senha = '"+md5(novaSenha)+"'" ,codigo))) {
 			return true;
 		}
 		return false;
@@ -39,7 +39,6 @@ public class PerfilDAO {
 
 	private String updateUsuarioSQL(String query,Integer where) {
 		String SQL = "UPDATE usuario SET " + query +" WHERE codigo = "+ where;
-		System.out.println(SQL);
 		return SQL;
 	}
 	

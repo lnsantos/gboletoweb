@@ -6,11 +6,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.jws.soap.InitParam;
-
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import DAO.PerfilDAO;
+import entidade.Retorno;
 import entidade.Usuario;
+import util.StringMD5;
 
 @ManagedBean(name="perfil")
 @ViewScoped
@@ -34,22 +37,31 @@ public class PerfilMB {
 	String nomeUsuario = "";
 	String sobrenomeUsuario = "";
 	
+	StringMD5 md5;
+	Retorno r;
 	// @ManagedProperty(value = "#{loginMBean.usuarioLogado.codigo}")
 	
 	
 	public PerfilMB() {
 		pDao = new PerfilDAO();
+		md5 = new StringMD5();
 		//nomeUsuario = usuarioLogado.getNome();
 		//sobrenomeUsuario = usuarioLogado.getSobrenome();
 	}
 	
 	@PostConstruct
 	public void postPerfilMB() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().
+				 getSession(true);
+		
 		if(usuarioLogado != null) {
 			nomeUsuario = usuarioLogado.getNome();
 			sobrenomeUsuario = usuarioLogado.getSobrenome();
 		}
-		//usuarioLogado.setCodigo("#{loginMBean.usuarioLogado.codigo}");
+		else {
+			r = (Retorno) session.getAttribute("usuarioLogado"); 
+			usuarioLogado = r.getUser();
+		}
 	}
 	
 	public void efeturarTrocaNomeCompleto() {
@@ -63,12 +75,11 @@ public class PerfilMB {
 		novoEmail = "lc";
 		verificaNovoEmail= "lc";
 		codigoConfirmaEmailString= "lc";
-		System.out.println("clicou");
 		fieldset_email_codigo = !fieldset_email_codigo;
 	}
 	
 	public void verificaSenhaParaEdita() {
-		if(senhaAtual.equals(usuarioLogado.getSenha())) {
+		if(md5.sendPassword(senhaAtual).equals(usuarioLogado.getSenha())) {
 			if(senhaPrimaria.equals(senhaSecundaria)) {
 				if(novaSenha()) passEditSucess();
 				else problemaSQLPassword();

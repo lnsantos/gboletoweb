@@ -264,7 +264,7 @@ public class UsuarioDAO {
 			System.out.println(SQL_GERA_PERMISSAO);
 			String SQL = "INSERT INTO usuario(usuario,nome,sobrenome,email,senha) VALUE(" + "'" + u.getUsuario() + "'"
 					+ "," + "'" + u.getNome() + "'" + "," + "'" + u.getSobrenome() + "'" + "," + "'" + u.getEmail()
-					+ "'" + "," + "'" + u.getSenha() + "'" + ")";
+					+ "'" + "," + "'" + md5(u.getSenha()) + "'" + ")";
 			System.out.println(SQL);
 			try {
 				// executa o sql de criação de usuario
@@ -396,6 +396,7 @@ public class UsuarioDAO {
 	// *********** cadastrarUsuario
 	// *************************************************
 	public Retorno loginUsuario(String usuario, String senha) {
+		System.out.println("Senha digitada" + senha);
 		if (con != null) {
 			Retorno resultado = new Retorno("Usuario não encontrado", false);
 

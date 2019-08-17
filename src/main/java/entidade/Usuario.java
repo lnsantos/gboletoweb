@@ -59,7 +59,7 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public Set<Boleto> getBoletos() {
+	public Set<Boleto> getBoletos() { 
 		return boletos;
 	}
 	public void setBoletos(Set<Boleto> boletos) {

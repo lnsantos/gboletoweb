@@ -46,7 +46,7 @@ public class LoginMBean {
 	public void errorLogin(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new 
-				FacesMessage(FacesMessage.SEVERITY_ERROR,"Você não está logado!",""));
+				FacesMessage(FacesMessage.SEVERITY_ERROR,"Vocï¿½ nï¿½o estï¿½ logado!",""));
 	}
 	
 	

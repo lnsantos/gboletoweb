@@ -67,7 +67,7 @@ public class EmailCommons {
 		for (Boleto b : u.getBoletos()) {
 			boletos.append("<li style=' font-size: 16px;padding-top: 16px;padding-left:  16px;padding-right:  16px;padding-bottom:  1px;color: #fff;background-color: #333;border-left: 15px solid red;border-radius: 5px;margin-top: 16px;'>");
 			boletos.append(b.getItem());
-			boletos.append("<hr style='height: 5px;background-color: #fff;'><p style='font-size: 12px;font-family: 'Roboto', sans-serif;fill: black;'>"+ b.getMensagemEmail() +"</p></li>");
+			boletos.append("<hr style='height: 5px;background-color: #fff;'><p style='font-size: 12px;font-family: 'Roboto', sans-serif;fill: black;'>"+ b.getMensagemEmail() +"( VALOR DO ITEM : "+ b.getValor() +")</p></li>");
 			
 			valorTotal =+ b.getValor();
 		}
